@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Pedagog Wellness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#123832;
+    --teal-700:#1f5c52;
+    --teal-500:#2f8577;
+    --teal-400:#4a9b8e;
+    --teal-200:#a9d4c9;
+    --teal-100:#e2f2ee;
+    --cream:#faf8f4;
+    --cream-2:#f2efe7;
+    --coral:#f2a15a;
+    --coral-dark:#e0813a;
+    --rose:#e88a7d;
+    --ink:#1c2b28;
+    --ink-soft:#4c5c58;
+    --line: #e4ded2;
+    --green-ok:#5c9a72;
+    --green-ok-bg:#e9f4ec;
+    --amber-ok:#c98a2e;
+    --amber-ok-bg:#faf1de;
+    --red-ok:#c0654f;
+    --red-ok-bg:#fbeae5;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --shadow: 0 10px 30px -12px rgba(18,56,50,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Manrope',sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  #shell{
+    max-width:480px;
+    margin:0 auto;
+    min-height:100vh;
+    background: var(--cream);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow: var(--shadow);
+  }
+  header.topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:22px 20px 14px 20px;
+    background: linear-gradient(180deg, var(--teal-900) 0%, var(--teal-700) 100%);
+    color:#fff;
+    border-radius: 0 0 26px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.topbar::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-60px;
+    width:180px;height:180px;
+    background: radial-gradient(circle, rgba(242,161,90,0.35), transparent 70%);
+  }
+  .logo-mark{
+    width:44px;height:44px;border-radius:14px;
+    background: rgba(255,255,255,0.14);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:26px;height:26px;}
+  header.topbar .titles{position:relative;z-index:1;}
+  header.topbar h1{font-size:19px;color:#fff;}
+  header.topbar p{margin:2px 0 0 0;font-size:12.5px;color:var(--teal-200);}
+  .back-btn{
+    background:rgba(255,255,255,0.16);
+    border:none;color:#fff;width:34px;height:34px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    font-size:18px;flex-shrink:0;
+  }
+  main{
+    flex:1;
+    padding: 18px 18px 100px 18px;
+    overflow-y:auto;
+  }
+  .eyebrow{
+    text-transform:uppercase;
+    font-size:11px;
+    letter-spacing:0.09em;
+    color:var(--teal-500);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .section-title{font-size:22px;margin-bottom:4px;}
+  .section-sub{color:var(--ink-soft);font-size:14px;margin:0 0 18px 0;line-height:1.5;}
+
+  .card{
+    background:#fff;
+    border-radius: var(--radius);
+    padding:18px;
+    box-shadow: 0 6px 18px -10px rgba(18,56,50,0.14);
+    border:1px solid var(--line);
+    margin-bottom:14px;
+  }
+  .test-card{
+    display:flex;align-items:center;gap:14px;
+    cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .test-card:active{transform:scale(0.98);}
+  .test-icon{
+    width:52px;height:52px;border-radius:15px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;
+  }
+  .test-card h3{font-size:16px;margin-bottom:2px;}
+  .test-card p{margin:0;font-size:12.5px;color:var(--ink-soft);}
+  .chev{margin-left:auto;color:var(--teal-400);font-size:20px;flex-shrink:0;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background: var(--teal-500);
+    color:#fff;border:none;border-radius:14px;
+    padding:14px 20px;font-size:15px;font-weight:700;
+    cursor:pointer;width:100%;
+    font-family:'Manrope',sans-serif;
+    transition: background .15s ease, transform .1s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn:hover{background:var(--teal-700);}
+  .btn.secondary{
+    background:transparent;color:var(--teal-700);border:1.5px solid var(--teal-400);
+  }
+  .btn.coral{background:var(--coral);}
+  .btn.coral:hover{background:var(--coral-dark);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  .progress-wrap{margin-bottom:18px;}
+  .progress-bar{height:6px;background:var(--cream-2);border-radius:6px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--teal-400),var(--coral));border-radius:6px;transition:width .25s ease;}
+  .progress-label{font-size:11.5px;color:var(--ink-soft);margin-top:6px;text-align:right;}
+
+  .question-card{
+    background:#fff;border-radius:var(--radius);padding:22px 20px;
+    border:1px solid var(--line);margin-bottom:20px;
+  }
+  .question-text{font-size:16.5px;line-height:1.5;font-weight:600;margin-bottom:20px;}
+  .scale-row{display:flex;gap:6px;justify-content:space-between;}
+  .scale-btn{
+    flex:1;aspect-ratio:1;border-radius:10px;border:1.5px solid var(--line);
+    background:#fff;font-weight:700;font-size:13px;cursor:pointer;color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .12s ease;
+  }
+  .scale-btn.active{background:var(--teal-500);border-color:var(--teal-500);color:#fff;}
+  .scale-caption{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-soft);margin-top:8px;}
+
+  .option-btn{
+    display:block;width:100%;text-align:left;
+    background:#fff;border:1.5px solid var(--line);border-radius:14px;
+    padding:14px 16px;margin-bottom:10px;font-size:14.5px;line-height:1.4;
+    cursor:pointer;color:var(--ink);font-family:'Manrope',sans-serif;
+    transition:all .12s ease;
+  }
+  .option-btn.selected{border-color:var(--teal-500);background:var(--teal-100);}
+  .option-btn.correct{border-color:var(--green-ok);background:var(--green-ok-bg);}
+  .option-btn.incorrect{border-color:var(--red-ok);background:var(--red-ok-bg);}
+
+  .result-hero{
+    text-align:center;padding:30px 20px 22px 20px;border-radius:var(--radius);
+    margin-bottom:16px;position:relative;overflow:hidden;
+  }
+  .result-hero.green{background:linear-gradient(160deg,var(--green-ok-bg),#fff);}
+  .result-hero.amber{background:linear-gradient(160deg,var(--amber-ok-bg),#fff);}
+  .result-hero.red{background:linear-gradient(160deg,var(--red-ok-bg),#fff);}
+  .result-emoji{font-size:44px;margin-bottom:10px;}
+  .result-title{font-size:21px;margin-bottom:6px;}
+  .result-score{font-size:13px;color:var(--ink-soft);}
+  .result-msg{
+    background:#fff;border-radius:var(--radius-sm);padding:16px 18px;
+    font-size:14.5px;line-height:1.6;color:var(--ink);
+    border:1px solid var(--line); margin-bottom:16px;
+  }
+  .subscale-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:12px 0;border-bottom:1px solid var(--line);
+  }
+  .subscale-row:last-child{border-bottom:none;}
+  .subscale-name{font-size:13.5px;color:var(--ink-soft);}
+  .subscale-bar-wrap{flex:1;margin:0 12px;height:8px;background:var(--cream-2);border-radius:8px;overflow:hidden;}
+  .subscale-bar{height:100%;border-radius:8px;background:var(--teal-400);}
+  .subscale-val{font-size:13.5px;font-weight:700;width:34px;text-align:right;}
+
+  .bottom-nav{
+    position:sticky;bottom:0;left:0;right:0;
+    background:#fff;border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;
+    padding:10px 8px calc(10px + env(safe-area-inset-bottom)) 8px;
+    max-width:480px;margin:0 auto;width:100%;
+  }
+  .nav-btn{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    background:none;border:none;color:var(--ink-soft);cursor:pointer;
+    font-family:'Manrope',sans-serif;font-size:11px;font-weight:600;
+    padding:6px 10px;border-radius:10px;
+  }
+  .nav-btn.active{color:var(--teal-700);}
+  .nav-btn svg{width:22px;height:22px;}
+
+  .fitness-icon{background:var(--teal-100);color:var(--teal-700);}
+  .fitness-icon.jismoniy{background:#fdeee0;color:var(--coral-dark);}
+  .fitness-icon.relaks{background:#f1e8f7;color:#8b5fa3;}
+
+  .video-wrap{
+    position:relative;width:100%;padding-top:56.25%;
+    border-radius:var(--radius-sm);overflow:hidden;margin-bottom:14px;
+    background:#000;
+  }
+  .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+  .case-tag{
+    display:inline-block;font-size:10.5px;font-weight:700;
+    background:var(--teal-100);color:var(--teal-700);
+    padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:0.02em;
+  }
+
+  .empty-state{text-align:center;padding:40px 20px;color:var(--ink-soft);}
+  .empty-state .e-icon{font-size:36px;margin-bottom:10px;}
+
+  .profile-header{
+    display:flex;align-items:center;gap:14px;margin-bottom:20px;
+  }
+  .avatar{
+    width:56px;height:56px;border-radius:16px;
+    background:linear-gradient(145deg,var(--teal-400),var(--teal-700));
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    font-family:'Fraunces',serif;font-size:22px;font-weight:600;flex-shrink:0;
+  }
+  .profile-name{font-size:17px;margin-bottom:2px;}
+  .profile-sub{font-size:12.5px;color:var(--ink-soft);}
+
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:700;
+  }
+  .pill.green{background:var(--green-ok-bg);color:var(--green-ok);}
+  .pill.amber{background:var(--amber-ok-bg);color:var(--amber-ok);}
+  .pill.red{background:var(--red-ok-bg);color:var(--red-ok);}
+
+  .divider-label{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--ink-soft);font-weight:700;margin:22px 0 10px 2px;
+  }
+
+  .field-input{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);
+    font-family:'Manrope',sans-serif;font-size:14.5px;color:var(--ink);
+    background:var(--cream);outline:none;
+  }
+  .field-input:focus{border-color:var(--teal-400);}
+
+  .badge-svg{width:96px;height:96px;margin:0 auto 10px auto;display:block;}
+
+  ::-webkit-scrollbar{width:0;}
+</style>
+</head>
+<body>
+<div id="shell">
+  <div id="app"></div>
+</div>
+
+<script>
+/* ---------------- DATA: XOLL (EQ) ---------------- */
+const XOLL_QUESTIONS = [
+"Men uchun salbiy his-tuyg'ular (g'azab, xafagarchilik, qo'rquv) hayotda nimalarni o'zgartirishim kerakligini ko'rsatuvchi muhim signaldir.",
+"Mening salbiy his-tuyg'ularim menga zarar yetkazishidan oldin ularni to'xtata olaman.",
+"Men o'z kayfiyatimni mustaqil ravishda yaxshilay olaman, buning uchun tashqi muhitga (boshqalarga) qarab qolmayman.",
+"Men boshqa odamlarning qanday his-tuyg'ularni boshdan kechirayotganini tushunishga qodirman.",
+"Agar kerak bo'lsa, men suhbatdoshimning xohish-istaklarini ularning so'zlarisiz ham (imo-ishora, nigohidan) anglay olaman.",
+"Men o'z his-tuyg'ularim hayotimdagi muayyan maqsadlarga erishishga qanday ta'sir qilishini aniq bilaman.",
+"Ruhiy tushkunlikka tushganimda, men tushkunlik sababini aniq tushuna olaman.",
+"Men o'z his-tuyg'ularimni jilovlay olaman va osonlikcha o'zimdan chiqib ketmayman.",
+"Men o'zimni har qanday ishni bajarishga osongina safarbar qila olaman (motivatsiya bera olaman).",
+"Men boshqa odamlarning his-tuyg'ulari va kechinmalariga befarq emasman, ularga sherik bo'la olaman.",
+"Men atrofimdagilar nimalarni his qilayotganini juda noziklik bilan seza olaman.",
+"Men nima uchun o'zimga nisbatan qanday his-tuyg'uda ekanligimni aniq tushunaman.",
+"Muammoli vaziyatga duch kelganda, men eng birinchi navbatda diqqatni his-tuyg'ularga emas, balki muammoning yechimiga qarata olaman.",
+"Hayotdagi muvaffaqiyatsizliklar oldida men taslim bo'lmayman, aksincha, menda g'ayrat yanada ortadi.",
+"Men yaqinlarim yoki hamkasblarimning ichki ruhiy holatini ularning yuz ifodasidan darrov o'qiyman.",
+"Men his-tuyg'ularim o'zgarganini (masalan, jahl kelayotganini) u boshlanishidan avvalroq seza boshlayman.",
+"Men o'z salbiy emotsiyalarimdan tezda xalos bo'lish ko'nikmasiga egaman.",
+"Hatto eng murakkab sharoitda ham maqsadim sari intilishda davom etish uchun o'zimda kuch topa olaman.",
+"Men boshqalarning imo-ishoralari va harakatlaridagi yashirin ma'nolarni (his-tuyg'ularni) oson ilg'ayman.",
+"Men odamlarni tushunishda faqat so'zlarga emas, balki ularning ichki kayfiyatiga ham tayanaman.",
+"Men o'z his-tuyg'ularimni atrofdagilarga tushunarli tarzda (so'z bilan) tushuntirib bera olaman.",
+"Men o'zimning asabiy va bezovta holatimni boshqara olaman.",
+"Men o'z maqsadlarimga erishish uchun his-tuyg'ularimni yo'naltira olaman (foydalana olaman).",
+"Atrofdagilar xafa bo'lishganda, men ularning dardini o'zimniki kabi his qila olaman.",
+"Men boshqa odamlarning kayfiyati nima sababdan yomonlashganini yaxshi tushunaman.",
+"Men har doim aynan hozirgi daqiqada qanday emotsional holatda ekanligimni aniq bilaman.",
+"Men g'azab va qaysarlik kabi hissiyotlarimni o'z vaqtida jilovlay olaman.",
+"Agar ish o'xshamasa ham, men baribir o'z ishimga sodiq qolaman va davom ettiraman.",
+"Men boshqalarning ko'zlariga qarab, ularning chin dildan gapirayotganini yoki yolg'on gapirayotganini seza olaman.",
+"Men guruhda (jamoada) odamlar orasidagi emotsional muhitni (taranglik yoki xursandchilik) darrov tushunaman."
+];
+const XOLL_SCALES = [
+  {name:"Emotsional xabardorlik", items:[1,6,11,16,21,26]},
+  {name:"O'z emotsiyalarini boshqarish", items:[2,7,12,17,22,27]},
+  {name:"O'z-o'zini motivatsiya qilish", items:[3,8,13,18,23,28]},
+  {name:"Empatiya", items:[4,9,14,19,24,29]},
+  {name:"Boshqalar emotsiyasini boshqarish", items:[5,10,15,20,25,30]}
+];
+
+/* ---------------- DATA: MBI (Burnout) ---------------- */
+const MBI_QUESTIONS = [
+"Men o'zimni ishdan keyin emotsional jihatdan charchagan (bo'shab qolgan) his qilaman.",
+"Ertalab turganimda, oldinda yana bir ish kuni borligini o'ylab, o'zimni toliqqan his qilaman.",
+"Ishda bo'layotgan voqealar va muammolar meni o'ylantirmay qo'yganini (befarq bo'lib borayotganimni) sezyapman.",
+"Kun bo'yi odamlar (o'quvchilar, hamkasblar) bilan muloqotda bo'lish men uchun haqiqiy zo'riqishdir.",
+"Men kasbiy muammolarga eng to'g'ri va samarali yechimlarni topa olaman.",
+"Men bu ishda o'zimni juda tushkun va charchagan his qilyapman.",
+"Men ishda hamkasblarim yoki o'quvchilarimning muammolariga befarq emasman, ularga yordam berishga intilaman.",
+"Men odamlar bilan ishlayotganimda tobora shafqatsizroq (yoki o'ta rasmiy, sovuq) bo'lib borayotganimni sezyapman.",
+"Men o'z kayfiyatim bilan atrofdagilarning (o'quvchilarning) kayfiyatini yaxshilay olaman.",
+"Keyingi paytlarda men odamlarga (o'quvchi va hamkasblarga) nisbatan befarq va loqayd bo'lib qoldim.",
+"Ushbu kasb menda odamlarga nisbatan salbiy munosabat shakllantirmoqda.",
+"Men o'zimda juda katta hayotiy kuch va g'ayrat borligini his qilyapman.",
+"Men o'z ishimda tobora ko'proq umidsizlikka tushyapman.",
+"Men o'z ishimni o'ta darajada ko'p bajarayotgandekman (ortiqcha yuklama bor).",
+"Men uchun ishda o'quvchilar yoki hamkasblar nimalarni his qilayotganini tushunish qiyin emas.",
+"To'g'ridan-to'g'ri odamlar bilan ishlash menda kuchli stressni yuzaga keltirmoqda.",
+"Men ishda osongina qulay va samimiy muhit yarata olaman.",
+"Hamkasblarim yoki o'quvchilarim bilan muloqotdan so'ng o'zimni juda yaxshi va yengil his qilaman.",
+"Men bu kasbda ko'p ijobiy va foydali ishlarni amalga oshirdim.",
+"Men hozir o'zimni chegaraga (oxirgi nuqtaga) yetib kelgandek his qilyapman, ortiq bardosh berolmayman.",
+"Ishdagi emotsional muammolarga men juda xotirjam va vazminlik bilan yondashaman.",
+"Men o'quvchilar va hamkasblar mening shaxsiy muammolarimga sababchi bo'lishayotgandek his qilyapman."
+];
+const MBI_EE=[1,2,3,6,8,13,14,16,20], MBI_DP=[5,10,11,15,22], MBI_PA=[4,7,9,12,17,18,19,21];
+
+/* ---------------- DATA: XEYM (Coping) ---------------- */
+const XEYM_SECTIONS = [
+ {key:"A", title:"Qiyinchilik paytidagi FIKRLAR", items:[
+   {t:"Men muammoni har tomonlama tahlil qilaman va undan chiqish yo'llarini o'ylayman.", type:"adaptiv"},
+   {t:"Men vaziyatni boricha qabul qilaman, chunki hayotda hamma narsa bo'lishi mumkinligiga ishonaman.", type:"adaptiv"},
+   {t:"Men muammoning jiddiyligini unchalik oshirib yubormayman, \"bundan ham yomoni bo'lishi mumkin edi\" deb o'ylayman.", type:"nisbiy"},
+   {t:"Men barchasi Yaratganning irodasi bilan bo'layotganiga ishonib, sabr qilaman va iymonimga suyanaman.", type:"nisbiy"},
+   {t:"Men atrofga qarab, \"boshqalarda mendan ham qiyinroq muammolar bor\" deb o'zimga tasalli beraman.", type:"nisbiy"},
+   {t:"Men hayotimdan, taqdirdan norozi bo'laman va nega aynan men bunday baxtsizlikka uchraganimni o'ylab ezilaman.", type:"noadaptiv"},
+   {t:"Men muammo haqida umuman o'ylamaslikka harakat qilaman va uni ongimdan quvib solaman.", type:"noadaptiv"},
+   {t:"Men vaziyat oldida o'zimni chorasiz his qilaman, taslim bo'laman va barchasiga qo'l siltayman.", type:"noadaptiv"}
+ ]},
+ {key:"B", title:"Qiyinchilik paytidagi HIS-TUYG'ULAR", items:[
+   {t:"Men har qanday holatda ham hissiyotlarimni jilovlayman, xotirjamlikni saqlayman va vahimaga tushmayman.", type:"adaptiv"},
+   {t:"Men baribir hammasi yaxshilik bilan tugashiga ishonaman, chuqur optimizm saqlayman.", type:"adaptiv"},
+   {t:"Men ichimdagi alam va g'azabni baqirish, yig'lash yoki narsalarni otish orqali tashqariga chiqarib yuboraman.", type:"nisbiy"},
+   {t:"Men boshqa odamlarning oldiga borib, ulardan hamdardlik, tasalli va ma'naviy dalda kutaman.", type:"nisbiy"},
+   {t:"Men sodir bo'lgan muammoda faqat o'zimni ayblayman, vijdon azobida qiynalaman.", type:"noadaptiv"},
+   {t:"Men chuqur tushkunlikka (depressiyaga) tushib qolaman, umidsizlanaman va atrofga tajovuzkor bo'lib qolaman.", type:"noadaptiv"}
+ ]},
+ {key:"V", title:"Qiyinchilik paytidagi HARAKATLAR", items:[
+   {t:"Men yaqinlarim yoki jamoam bilan hamkorlik qilib, muammoni birgalikda hal qilishga kirishaman.", type:"adaptiv"},
+   {t:"Men muammoni yechish uchun darhol faol harakat boshlayman (ma'lumot yig'aman, choralar ko'raman).", type:"adaptiv"},
+   {t:"Men o'zimdan ko'ra tajribaliroq insonlardan yoki mutaxassislardan (psixolog, rahbar) yordam so'rayman.", type:"adaptiv"},
+   {t:"Men muammodan chalg'ish uchun boshqa bir ishga (kitob o'qish, televizor ko'rish) berilib ketaman.", type:"nisbiy"},
+   {t:"Men jismoniy faoliyat bilan shug'ullanaman (sport, xobbi, sayr) va shu orqali energiyamni o'zgartiraman.", type:"nisbiy"},
+   {t:"Men o'z muammomni unutish uchun boshqa odamlarga yordam berishga, ularning ishini qilishga kirishaman.", type:"nisbiy"},
+   {t:"Men odamlardan uzoqlashaman, yolg'izlikka chekinaman va hech kim bilan gaplashgim kelmaydi.", type:"nisbiy"},
+   {t:"Men muayyan vaqtinchalik kelishuvga yoki kompromissga boraman, vaziyat yumshashini kutaman.", type:"nisbiy"},
+   {t:"Men odamlardan butunlay qochaman, hamma bilan aloqalarni uzib, o'zimga berkinib olaman.", type:"noadaptiv"},
+   {t:"Men alamimni boshqa odamlardan olaman, ularga qo'pollik qilaman va janjal chiqaraman.", type:"noadaptiv"},
+   {t:"Men stressdan qutulish uchun zararli odatlarga (alkogol, tamaki, tinchlantiruvchi dorilar) ruju qo'yaman.", type:"noadaptiv"},
+   {t:"Men muammoning borligini umuman rad etaman, hech narsa bo'lmagandek ko'rsatishga urunaman.", type:"noadaptiv"}
+ ]}
+];
+
+/* ---------------- DATA: FITNES ---------------- */
+const FITNES = [
+ {id:"n01",nomi:"Kvadrat nafas",turi:"nafas",icon:"🟦",maqsad:"Xavotirni bosish va diqqatni jamlash",daq:3,video:"",
+  yoriqnoma:"1-qadam: Burningizdan sekin nafas oling (4 soniya).\n2-qadam: Nafasni ushlab turing (4 soniya).\n3-qadam: Og'zingizdan sekin chiqaring (4 soniya).\n4-qadam: To'xtab turing (4 soniya).\nSiklni 4-5 marta takrorlang."},
+ {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",maqsad:"Charchoq va zo'riqishni yengish",daq:3,video:"",
+  yoriqnoma:"Tilingiz tepa tishlar orqasida tursin. 4 soniya burundan nafas oling, 7 soniya ushlab turing, 8 soniya og'zingizdan \"fuuu\" deb chiqaring. Kuniga 2 mahal, 3 martadan takrorlang."},
+ {id:"j01",nomi:"Yelka va bo'yin cho'zish",turi:"jismoniy",icon:"🙆",maqsad:"Uzoq o'tirishdan keyingi zo'riqishni yozish",daq:5,video:"",
+  yoriqnoma:"O'tirgan holatda boshingizni sekin o'ngga, so'ng chapga egib, har tomonda 10 soniya ushlab turing. Yelkalaringizni aylantiring."},
+ {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",
+  yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
+ {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
+  yoriqnoma:"Oyoqdan boshlab har bir mushak guruhini 5 soniya kuchli tarang qiling, keyin bo'shashtiring. Yuqoriga qarab davom eting (oyoq, qorin, qo'l, yelka, yuz)."},
+ {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",
+  yoriqnoma:"Bugungi kunda sizga yoqqan 3 ta kichik voqeani xayolingizda yoki yozib chiqing."}
+];
+
+/* Video havolasini o'rnatilgan (embed) player kodiga aylantiradi.
+   YouTube (watch?v=, youtu.be/) va Google Drive (file/d/ID/view) havolalarini qo'llab-quvvatlaydi. */
+function videoEmbedHtml(url){
+  if(!url) return '';
+  let embedSrc = null;
+  const yt1 = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
+  const yt2 = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
+  const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(yt1) embedSrc = `https://www.youtube.com/embed/${yt1[1]}`;
+  else if(yt2) embedSrc = `https://www.youtube.com/embed/${yt2[1]}`;
+  else if(drive) embedSrc = `https://drive.google.com/file/d/${drive[1]}/preview`;
+  else embedSrc = url; // boshqa to'g'ridan-to'g'ri havola bo'lsa, shunday sinab ko'ramiz
+
+  return `<div class="video-wrap"><iframe src="${embedSrc}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>`;
+}
+
+/* ---------------- DATA: CASES ---------------- */
+const CASES = [
+ {id:"c01",sarlavha:"Sinfda mojaro",vaziyat:"Ikki o'quvchi darsda baqirishib, janjal chiqardi. Sinf tinchini yo'qotdi. Nima qilasiz?",
+  variants:{A:"Ularni darhol direktorga yuborasiz",B:"Darsni to'xtatib, xotirjam ohangda ikkalasini alohida gapga chaqirasiz",C:"E'tibor bermay, darsni davom ettirasiz"},
+  togri:"B",izoh:"Xotirjamlik va individual muloqot — ziddiyatni kuchaytirmasdan hal qilishning eng samarali usuli."},
+ {id:"c02",sarlavha:"Charchoq va sabr",vaziyat:"Kun oxiri, juda charchagansiz, lekin bir o'quvchi savol berishda davom etyapti. Qanday munosabatda bo'lasiz?",
+  variants:{A:"Charchaganingizni aytib, keyinroq javob berishga va'da berasiz",B:"Jahl bilan \"keyin so'ra\" deysiz",C:"Sabr qilib, qisqa javob berasiz"},
+  togri:"A",izoh:"Halollik va chegara qo'yish — ham o'zingizga, ham o'quvchiga hurmat ko'rsatish."},
+ {id:"c03",sarlavha:"Ota-ona bilan muloqot",vaziyat:"G'azablangan ota-ona farzandining bahosidan norozi bo'lib, sizga tanbeh berdi. Qanday javob berasiz?",
+  variants:{A:"Ular bilan bahslashasiz",B:"Xotirjam tinglaysiz, keyin faktlar asosida tushuntirasiz",C:"Javob bermaysiz"},
+  togri:"B",izoh:"Faol tinglash va faktlarga tayanish — ishonchni saqlashning kaliti."}
+];
+
+/* ---------------- STATE ---------------- */
+const LS_KEY = "pedagog_wellness_v1";
+function defaultState(){ return {results:{}, fitnesDone:[], casesDone:{}, profile:{name:"", age:"", staj:""}}; }
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(LS_KEY));
+    if(!s) return defaultState();
+    if(!s.profile) s.profile = {name:"", age:"", staj:""};
+    return s;
+  }
+  catch(e){ return defaultState(); }
+}
+function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }
+let STATE = loadState();
+let VIEW = {name: STATE.profile.name ? "home" : "onboarding"};
+let ANSWERS = {};
+
+/* ---------------- ICONS ---------------- */
+const ICONS = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',
+  fitnes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5l11 11M4 9l3-3M17 20l3-3M2 12l2-2M20 14l2-2"/><path d="M8 4L4 8M16 20l4-4"/></svg>',
+  cases:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+  profil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg>'
+};
+const LOGO_SVG = `<svg viewBox="0 0 100 100" fill="none">
+  <path d="M50 26c6 9 6 20 0 28 -6-8-6-19 0-28Z" fill="#fff" opacity="0.95"/>
+  <path d="M50 54c-13 3-24-4-30-15 12-4 25 1 30 15Z" fill="#fff" opacity="0.8"/>
+  <path d="M50 54c13 3 24-4 30-15 -12-4-25 1-30 15Z" fill="#fff" opacity="0.8"/>
+  <path d="M50 54c-9 10-9 22 0 30 9-8 9-20 0-30Z" fill="#fff" opacity="0.6"/>
+  <circle cx="50" cy="40" r="4.5" fill="#f2a15a"/>
+</svg>`;
+
+/* ---------------- RESULT BADGES (illustrated, not plain emoji) ---------------- */
+function badgeSvg(level){
+  const palettes = {
+    green:{a:'#7fc79a', b:'#3f8f66'},
+    amber:{a:'#f3c26a', b:'#d99a2e'},
+    red:{a:'#f0a08e', b:'#d8674f'}
+  };
+  const c = palettes[level] || palettes.green;
+  const icons = {
+    green: `<path d="M32 47l9 9 17-19" stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+    amber: `<path d="M28 50c4-14 12-20 24-22" stroke="#fff" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+            <path d="M46 26l6 2-2 6" stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+    red: `<path d="M48 48c-9 6-9 6-16 0-5-4-5-11 0-14 3-2 7-1 8 2 1-3 5-4 8-2 5 3 5 10 0 14z" fill="#fff"/>`
+  };
+  return `<svg class="badge-svg" viewBox="0 0 96 96" fill="none">
+    <circle cx="48" cy="48" r="46" fill="url(#g-${level})"/>
+    <defs><radialGradient id="g-${level}" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="${c.a}"/><stop offset="100%" stop-color="${c.b}"/>
+    </radialGradient></defs>
+    ${icons[level] || icons.green}
+  </svg>`;
+}
+
+/* ---------------- HELPERS ---------------- */
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function go(view){ VIEW = view; ANSWERS = {}; render(); window.scrollTo(0,0); }
+function fmtDate(){ const d=new Date(); return d.toLocaleDateString('uz-UZ'); }
+
+function scaleLevel(val, low, high){
+  if(val <= low) return 'green';
+  if(val <= high) return 'amber';
+  return 'red';
+}
+
+/* ---------------- RENDER: SHELL ---------------- */
+function topbar(title, sub, showBack){
+  return `<header class="topbar">
+    ${showBack ? `<button class="back-btn" onclick="go({name:'home'})">←</button>` : `<div class="logo-mark">${LOGO_SVG}</div>`}
+    <div class="titles">
+      <h1>${title}</h1>
+      <p>${sub}</p>
+    </div>
+  </header>`;
+}
+
+function bottomNav(active){
+  const items = [
+    {key:'home', label:'Bosh sahifa', icon:ICONS.home},
+    {key:'fitnes', label:'Fitnes', icon:ICONS.fitnes},
+    {key:'cases', label:'Cases', icon:ICONS.cases},
+    {key:'profil', label:'Profil', icon:ICONS.profil}
+  ];
+  return `<nav class="bottom-nav">
+    ${items.map(it => `<button class="nav-btn ${active===it.key?'active':''}" onclick="go({name:'${it.key}'})">${it.icon}<span>${it.label}</span></button>`).join('')}
+  </nav>`;
+}
+
+/* ---------------- ONBOARDING ---------------- */
+function renderOnboarding(){
+  const p = STATE.profile;
+  const body = `
+    <header class="topbar" style="border-radius:0 0 26px 26px;">
+      <div class="logo-mark">${LOGO_SVG}</div>
+      <div class="titles"><h1>Xush kelibsiz</h1><p>O'zingiz haqingizda qisqacha</p></div>
+    </header>
+    <main>
+      <p class="section-sub">Bu ma'lumot faqat profilingizni shaxsiylashtirish va tadqiqot statistikasi uchun ishlatiladi.</p>
+      <div class="card">
+        <div class="eyebrow">Ism</div>
+        <input id="ob-name" class="field-input" type="text" placeholder="Ismingiz" value="${p.name||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Yosh</div>
+        <input id="ob-age" class="field-input" type="number" placeholder="Masalan: 34" value="${p.age||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Pedagogik staj (yil)</div>
+        <input id="ob-staj" class="field-input" type="number" placeholder="Masalan: 8" value="${p.staj||''}"/>
+      </div>
+      <button class="btn" onclick="saveOnboarding()">Boshlash</button>
+    </main>
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function saveOnboarding(){
+  const name = document.getElementById('ob-name').value.trim();
+  const age = document.getElementById('ob-age').value.trim();
+  const staj = document.getElementById('ob-staj').value.trim();
+  if(!name){ alert("Iltimos, ismingizni kiriting"); return; }
+  STATE.profile = {name, age, staj};
+  saveState();
+  go({name:'home'});
+}
+
+/* ---------------- HOME ---------------- */
+function renderHome(){
+  const tests = [
+    {key:'xoll_intro', icon:'🌿', bg:'var(--teal-100)', color:'var(--teal-700)', title:'Emotsional Intellekt', sub:'Xoll metodikasi · 30 savol · 5 daqiqa'},
+    {key:'mbi_intro', icon:'🔋', bg:'#fdeee0', color:'var(--coral-dark)', title:'Kasbiy charchash (Burnout)', sub:'Maslach metodikasi · 22 savol · 4 daqiqa'},
+    {key:'xeym_intro', icon:'🛡️', bg:'#f1e8f7', color:'#8b5fa3', title:'Stressga bardosh strategiyalari', sub:'Xeym metodikasi · 3 blok · 3 daqiqa'}
+  ];
+  const name = STATE.profile.name ? STATE.profile.name.split(' ')[0] : '';
+  const greetings = ["Xush kelibsiz","Yaxshi ko'rdik","Salom"];
+  const greet = name ? `${greetings[new Date().getDate()%greetings.length]}, ${name}` : "Xush kelibsiz";
+  const body = `
+    ${topbar('Pedagog Wellness','Bugungi holatingizni biling')}
+    <main>
+      <div class="eyebrow">Diagnostika</div>
+      <div class="section-title">${greet} 🌸</div>
+      <p class="section-sub">O'zingizni yaxshi anglash — kasbiy charchashning oldini olishning birinchi qadami. Quyidagi testlardan birini boshlang.</p>
+      ${tests.map(t => `
+        <div class="card test-card" onclick="go({name:'${t.key}'})">
+          <div class="test-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+          <div><h3>${t.title}</h3><p>${t.sub}</p></div>
+          <div class="chev">${ICONS.chev}</div>
+        </div>
+      `).join('')}
+      <div class="divider-label">Kunlik g'amxo'rlik</div>
+      <div class="card test-card" onclick="go({name:'fitnes'})">
+        <div class="test-icon fitness-icon">🧘</div>
+        <div><h3>Fitnes mashqlari</h3><p>Nafas, jismoniy va relaksatsiya mashqlari</p></div>
+        <div class="chev">${ICONS.chev}</div>
+      </div>
+      <div class="card test-card" onclick="go({name:'cases'})">
+        <div class="test-icon" style="background:var(--cream-2);color:var(--ink-soft)">🎯</div>
+        <div><h3>Amaliy vaziyatlar</h3><p>Real pedagogik keyslarni yeching</p></div>
+        <div class="chev">${ICONS.chev}</div>
+      </div>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- GENERIC TEST INTRO ---------------- */
+function testIntro(cfg){
+  const body = `
+    ${topbar(cfg.title, cfg.headerSub, true)}
+    <main>
+      <div class="result-hero" style="background:linear-gradient(160deg, ${cfg.bgColor}, #fff)">
+        <div class="result-emoji">${cfg.emoji}</div>
+        <div class="result-title">${cfg.title}</div>
+        <p class="result-score">${cfg.meta}</p>
+      </div>
+      <div class="card">
+        <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink-soft)">${cfg.desc}</p>
+      </div>
+      <button class="btn" onclick="${cfg.startFn}()">Testni boshlash</button>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- XOLL FLOW ---------------- */
+function renderXollIntro(){
+  testIntro({
+    title:'Emotsional Intellekt',
+    headerSub:'Xoll metodikasi',
+    emoji:'🌿',
+    bgColor:'var(--teal-100)',
+    meta:'30 tasdiq · -3 dan +3 gacha baholang',
+    desc:'Har bir tasdiqni o\'qib, u sizning hayotingiz va ish faoliyatingizga qanchalik mos kelishini "To\'liq qo\'shilmayman" (-3) dan "To\'liq qo\'shilaman" (+3) gacha bo\'lgan shkala bo\'yicha baholaysiz.',
+    startFn:'startXoll'
+  });
+}
+function startXoll(){
+  ANSWERS = {}; VIEW = {name:'xoll_q', idx:0}; render();
+}
+function renderXollQuestion(idx){
+  const total = XOLL_QUESTIONS.length;
+  const q = XOLL_QUESTIONS[idx];
+  const current = ANSWERS[idx];
+  const scale = [-3,-2,-1,1,2,3];
+  const body = `
+    ${topbar('Emotsional Intellekt', `Savol ${idx+1} / ${total}`, true)}
+    <main>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" style="width:${((idx+1)/total*100).toFixed(0)}%"></div></div>
+      </div>
+      <div class="question-card">
+        <div class="question-text">${q}</div>
+        <div class="scale-row">
+          ${scale.map(v => `<button class="scale-btn ${current===v?'active':''}" onclick="answerXoll(${idx},${v})">${v>0?'+'+v:v}</button>`).join('')}
+        </div>
+        <div class="scale-caption"><span>To'liq qo'shilmayman</span><span>To'liq qo'shilaman</span></div>
+      </div>
+      <button class="btn" ${current===undefined?'disabled':''} onclick="nextXoll(${idx})">${idx===total-1?'Natijani ko\'rish':'Keyingisi'}</button>
+    </main>
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function answerXoll(idx,val){ ANSWERS[idx]=val; renderXollQuestion(idx); }
+function nextXoll(idx){
+  if(idx < XOLL_QUESTIONS.length-1){ VIEW={name:'xoll_q', idx:idx+1}; render(); }
+  else{ finishXoll(); }
+}
+function finishXoll(){
+  const scaleResults = XOLL_SCALES.map(s=>{
+    const sum = s.items.reduce((a,qNum)=> a + (ANSWERS[qNum-1]||0), 0);
+    return {name:s.name, val:sum};
+  });
+  const total = scaleResults.reduce((a,s)=>a+s.val,0);
+  let level, label;
+  if(total>=70){level='green';label="Yuqori darajadagi Emotsional Intellekt";}
+  else if(total>=40){level='amber';label="O'rta darajadagi Emotsional Intellekt";}
+  else {level='red';label="Past darajadagi Emotsional Intellekt";}
+  const messages = {
+    green:"Ajoyib natija! Emotsional zukkoligingiz yuqori darajada — bu kasbiy va shaxsiy hayotingizda katta kuch. 🌟",
+    amber:"Yaxshi natija! Emotsional intellektingizni yanada rivojlantirish uchun kichik mashqlar foyda beradi. 💫",
+    red:"Bu boshlang'ich nuqta, xolos. Emotsional intellekt — o'rganish mumkin bo'lgan ko'nikma. Har kuni kichik qadam tashlang. 🌱"
+  };
+  const result = {date:fmtDate(), total, level, label, msg:messages[level], scales:scaleResults};
+  STATE.results.xoll = result; saveState();
+  VIEW = {name:'xoll_result'}; render();
+}
+function renderXollResult(){
+  const r = STATE.results.xoll;
+  if(!r){ go({name:'xoll_intro'}); return; }
+  const maxScale = 18;
+  const body = `
+    ${topbar('Natijangiz', 'Emotsional Intellekt', true)}
+    <main>
+      <div class="result-hero ${r.level}">
+        ${badgeSvg(r.level)}
+        <div class="result-title">${r.label}</div>
+        <p class="result-score">Umumiy ball: ${r.total} / 150</p>
+      </div>
+      <div class="result-msg">${r.msg}</div>
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:12px;">Shkalalar bo'yicha</div>
+        ${r.scales.map(s=>{
+          const pct = Math.max(0, Math.min(100, ((s.val+18)/(36))*100));
+          return `<div class="subscale-row">
+            <div class="subscale-name" style="flex:0 0 42%">${s.name}</div>
+            <div class="subscale-bar-wrap"><div class="subscale-bar" style="width:${pct}%"></div></div>
+            <div class="subscale-val">${s.val}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <button class="btn secondary" onclick="go({name:'home'})">Bosh sahifaga qaytish</button>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- MBI FLOW ---------------- */
+function renderMbiIntro(){
+  testIntro({
+    title:'Kasbiy charchash',
+    headerSub:'Maslach (MBI) metodikasi',
+    emoji:'🔋',
+    bgColor:'#fdeee0',
+    meta:'22 tasdiq · 0 dan 6 gacha baholang',
+    desc:'Har bir tasdiq sizning ish faoliyatingizga qanchalik mos kelishini "Hech qachon" (0) dan "Har kuni" (6) gacha bo\'lgan shkala bo\'yicha baholaysiz.',
+    startFn:'startMbi'
+  });
+}
+function startMbi(){ ANSWERS={}; VIEW={name:'mbi_q', idx:0}; render(); }
+function renderMbiQuestion(idx){
+  const total = MBI_QUESTIONS.length;
+  const q = MBI_QUESTIONS[idx];
+  const current = ANSWERS[idx];
+  const scale=[0,1,2,3,4,5,6];
+  const body = `
+    ${topbar('Kasbiy charchash', `Savol ${idx+1} / ${total}`, true)}
+    <main>
+      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${((idx+1)/total*100).toFixed(0)}%"></div></div></div>
+      <div class="question-card">
+        <div class="question-text">${q}</div>
+        <div class="scale-row">
+          ${scale.map(v=>`<button class="scale-btn ${current===v?'active':''}" onclick="answerMbi(${idx},${v})">${v}</button>`).join('')}
+        </div>
+        <div class="scale-caption"><span>Hech qachon</span><span>Har kuni</span></div>
+      </div>
+      <button class="btn" ${current===undefined?'disabled':''} onclick="nextMbi(${idx})">${idx===total-1?"Natijani ko'rish":'Keyingisi'}</button>
+    </main>
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function answerMbi(idx,val){ ANSWERS[idx]=val; renderMbiQuestion(idx); }
+function nextMbi(idx){
+  if(idx<MBI_QUESTIONS.length-1){ VIEW={name:'mbi_q', idx:idx+1}; render(); }
+  else finishMbi();
+}
+function finishMbi(){
+  const sum = arr => arr.reduce((a,n)=>a+(ANSWERS[n-1]||0),0);
+  const EE=sum(MBI_EE), DP=sum(MBI_DP), PA=sum(MBI_PA);
+  let profil, level;
+  if(EE<=16 && DP<=6 && PA>=39){ profil="Barqaror pedagog"; level='green'; }
+  else if(EE>=27 || DP>=13 || PA<=31){ profil="Ko'makka muhtoj pedagog"; level='red'; }
+  else { profil="Tajriba orttiruvchi"; level='amber'; }
+  const messages = {
+    green:"Ajoyib! Hissiy holatingiz barqaror — shu ritmni saqlashda davom eting. 🌸",
+    amber:"Siz to'g'ri yo'ldasiz — har kungi kichik qadam katta natija beradi. 💪",
+    red:"Hozir qiyin bo'lishi mumkin — bu his-tuyg'ular normal va vaqtinchalik. O'zingizga mehribon bo'ling. 🤍"
+  };
+  const result = {date:fmtDate(), EE, DP, PA, profil, level, msg:messages[level]};
+  STATE.results.mbi = result; saveState();
+  VIEW={name:'mbi_result'}; render();
+}
+function renderMbiResult(){
+  const r = STATE.results.mbi;
+  if(!r){ go({name:'mbi_intro'}); return; }
+  const body = `
+    ${topbar('Natijangiz','Kasbiy charchash', true)}
+    <main>
+      <div class="result-hero ${r.level}">
+        ${badgeSvg(r.level)}
+        <div class="result-title">${r.profil}</div>
+        <p class="result-score">${fmtDate()}</p>
+      </div>
+      <div class="result-msg">${r.msg}</div>
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:12px;">Subshkalalar</div>
+        <div class="subscale-row"><div class="subscale-name" style="flex:0 0 42%">Emotsional charchash</div><div class="subscale-bar-wrap"><div class="subscale-bar" style="width:${Math.min(100,r.EE/54*100)}%"></div></div><div class="subscale-val">${r.EE}</div></div>
+        <div class="subscale-row"><div class="subscale-name" style="flex:0 0 42%">Depersonalizatsiya</div><div class="subscale-bar-wrap"><div class="subscale-bar" style="width:${Math.min(100,r.DP/30*100)}%"></div></div><div class="subscale-val">${r.DP}</div></div>
+        <div class="subscale-row"><div class="subscale-name" style="flex:0 0 42%">Shaxsiy yutuqlar</div><div class="subscale-bar-wrap"><div class="subscale-bar" style="width:${Math.min(100,r.PA/48*100)}%"></div></div><div class="subscale-val">${r.PA}</div></div>
+      </div>
+      <button class="btn secondary" onclick="go({name:'home'})">Bosh sahifaga qaytish</button>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- XEYM FLOW ---------------- */
+function renderXeymIntro(){
+  testIntro({
+    title:'Stressga bardosh',
+    headerSub:'Xeym (Coping) metodikasi',
+    emoji:'🛡️',
+    bgColor:'#f1e8f7',
+    meta:'3 blok · har biridan bitta javob',
+    desc:'Qiyin vaziyatda paydo bo\'ladigan fikr, his-tuyg\'u va harakatlaringiz haqida 3 ta bo\'limdan (Fikrlar, His-tuyg\'ular, Harakatlar) bittadan eng mos variantni tanlaysiz.',
+    startFn:'startXeym'
+  });
+}
+function startXeym(){ ANSWERS={}; VIEW={name:'xeym_q', idx:0}; render(); }
+function renderXeymQuestion(idx){
+  const total = XEYM_SECTIONS.length;
+  const sec = XEYM_SECTIONS[idx];
+  const current = ANSWERS[idx];
+  const body = `
+    ${topbar('Stressga bardosh', `Blok ${idx+1} / ${total}`, true)}
+    <main>
+      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${((idx+1)/total*100).toFixed(0)}%"></div></div></div>
+      <div class="eyebrow">${sec.key} bo'limi</div>
+      <div class="section-title" style="font-size:17px;margin-bottom:16px;">${sec.title}</div>
+      ${sec.items.map((it,i)=>`
+        <button class="option-btn ${current===i?'selected':''}" onclick="answerXeym(${idx},${i})">${it.t}</button>
+      `).join('')}
+      <button class="btn" style="margin-top:8px" ${current===undefined?'disabled':''} onclick="nextXeym(${idx})">${idx===total-1?"Natijani ko'rish":'Keyingi blok'}</button>
+    </main>
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function answerXeym(idx,i){ ANSWERS[idx]=i; renderXeymQuestion(idx); }
+function nextXeym(idx){
+  if(idx<XEYM_SECTIONS.length-1){ VIEW={name:'xeym_q', idx:idx+1}; render(); }
+  else finishXeym();
+}
+function finishXeym(){
+  let counts = {adaptiv:0, nisbiy:0, noadaptiv:0};
+  let picks = [];
+  XEYM_SECTIONS.forEach((sec,idx)=>{
+    const item = sec.items[ANSWERS[idx]];
+    counts[item.type]++;
+    picks.push({sec:sec.key, text:item.t, type:item.type});
+  });
+  let level, label;
+  if(counts.adaptiv>=2){level='green';label="Adaptiv (Samarali) strategiyalar ustunligi";}
+  else if(counts.noadaptiv>=2){level='red';label="Noadaptiv (Samarasiz) strategiyalar ustunligi";}
+  else {level='amber';label="Nisbiy adaptiv strategiyalar ustunligi";}
+  const messages = {
+    green:"Siz qiyinchiliklarni aql va xotirjamlik bilan yengasiz. Bu — kuchli fazilat! 💪",
+    amber:"Siz vaziyatni yumshatishga harakat qilasiz, lekin ba'zan chuqurroq yechim ham kerak bo'ladi. 🤔",
+    red:"Qiyin vaziyatlarda qo'llab-quvvatlash so'rashdan tortinmang. Yolg'iz emassiz. 🤍"
+  };
+  const result = {date:fmtDate(), level, label, msg:messages[level], picks};
+  STATE.results.xeym = result; saveState();
+  VIEW={name:'xeym_result'}; render();
+}
+function renderXeymResult(){
+  const r = STATE.results.xeym;
+  if(!r){ go({name:'xeym_intro'}); return; }
+  const body = `
+    ${topbar('Natijangiz','Stressga bardosh', true)}
+    <main>
+      <div class="result-hero ${r.level}">
+        ${badgeSvg(r.level)}
+        <div class="result-title">${r.label}</div>
+        <p class="result-score">${fmtDate()}</p>
+      </div>
+      <div class="result-msg">${r.msg}</div>
+      <button class="btn secondary" onclick="go({name:'home'})">Bosh sahifaga qaytish</button>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- FITNES ---------------- */
+function renderFitnes(){
+  const typeMap = {nafas:{label:'Nafas', cls:''}, jismoniy:{label:'Jismoniy', cls:'jismoniy'}, relaks:{label:'Relaksatsiya', cls:'relaks'}};
+  const body = `
+    ${topbar('Fitnes','Kunlik qisqa mashqlar')}
+    <main>
+      <p class="section-sub">Kuniga 2-3 daqiqa ajratib, o'zingizga g'amxo'rlik qiling.</p>
+      ${FITNES.map(f=>{
+        const done = STATE.fitnesDone.includes(f.id);
+        const tm = typeMap[f.turi];
+        return `<div class="card test-card" onclick="go({name:'fitnes_detail', id:'${f.id}'})">
+          <div class="test-icon fitness-icon ${tm.cls}">${f.icon}</div>
+          <div><h3>${f.nomi} ${done?'✅':''}</h3><p>${tm.label} · ${f.daq} daqiqa</p></div>
+          <div class="chev">${ICONS.chev}</div>
+        </div>`;
+      }).join('')}
+    </main>
+    ${bottomNav('fitnes')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function renderFitnesDetail(id){
+  const f = FITNES.find(x=>x.id===id);
+  const done = STATE.fitnesDone.includes(id);
+  const body = `
+    ${topbar(f.nomi, f.maqsad, true)}
+    <main>
+      ${videoEmbedHtml(f.video)}
+      <div class="card">
+        <div class="eyebrow">Yo'riqnoma</div>
+        <p style="white-space:pre-line;font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
+      </div>
+      <button class="btn ${done?'secondary':'coral'}" onclick="toggleFitnesDone('${id}')">${done? "✅ Bajarildi (bekor qilish)" : "Bajardim"}</button>
+    </main>
+    ${bottomNav('fitnes')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function toggleFitnesDone(id){
+  const i = STATE.fitnesDone.indexOf(id);
+  if(i>-1) STATE.fitnesDone.splice(i,1); else STATE.fitnesDone.push(id);
+  saveState();
+  renderFitnesDetail(id);
+}
+
+/* ---------------- CASES ---------------- */
+function renderCases(){
+  const body = `
+    ${topbar('Cases','Amaliy pedagogik vaziyatlar')}
+    <main>
+      <p class="section-sub">Real vaziyatlarni o'qing va eng maqbul yechimni tanlang.</p>
+      ${CASES.map(c=>{
+        const done = STATE.casesDone[c.id];
+        return `<div class="card test-card" onclick="go({name:'case_detail', id:'${c.id}'})">
+          <div class="test-icon" style="background:var(--cream-2);color:var(--ink-soft)">🎯</div>
+          <div><h3>${c.sarlavha} ${done?(done.correct?'✅':'🔁'):''}</h3><p>${c.vaziyat.slice(0,50)}...</p></div>
+          <div class="chev">${ICONS.chev}</div>
+        </div>`;
+      }).join('')}
+    </main>
+    ${bottomNav('cases')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function renderCaseDetail(id){
+  const c = CASES.find(x=>x.id===id);
+  const done = STATE.casesDone[id];
+  const body = `
+    ${topbar(c.sarlavha,'Vaziyatni o\'qib, javob tanlang', true)}
+    <main>
+      <div class="card">
+        <div class="case-tag">Vaziyat</div>
+        <p style="margin:0;font-size:14.5px;line-height:1.6">${c.vaziyat}</p>
+      </div>
+      ${Object.keys(c.variants).map(k=>{
+        let cls='';
+        if(done){
+          if(k===c.togri) cls='correct';
+          else if(k===done.choice) cls='incorrect';
+        } else if(done===undefined && ANSWERS.pick===k) cls='selected';
+        return `<button class="option-btn ${cls}" ${done?'disabled':''} onclick="pickCase('${id}','${k}')"><b>${k})</b> ${c.variants[k]}</button>`;
+      }).join('')}
+      ${done ? `<div class="result-msg" style="margin-top:6px;"><b>${done.correct?"To'g'ri javob! ✅":"Boshqa fikr, lekin bu ham o'rganish imkoniyati ⚠️"}</b><br><br>${c.izoh}</div>
+        <button class="btn secondary" onclick="go({name:'cases'})">Cases ro'yxatiga qaytish</button>` : ''}
+    </main>
+    ${bottomNav('cases')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function pickCase(id, choice){
+  const c = CASES.find(x=>x.id===id);
+  STATE.casesDone[id] = {choice, correct: choice===c.togri, date:fmtDate()};
+  saveState();
+  renderCaseDetail(id);
+}
+
+/* ---------------- PROFIL ---------------- */
+function renderProfil(){
+  const r = STATE.results;
+  const doneCount = STATE.fitnesDone.length;
+  const casesCount = Object.keys(STATE.casesDone).length;
+  function miniCard(title, data, goName){
+    if(!data){
+      return `<div class="card">
+        <h3 style="font-size:14.5px;margin-bottom:4px;">${title}</h3>
+        <p style="margin:0;font-size:13px;color:var(--ink-soft)">Hali test ishlanmagan</p>
+        <button class="btn secondary" style="margin-top:12px" onclick="go({name:'${goName}'})">Testni boshlash</button>
+      </div>`;
+    }
+    const label = data.label || data.profil;
+    return `<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <h3 style="font-size:14.5px;margin-bottom:6px;">${title}</h3>
+        <span class="pill ${data.level}">${label}</span>
+      </div>
+      <p style="margin:0;font-size:12.5px;color:var(--ink-soft)">${data.date}</p>
+    </div>`;
+  }
+  const p = STATE.profile;
+  const initial = (p.name||'P').trim().charAt(0).toUpperCase();
+  const metaBits = [];
+  if(p.age) metaBits.push(p.age + ' yosh');
+  if(p.staj) metaBits.push(p.staj + ' yillik staj');
+  const body = `
+    ${topbar('Profil','Sizning yo\'lingiz')}
+    <main>
+      <div class="profile-header">
+        <div class="avatar">${initial}</div>
+        <div>
+          <div class="profile-name">${p.name || 'Pedagog'}</div>
+          <div class="profile-sub">${metaBits.join(' · ') || 'Ma\'lumot kiritilmagan'}</div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <div style="font-size:12.5px;color:var(--ink-soft)">${doneCount} ta mashq bajarildi · ${casesCount} ta keys yechildi</div>
+        <button class="btn secondary" style="width:auto;padding:8px 14px;font-size:12.5px;" onclick="go({name:'edit_profile'})">Tahrirlash</button>
+      </div>
+      <div class="divider-label">Diagnostika natijalari</div>
+      ${miniCard('Emotsional Intellekt', r.xoll, 'xoll_intro')}
+      ${miniCard('Kasbiy charchash', r.mbi, 'mbi_intro')}
+      ${miniCard('Stressga bardosh', r.xeym, 'xeym_intro')}
+    </main>
+    ${bottomNav('profil')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+function renderEditProfile(){
+  const p = STATE.profile;
+  const body = `
+    ${topbar('Ma\'lumotlarni tahrirlash','', true)}
+    <main>
+      <div class="card">
+        <div class="eyebrow">Ism</div>
+        <input id="ep-name" class="field-input" type="text" value="${p.name||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Yosh</div>
+        <input id="ep-age" class="field-input" type="number" value="${p.age||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Pedagogik staj (yil)</div>
+        <input id="ep-staj" class="field-input" type="number" value="${p.staj||''}"/>
+      </div>
+      <button class="btn" onclick="saveEditProfile()">Saqlash</button>
+    </main>
+    ${bottomNav('profil')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function saveEditProfile(){
+  const name = document.getElementById('ep-name').value.trim();
+  const age = document.getElementById('ep-age').value.trim();
+  const staj = document.getElementById('ep-staj').value.trim();
+  if(!name){ alert("Iltimos, ismingizni kiriting"); return; }
+  STATE.profile = {name, age, staj};
+  saveState();
+  go({name:'profil'});
+}
+
+/* ---------------- ROUTER ---------------- */
+function render(){
+  switch(VIEW.name){
+    case 'onboarding': return renderOnboarding();
+    case 'home': return renderHome();
+    case 'xoll_intro': return renderXollIntro();
+    case 'xoll_q': return renderXollQuestion(VIEW.idx);
+    case 'xoll_result': return renderXollResult();
+    case 'mbi_intro': return renderMbiIntro();
+    case 'mbi_q': return renderMbiQuestion(VIEW.idx);
+    case 'mbi_result': return renderMbiResult();
+    case 'xeym_intro': return renderXeymIntro();
+    case 'xeym_q': return renderXeymQuestion(VIEW.idx);
+    case 'xeym_result': return renderXeymResult();
+    case 'fitnes': return renderFitnes();
+    case 'fitnes_detail': return renderFitnesDetail(VIEW.id);
+    case 'cases': return renderCases();
+    case 'case_detail': return renderCaseDetail(VIEW.id);
+    case 'profil': return renderProfil();
+    case 'edit_profile': return renderEditProfile();
+    default: return renderHome();
+  }
+}
+render();
+</script>
+</body>
+</html>
