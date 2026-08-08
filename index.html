@@ -434,7 +434,7 @@ const CASES = [
 
 /* ---------------- STATE ---------------- */
 const LS_KEY = "pedagog_wellness_v1";
-function defaultState(){ return {results:{}, fitnesDone:[], casesDone:{}, profile:{name:"", age:"", staj:""}}; }
+function defaultState(){ return {results:{}, fitnesDone:[], casesDone:{}, profile:{name:"", age:"", staj:"", email:""}}; }
 function loadState(){
   try{
     const s = JSON.parse(localStorage.getItem(LS_KEY));
@@ -522,6 +522,42 @@ function bottomNav(active){
   </nav>`;
 }
 
+/* ---------------- BACKEND CONFIG ---------------- */
+/* Apps Script Web App URL shu yerga qo'yiladi (deploy qilingandan keyin). Bo'sh bo'lsa, ilova faqat mahalliy (localStorage) rejimda ishlaydi. */
+const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbwjnxZLaMq3ZxmDvTPh_KJUrKv2JdUlIuWE_uCXEreYBM9HQ1STSjT8jKfhdYH_X4L53w/exec" };
+
+async function syncSave(){
+  if(!CONFIG.API_URL || !STATE.profile.email) return;
+  try{
+    await fetch(CONFIG.API_URL, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'sync', email: STATE.profile.email, profile: STATE.profile, state: STATE})
+    });
+  }catch(e){ console.warn('Sync xato:', e); }
+}
+
+async function logResult(testName, level, label, details){
+  if(!CONFIG.API_URL || !STATE.profile.email) return;
+  try{
+    await fetch(CONFIG.API_URL, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({action:'log', email: STATE.profile.email, profile: STATE.profile, testName, level, label, details})
+    });
+  }catch(e){ console.warn('Log xato:', e); }
+}
+
+async function syncLoad(email){
+  if(!CONFIG.API_URL || !email) return null;
+  try{
+    const res = await fetch(`${CONFIG.API_URL}?email=${encodeURIComponent(email)}`);
+    const data = await res.json();
+    if(data.status === 'ok') return data.state;
+    return null;
+  }catch(e){ console.warn('Yuklash xato:', e); return null; }
+}
+
 /* ---------------- ONBOARDING ---------------- */
 function renderOnboarding(){
   const p = STATE.profile;
@@ -531,27 +567,44 @@ function renderOnboarding(){
       <div class="titles"><h1>Xush kelibsiz</h1><p>O'zingiz haqingizda qisqacha</p></div>
     </header>
     <main>
-      <p class="section-sub">Bu ma'lumot faqat profilingizni shaxsiylashtirish va tadqiqot statistikasi uchun ishlatiladi.</p>
+      <p class="section-sub">Bu ma'lumot faqat profilingizni shaxsiylashtirish va tadqiqot statistikasi uchun ishlatiladi. Email — boshqa qurilmadan kirganda ma'lumotlaringizni topish uchun kerak.</p>
       <div class="card">
         <div class="eyebrow">Ism</div>
         <input id="ob-name" class="field-input" type="text" placeholder="Ismingiz" value="${p.name||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Email</div>
+        <input id="ob-email" class="field-input" type="email" placeholder="email@misol.com" value="${p.email||''}"/>
         <div class="eyebrow" style="margin-top:14px;">Yosh</div>
         <input id="ob-age" class="field-input" type="number" placeholder="Masalan: 34" value="${p.age||''}"/>
         <div class="eyebrow" style="margin-top:14px;">Pedagogik staj (yil)</div>
         <input id="ob-staj" class="field-input" type="number" placeholder="Masalan: 8" value="${p.staj||''}"/>
       </div>
-      <button class="btn" onclick="saveOnboarding()">Boshlash</button>
+      <button class="btn" id="ob-submit-btn" onclick="saveOnboarding()">Boshlash</button>
     </main>
   `;
   document.getElementById('app').innerHTML = body;
 }
-function saveOnboarding(){
+async function saveOnboarding(){
   const name = document.getElementById('ob-name').value.trim();
+  const email = document.getElementById('ob-email').value.trim();
   const age = document.getElementById('ob-age').value.trim();
   const staj = document.getElementById('ob-staj').value.trim();
   if(!name){ alert("Iltimos, ismingizni kiriting"); return; }
-  STATE.profile = {name, age, staj};
+
+  const btn = document.getElementById('ob-submit-btn');
+  if(email && CONFIG.API_URL){
+    btn.disabled = true; btn.textContent = "Tekshirilmoqda...";
+    const existing = await syncLoad(email);
+    if(existing){
+      STATE = existing;
+      STATE.profile = {name, email, age, staj};
+      saveState();
+      go({name:'home'});
+      return;
+    }
+  }
+  STATE.profile = {name, email, age, staj};
   saveState();
+  syncSave();
   go({name:'home'});
 }
 
@@ -675,6 +728,8 @@ function finishXoll(){
   };
   const result = {date:fmtDate(), total, level, label, msg:messages[level], scales:scaleResults};
   STATE.results.xoll = result; saveState();
+  syncSave();
+  logResult('Xoll (EQ)', level, label, {total, scales:scaleResults});
   VIEW = {name:'xoll_result'}; render();
 }
 function renderXollResult(){
@@ -761,6 +816,8 @@ function finishMbi(){
   };
   const result = {date:fmtDate(), EE, DP, PA, profil, level, msg:messages[level]};
   STATE.results.mbi = result; saveState();
+  syncSave();
+  logResult('MBI (Burnout)', level, profil, {EE, DP, PA});
   VIEW={name:'mbi_result'}; render();
 }
 function renderMbiResult(){
@@ -843,6 +900,8 @@ function finishXeym(){
   };
   const result = {date:fmtDate(), level, label, msg:messages[level], picks};
   STATE.results.xeym = result; saveState();
+  syncSave();
+  logResult('Xeym (Coping)', level, label, {picks});
   VIEW={name:'xeym_result'}; render();
 }
 function renderXeymResult(){
@@ -906,6 +965,7 @@ function toggleFitnesDone(id){
   const i = STATE.fitnesDone.indexOf(id);
   if(i>-1) STATE.fitnesDone.splice(i,1); else STATE.fitnesDone.push(id);
   saveState();
+  syncSave();
   renderFitnesDetail(id);
 }
 
@@ -957,6 +1017,7 @@ function pickCase(id, choice){
   const c = CASES.find(x=>x.id===id);
   STATE.casesDone[id] = {choice, correct: choice===c.togri, date:fmtDate()};
   saveState();
+  syncSave();
   renderCaseDetail(id);
 }
 
@@ -1019,6 +1080,8 @@ function renderEditProfile(){
       <div class="card">
         <div class="eyebrow">Ism</div>
         <input id="ep-name" class="field-input" type="text" value="${p.name||''}"/>
+        <div class="eyebrow" style="margin-top:14px;">Email</div>
+        <input id="ep-email" class="field-input" type="email" value="${p.email||''}"/>
         <div class="eyebrow" style="margin-top:14px;">Yosh</div>
         <input id="ep-age" class="field-input" type="number" value="${p.age||''}"/>
         <div class="eyebrow" style="margin-top:14px;">Pedagogik staj (yil)</div>
@@ -1032,11 +1095,13 @@ function renderEditProfile(){
 }
 function saveEditProfile(){
   const name = document.getElementById('ep-name').value.trim();
+  const email = document.getElementById('ep-email').value.trim();
   const age = document.getElementById('ep-age').value.trim();
   const staj = document.getElementById('ep-staj').value.trim();
   if(!name){ alert("Iltimos, ismingizni kiriting"); return; }
-  STATE.profile = {name, age, staj};
+  STATE.profile = {name, email, age, staj};
   saveState();
+  syncSave();
   go({name:'profil'});
 }
 
