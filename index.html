@@ -272,6 +272,27 @@
   }
   .field-input:focus{border-color:var(--teal-400);}
 
+  .reaction-card{
+    background:linear-gradient(160deg,var(--teal-100),#fff);
+    border-radius:var(--radius);padding:22px 18px;text-align:center;
+    margin-top:14px;border:1px solid var(--line);
+  }
+  .reaction-emoji{font-size:42px;display:inline-block;margin-bottom:8px;}
+  .reaction-line{margin:0;font-size:14.5px;color:var(--ink);font-weight:600;line-height:1.5;}
+  @keyframes reactLaugh{
+    0%,100%{transform:rotate(0deg) scale(1);}
+    20%{transform:rotate(-12deg) scale(1.15);}
+    40%{transform:rotate(10deg) scale(1.1);}
+    60%{transform:rotate(-8deg) scale(1.15);}
+    80%{transform:rotate(6deg) scale(1.05);}
+  }
+  @keyframes reactWarm{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.12);}
+  }
+  .react-laugh{animation:reactLaugh 0.9s ease-in-out 2;}
+  .react-warm{animation:reactWarm 1.4s ease-in-out 2;}
+
   .badge-svg{width:96px;height:96px;margin:0 auto 10px auto;display:block;}
 
   ::-webkit-scrollbar{width:0;}
@@ -399,8 +420,8 @@ const FITNES = [
   yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
  {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
   yoriqnoma:"Oyoqdan boshlab har bir mushak guruhini 5 soniya kuchli tarang qiling, keyin bo'shashtiring. Yuqoriga qarab davom eting (oyoq, qorin, qo'l, yelka, yuz)."},
- {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",
-  yoriqnoma:"Bugungi kunda sizga yoqqan 3 ta kichik voqeani xayolingizda yoki yozib chiqing."}
+ {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",journal:true,
+  yoriqnoma:"Bugungi kunda sizga yoqqan bitta kichik voqeani yozing. Har qanday narsa bo'lishi mumkin — kulgili, iliq yoki oddiy quvonchli lahza."}
 ];
 
 /* Video havolasini o'rnatilgan (embed) player kodiga aylantiradi.
@@ -944,9 +965,82 @@ function renderFitnes(){
   `;
   document.getElementById('app').innerHTML = body;
 }
+/* ---------------- JOURNAL REACTION (kalit so'zlarga asoslangan "javob") ---------------- */
+const REACTION_POOLS = {
+  kulgili: {
+    keywords:["kulgi","kuldim","kulib","kulgili","hazil","qiziq","ajab","kulib yubordim","masxara","hangoma"],
+    emoji:"😂", anim:"react-laugh",
+    lines:[
+      "Hahaha, juda qiziq ekan! 😂",
+      "Voy, kulib yubordim! Ajoyib lahza ekan 🤣",
+      "Bu haqiqatan ham kulgili, xayolimga ham kelmagandi 😄"
+    ]
+  },
+  iliq: {
+    keywords:["rahmat","minnatdor","mehr","iliq","yaxshi","sevindim","xursand","quvondim","yoqdi","baxtli"],
+    emoji:"🥰", anim:"react-warm",
+    lines:[
+      "Voy, bu juda yoqimli ekan 🥰",
+      "Shunday iliq lahzalar kunni yoritadi ✨",
+      "O'qib turib men ham xursand bo'ldim 💛"
+    ]
+  },
+  qiyin: {
+    keywords:["charchadim","qiyin","stress","asabiy","charchagan","toliqqan","og'ir","qiynaldim"],
+    emoji:"🤍", anim:"react-warm",
+    lines:[
+      "Bunday kunlar ham bo'ladi. Siz baribir shu daqiqani topib, yozganingiz uchun rahmat 🤍",
+      "Charchoqqa qaramay, o'zingizga vaqt ajratganingiz — bu allaqachon yutuq 🌱"
+    ]
+  },
+  standart: {
+    keywords:[],
+    emoji:"🌸", anim:"react-warm",
+    lines:[
+      "Ajoyib lahza ekan, baham ko'rganingiz uchun rahmat 🌸",
+      "Kichik quvonchlar — katta baxtning boshlanishi 🌿",
+      "Buni yozganingiz uchun rahmat, kayfiyatingiz ko'tarilsin! ✨"
+    ]
+  }
+};
+function analyzeJournal(text){
+  const low = text.toLowerCase();
+  for(const key of ["kulgili","iliq","qiyin"]){
+    const pool = REACTION_POOLS[key];
+    if(pool.keywords.some(k=>low.includes(k))){
+      return {emoji:pool.emoji, anim:pool.anim, line: pool.lines[Math.floor(Math.random()*pool.lines.length)]};
+    }
+  }
+  const pool = REACTION_POOLS.standart;
+  return {emoji:pool.emoji, anim:pool.anim, line: pool.lines[Math.floor(Math.random()*pool.lines.length)]};
+}
+
 function renderFitnesDetail(id){
   const f = FITNES.find(x=>x.id===id);
   const done = STATE.fitnesDone.includes(id);
+
+  if(f.journal){
+    const lastEntry = STATE.journalLast;
+    const body = `
+      ${topbar(f.nomi, f.maqsad, true)}
+      <main>
+        <div class="card">
+          <div class="eyebrow">Yo'riqnoma</div>
+          <p style="font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Bugungi voqeangiz</div>
+          <textarea id="journal-text" class="field-input" rows="4" style="resize:none;font-family:'Manrope',sans-serif;" placeholder="Masalan: bugun bir o'quvchim mavzuni juda tez tushundi va menga rahmat aytdi...">${lastEntry && lastEntry.date===fmtDate() ? lastEntry.text : ''}</textarea>
+        </div>
+        <button class="btn coral" onclick="submitJournal('${id}')">Yuborish</button>
+        ${lastEntry && lastEntry.date===fmtDate() ? renderReactionCard(lastEntry.reaction) : ''}
+      </main>
+      ${bottomNav('fitnes')}
+    `;
+    document.getElementById('app').innerHTML = body;
+    return;
+  }
+
   const body = `
     ${topbar(f.nomi, f.maqsad, true)}
     <main>
@@ -960,6 +1054,24 @@ function renderFitnesDetail(id){
     ${bottomNav('fitnes')}
   `;
   document.getElementById('app').innerHTML = body;
+}
+
+function renderReactionCard(reaction){
+  return `<div class="reaction-card">
+    <div class="reaction-emoji ${reaction.anim}">${reaction.emoji}</div>
+    <p class="reaction-line">${reaction.line}</p>
+  </div>`;
+}
+
+function submitJournal(id){
+  const text = document.getElementById('journal-text').value.trim();
+  if(!text){ alert("Iltimos, voqeangizni yozing"); return; }
+  const reaction = analyzeJournal(text);
+  STATE.journalLast = {date:fmtDate(), text, reaction};
+  if(!STATE.fitnesDone.includes(id)) STATE.fitnesDone.push(id);
+  saveState();
+  syncSave();
+  renderFitnesDetail(id);
 }
 function toggleFitnesDone(id){
   const i = STATE.fitnesDone.indexOf(id);
