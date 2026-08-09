@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Pedagog Wellness</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -231,6 +232,16 @@
   }
   .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
 
+  .breath-card{text-align:center;}
+  .breath-stage{display:flex;align-items:center;justify-content:center;padding:20px 0;}
+  .breath-circle{
+    width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--teal-200), var(--teal-500));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:12.5px;text-align:center;padding:10px;
+    box-shadow:0 8px 24px -8px rgba(47,133,119,0.5);
+  }
+
   .case-tag{
     display:inline-block;font-size:10.5px;font-weight:700;
     background:var(--teal-100);color:var(--teal-700);
@@ -243,6 +254,63 @@
   .profile-header{
     display:flex;align-items:center;gap:14px;margin-bottom:20px;
   }
+  .profile-header{
+    display:flex;align-items:center;gap:14px;margin-bottom:20px;position:relative;
+  }
+  .profile-hero{
+    background:linear-gradient(160deg,var(--teal-100),#fff);
+    border-radius:var(--radius);padding:18px;margin-bottom:8px;border:1px solid var(--line);
+  }
+  .edit-fab{
+    margin-left:auto;background:#fff;border:1px solid var(--line);width:36px;height:36px;
+    border-radius:10px;font-size:15px;cursor:pointer;flex-shrink:0;
+  }
+  .reward-strip{
+    display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;
+    border:1px solid var(--line);
+  }
+  .reward-emoji{font-size:30px;flex-shrink:0;}
+  .reward-title{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .reward-note{font-size:12px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+  .today-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;
+  }
+  .today-stat{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;
+  }
+  .today-num{font-family:'Fraunces',serif;font-size:24px;color:var(--teal-700);font-weight:600;}
+  .today-label{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+  .today-num{font-family:'Fraunces',serif;font-size:24px;color:var(--teal-700);font-weight:600;}
+  .today-label{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+  .routine-card{padding-bottom:10px;}
+  .routine-summary{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--teal-100);border-radius:12px;padding:10px 12px;margin-bottom:12px;
+    font-size:12.5px;color:var(--teal-900);line-height:1.4;
+  }
+  .routine-close{background:none;border:none;color:var(--teal-700);font-size:14px;cursor:pointer;flex-shrink:0;}
+  .routine-row{
+    display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);
+  }
+  .routine-row:last-child{border-bottom:none;}
+  .routine-icon{font-size:20px;flex-shrink:0;width:30px;text-align:center;}
+  .routine-mid{flex:1;min-width:0;}
+  .routine-title{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .routine-time{font-size:11px;color:var(--ink-soft);font-weight:600;}
+  .routine-desc{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
+  .routine-status{font-size:11px;font-weight:700;flex-shrink:0;color:var(--ink-soft);}
+  .routine-row.r-active .routine-title{color:var(--teal-700);}
+  .routine-row.r-done .routine-status{color:var(--green-ok);}
+  .routine-row.r-missed .routine-status{color:var(--red-ok);}
+  .routine-row.r-pending{opacity:0.55;}
+  .routine-btn{
+    background:var(--coral);color:#fff;border:none;border-radius:10px;
+    padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;flex-shrink:0;
+    font-family:'Manrope',sans-serif;
+  }
+
   .avatar{
     width:56px;height:56px;border-radius:16px;
     background:linear-gradient(145deg,var(--teal-400),var(--teal-700));
@@ -410,15 +478,26 @@ const XEYM_SECTIONS = [
 
 /* ---------------- DATA: FITNES ---------------- */
 const FITNES = [
- {id:"n01",nomi:"Kvadrat nafas",turi:"nafas",icon:"🟦",maqsad:"Xavotirni bosish va diqqatni jamlash",daq:3,video:"",
+ {id:"n01",nomi:"Kvadrat nafas",turi:"nafas",icon:"🟦",maqsad:"Xavotirni bosish va diqqatni jamlash",daq:3,video:"https://drive.google.com/file/d/1DqEEDkeAv2vlCrMSAUHyePcjKIGDF90U/view?usp=sharing",
+  breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:4,scale:1.35},{label:"Chiqaring",sec:4,scale:1},{label:"Kutib turing",sec:4,scale:1}],
   yoriqnoma:"1-qadam: Burningizdan sekin nafas oling (4 soniya).\n2-qadam: Nafasni ushlab turing (4 soniya).\n3-qadam: Og'zingizdan sekin chiqaring (4 soniya).\n4-qadam: To'xtab turing (4 soniya).\nSiklni 4-5 marta takrorlang."},
- {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",maqsad:"Charchoq va zo'riqishni yengish",daq:3,video:"",
+ {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",maqsad:"Charchoq va zo'riqishni yengish",daq:3,video:"https://drive.google.com/file/d/1o2mn9UFEKlIKbx9NlSqCJYAmjXzTPVDI/view?usp=sharing",
+  breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:7,scale:1.35},{label:"Chiqaring",sec:8,scale:1}],
   yoriqnoma:"Tilingiz tepa tishlar orqasida tursin. 4 soniya burundan nafas oling, 7 soniya ushlab turing, 8 soniya og'zingizdan \"fuuu\" deb chiqaring. Kuniga 2 mahal, 3 martadan takrorlang."},
  {id:"j01",nomi:"Yelka va bo'yin cho'zish",turi:"jismoniy",icon:"🙆",maqsad:"Uzoq o'tirishdan keyingi zo'riqishni yozish",daq:5,video:"",
+  breathPattern:[{label:"Boshni o'ngga eging",sec:10,scale:1.15},{label:"Boshni chapga eging",sec:10,scale:1.15},{label:"Yelkalarni yuqoriga ko'taring",sec:8,scale:1.3},{label:"Yelkalarni bo'shashtiring",sec:8,scale:1}],
   yoriqnoma:"O'tirgan holatda boshingizni sekin o'ngga, so'ng chapga egib, har tomonda 10 soniya ushlab turing. Yelkalaringizni aylantiring."},
  {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",
+  breathPattern:[{label:"Tez qadamda yuring",sec:60,scale:1.25},{label:"To'xtab, chuqur nafas oling",sec:10,scale:1}],
   yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
  {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
+  breathPattern:[
+    {label:"Oyoq mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+    {label:"Qorin mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+    {label:"Qo'l mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+    {label:"Yelka mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+    {label:"Yuz mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1}
+  ],
   yoriqnoma:"Oyoqdan boshlab har bir mushak guruhini 5 soniya kuchli tarang qiling, keyin bo'shashtiring. Yuqoriga qarab davom eting (oyoq, qorin, qo'l, yelka, yuz)."},
  {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",journal:true,
   yoriqnoma:"Bugungi kunda sizga yoqqan bitta kichik voqeani yozing. Har qanday narsa bo'lishi mumkin — kulgili, iliq yoki oddiy quvonchli lahza."}
@@ -450,25 +529,131 @@ const CASES = [
   togri:"A",izoh:"Halollik va chegara qo'yish — ham o'zingizga, ham o'quvchiga hurmat ko'rsatish."},
  {id:"c03",sarlavha:"Ota-ona bilan muloqot",vaziyat:"G'azablangan ota-ona farzandining bahosidan norozi bo'lib, sizga tanbeh berdi. Qanday javob berasiz?",
   variants:{A:"Ular bilan bahslashasiz",B:"Xotirjam tinglaysiz, keyin faktlar asosida tushuntirasiz",C:"Javob bermaysiz"},
-  togri:"B",izoh:"Faol tinglash va faktlarga tayanish — ishonchni saqlashning kaliti."}
+  togri:"B",izoh:"Faol tinglash va faktlarga tayanish — ishonchni saqlashning kaliti."},
+ {id:"c04",sarlavha:"Uyga vazifa bahonasi",vaziyat:"O'quvchi uyga vazifani bajarmagan, sabab sifatida \"internet o'chib qoldi\" deydi. Bu — uchinchi marta. Nima qilasiz?",
+  variants:{A:"Baholab, jazolaysiz",B:"Sababini tinglab, individual reja tuzasiz va ota-onaga xabar berasiz",C:"E'tibor bermaysiz"},
+  togri:"B",izoh:"Tizimli muammoni aniqlash uchun tinglash va ota-ona bilan hamkorlik zarur, faqat jazo emas."},
+ {id:"c05",sarlavha:"Hamkasb bilan kelishmovchilik",vaziyat:"Hamkasbingiz sizning metodikangizni boshqalar oldida tanqid qildi. Qanday munosabat bildirasiz?",
+  variants:{A:"Javobida uni ham tanqid qilasiz",B:"Keyinroq xilvatda, xotirjam suhbatlashasiz",C:"Butunlay e'tiborsiz qoldirasiz"},
+  togri:"B",izoh:"Ommaviy ziddiyat o'rniga xususiy, xotirjam muloqot professional munosabatlarni saqlaydi."},
+ {id:"c06",sarlavha:"Sinfda uyqu",vaziyat:"Bir o'quvchi darsda muntazam uxlab qoladi. Sababi noma'lum. Nima qilasiz?",
+  variants:{A:"Sinf oldida tanbeh berasiz",B:"Darsdan keyin xususiy suhbat qurib, sababini bilishga harakat qilasiz",C:"Ahamiyat bermaysiz"},
+  togri:"B",izoh:"Xulq-atvor ortida ko'pincha uy sharoiti yoki sog'liq muammosi bo'ladi — avval sababni bilish kerak."},
+ {id:"c07",sarlavha:"Adolatsizlik ayblovi",vaziyat:"Bir o'quvchi \"Siz meni yoqtirmaysiz, shuning uchun past baho qo'yasiz\" deb aytdi. Qanday javob berasiz?",
+  variants:{A:"\"Yo'q, unday emas\" deb qisqa javob berib, mavzuni yopasiz",B:"Baholash mezonlarini aniq va faktlar bilan tushuntirasiz",C:"Jahl bilan javob berasiz"},
+  togri:"B",izoh:"Shaffof mezonlar orqali tushuntirish ishonchni tiklaydi va adolat hissini kuchaytiradi."},
+ {id:"c08",sarlavha:"Texnologik nosozlik",vaziyat:"Dars vaqtida proyektor ishlamay qoldi, butun reja shunga bog'liq edi. Nima qilasiz?",
+  variants:{A:"Darsni bekor qilasiz",B:"Tezda muqobil (taxtada, og'zaki) usulga o'tasiz",C:"Texnik xodimni kutib, vaqtni behuda o'tkazasiz"},
+  togri:"B",izoh:"Moslashuvchanlik — kutilmagan vaziyatlarda eng qimmatli pedagogik ko'nikma."},
+ {id:"c09",sarlavha:"Bulling holati",vaziyat:"Tanaffusda bir o'quvchi boshqasini masxara qilayotganini ko'rdingiz. Nima qilasiz?",
+  variants:{A:"Ko'rmaganga olasiz, bu ularning ishi",B:"Darhol aralashib, xatti-harakatni to'xtatasiz va keyin ikkalasi bilan alohida gaplashasiz",C:"Faqat masxara qilgan o'quvchini jazolaysiz"},
+  togri:"B",izoh:"Darhol aralashish va ikkala tomon bilan ishlash — bullingning oldini olishning to'g'ri yo'li."},
+ {id:"c10",sarlavha:"Sinfda raqobat keskinligi",vaziyat:"Ikki kuchli o'quvchi doimo bir-biri bilan raqobatlashib, atmosferani keskinlashtiryapti. Nima qilasiz?",
+  variants:{A:"Ularni alohida guruhlarga bo'lib, hamkorlik loyihalari berasiz",B:"Raqobatni rag'batlantirasiz, chunki natija yaxshi",C:"E'tibor bermaysiz"},
+  togri:"A",izoh:"Hamkorlikka yo'naltirish sog'lom muhitni saqlaydi va raqobat keskinligini yumshatadi."},
+ {id:"c11",sarlavha:"Shaxsiy hayot va ish chegarasi",vaziyat:"Ota-ona sizga kechqurun soat 23:00 da farzandining bahosi haqida xabar yozdi. Qanday javob berasiz?",
+  variants:{A:"Darhol batafsil javob yozasiz",B:"Xushmuomalalik bilan ish vaqtida javob berishingizni aytasiz",C:"Umuman javob bermaysiz"},
+  togri:"B",izoh:"Aniq chegara qo'yish — professional hurmatni saqlab, o'zingizni ham charchashdan asraydi."},
+ {id:"c12",sarlavha:"Xato tan olish",vaziyat:"Darsda o'quvchi sizning bergan ma'lumotingizda xatolik borligini payqadi va buni ochiq aytdi. Nima qilasiz?",
+  variants:{A:"Xatoni tan olib, rahmat aytasiz",B:"Xijolat bo'lib, mavzuni o'zgartirasiz",C:"O'quvchini noto'g'ri deb da'vo qilasiz"},
+  togri:"A",izoh:"Xatoni ochiq tan olish — obro'ni pasaytirmaydi, aksincha ishonch va hurmatni oshiradi."},
+ {id:"c13",sarlavha:"Kam faol o'quvchi",vaziyat:"Bir o'quvchi hech qachon qo'l ko'tarmaydi, savolga ham juda past ovozda javob beradi. Nima qilasiz?",
+  variants:{A:"Uni majburan har safar so'rайsiz",B:"Kichik, xavfsiz vazifalar orqali asta-sekin ishtirokini oshirasiz",C:"Uni e'tiborsiz qoldirasiz"},
+  togri:"B",izoh:"Bosqichma-bosqich, xavfsiz muhitda ishtirokni rag'batlantirish uzoq muddatda samaraliroq."},
+ {id:"c14",sarlavha:"Imtihon oldidan xavotir",vaziyat:"Muhim imtihon oldidan bir necha o'quvchi juda xavotirlanayotganini sezdingiz. Nima qilasiz?",
+  variants:{A:"\"Xavotirlanmang\" deb o'tib ketasiz",B:"Qisqa nafas mashqi yoki xotirjamlashtiruvchi suhbat o'tkazasiz",C:"Qo'shimcha bosim qo'shasiz, \"yaxshi tayyorlaning\" deysiz"},
+  togri:"B",izoh:"Amaliy xotirjamlashtirish texnikalari xavotirni real ravishda kamaytiradi."},
+ {id:"c15",sarlavha:"Farqli ta'lim ehtiyoji",vaziyat:"Sinfda bir o'quvchi boshqalardan sezilarli sekinroq o'zlashtiradi. Nima qilasiz?",
+  variants:{A:"Uni boshqalar bilan bir xil tezlikda haydaysiz",B:"Individual yondashuv va qo'shimcha yordam rejalashtirasiz",C:"Ota-onasidan uni boshqa sinfga o'tkazishni so'raysiz"},
+  togri:"B",izoh:"Individuallashtirilgan yondashuv — har bir o'quvchining o'ziga xos ehtiyojini hisobga oladi."},
+ {id:"c16",sarlavha:"Rahbariyat bosimi",vaziyat:"Maktab rahbariyati sizdan qisqa muddatda dastur bo'yicha ortiqcha yuklama talab qilyapti. Nima qilasiz?",
+  variants:{A:"Indamay qabul qilib, o'zingizni charchatasiz",B:"Xavotiringizni professional tarzda bildirib, real muddatni muhokama qilasiz",C:"Vazifani sifatsiz bajarasiz"},
+  togri:"B",izoh:"Ochiq, professional muloqot — o'z resurslaringizni himoya qilishning sog'lom yo'li."},
+ {id:"c17",sarlavha:"Ijodiy tanqid",vaziyat:"O'quvchi ijodiy loyihasini taqdim etdi, lekin sifat past. Qanday fikr bildirasiz?",
+  variants:{A:"\"Yaxshi emas\" deb qisqa aytasiz",B:"Kuchli tomonlarini ko'rsatib, keyin yaxshilash yo'llarini taklif qilasiz",C:"Hech narsa demaysiz"},
+  togri:"B",izoh:"\"Sendvich\" usuli (ijobiy-tanqid-ijobiy) motivatsiyani saqlab, rivojlanishga undaydi."},
+ {id:"c18",sarlavha:"Sinfda til bilmaslik",vaziyat:"Yangi ko'chib kelgan o'quvchi darsni tushunishda til bo'yicha qiynalyapti. Nima qilasiz?",
+  variants:{A:"O'zi moslashishini kutasiz",B:"Sodda til, vizual materiallar va sinfdoshlar yordamini jalb qilasiz",C:"Uni sinfda e'tiborsiz qoldirasiz"},
+  togri:"B",izoh:"Qo'shimcha vizual va ijtimoiy qo'llab-quvvatlash moslashuvni tezlashtiradi."},
+ {id:"c19",sarlavha:"O'z xatosi uchun uzr",vaziyat:"G'azab ustida bir o'quvchiga qattiqroq gapirib yubordingiz, keyin pushaymon bo'ldingiz. Nima qilasiz?",
+  variants:{A:"Hech narsa bo'lmagandek davom etasiz",B:"O'quvchidan xususiy uzr so'raysiz",C:"Boshqalar oldida yana bir bor tanbeh berasiz"},
+  togri:"B",izoh:"Xato qilganda uzr so'rash — pedagog uchun kuchsizlik emas, aksincha hurmatni mustahkamlaydi."},
+ {id:"c20",sarlavha:"Guruh ishida beadolat taqsimot",vaziyat:"Guruh loyihasida bir o'quvchi butun ishni o'zi qilib, boshqalari hech narsa qilmadi. Baholashda nima qilasiz?",
+  variants:{A:"Hammaga bir xil baho qo'yasiz",B:"Har birining shaxsiy hissasini alohida baholaysiz",C:"Faqat guruh rahbariga baho qo'yasiz"},
+  togri:"B",izoh:"Individual hissa asosida baholash — adolat va mas'uliyatni ta'minlaydi."},
+ {id:"c21",sarlavha:"Sinfda telefon muammosi",vaziyat:"Dars vaqtida o'quvchi yashirincha telefonda o'ynayapti. Nima qilasiz?",
+  variants:{A:"Sinf oldida telefonni tortib olasiz",B:"Yaqinlashib, xotirjam eslatasiz, keyin qoidani qayta tushuntirasiz",C:"Ko'rmaganga olasiz"},
+  togri:"B",izoh:"Nozik, hurmatli eslatma — sharmandalikka olib kelmasdan qoidaga rioya qilishni ta'minlaydi."},
+ {id:"c22",sarlavha:"Kasbiy shubha lahzasi",vaziyat:"Bir necha kundan buyon o'z kasbiy mahoratingizga shubha qilyapsiz. Nima qilasiz?",
+  variants:{A:"Bu his-tuyg'ularni bostirasiz, ishni davom ettirasiz",B:"Ishonchli hamkasb yoki mentor bilan bo'lishasiz",C:"Kasbni tashlab ketish haqida qaror qabul qilasiz"},
+  togri:"B",izoh:"Kasbiy shubha — normal jarayon. Qo'llab-quvvatlash tarmog'i bilan bo'lishish yengillik beradi."},
+ {id:"c23",sarlavha:"Ota-onaning haddan tashqari himoyasi",vaziyat:"Ota-ona farzandining har bir kichik xatosini sizning aybingiz deb hisoblaydi. Nima qilasiz?",
+  variants:{A:"Bahslashib, o'zingizni oqlaysiz",B:"Xotirjam, faktlarga asoslangan holda, farzandning rivojlanishiga qanday hamkorlik qilish mumkinligini taklif qilasiz",C:"Ota-ona bilan muloqotni to'xtatasiz"},
+  togri:"B",izoh:"Hamkorlik taklifi — ziddiyatni hamkorlikka aylantiradi, bola manfaatiga xizmat qiladi."},
+ {id:"c24",sarlavha:"Sinfda diniy yoki madaniy farq",vaziyat:"Sinfda turli e'tiqod/madaniyatdagi o'quvchilar orasida kichik tushunmovchilik yuz berdi. Nima qilasiz?",
+  variants:{A:"Mavzuni umuman ko'tarmaysiz",B:"Hurmat va xilma-xillik haqida ochiq, hurmatli suhbat tashkil qilasiz",C:"Bir tomonni qo'llab-quvvatlaysiz"},
+  togri:"B",izoh:"Ochiq va hurmatli muloqot — xilma-xillikni tushunish va qabul qilishga yordam beradi."},
+ {id:"c25",sarlavha:"O'z vaqtingizni boshqarish",vaziyat:"Ish, uy vazifalarini tekshirish va shaxsiy hayot orasida vaqt yetishmayapti. Nima qilasiz?",
+  variants:{A:"Kechalari uxlamay ishlaysiz",B:"Ustuvorliklarni belgilab, ba'zi vazifalarni soddalashtirasiz yoki delegatsiya qilasiz",C:"Barcha narsani to'liq bajarishga urinib, doim charchagan yurasiz"},
+  togri:"B",izoh:"Vaqtni boshqarish va ustuvorlik belgilash — kasbiy charchashning oldini oladi."},
+ {id:"c26",sarlavha:"Salbiy fikr-mulohaza",vaziyat:"Ota-onalar yig'ilishida bir ota-ona sizning metodikangizni ochiq tanqid qildi. Nima qilasiz?",
+  variants:{A:"Himoyaga o'tib, bahslashasiz",B:"Fikrini tinglab, keyin professional tarzda o'z yondashuvingizni tushuntirasiz",C:"Yig'ilishni tark etasiz"},
+  togri:"B",izoh:"Tinglash va professional javob — hurmatni saqlab, ishonchni mustahkamlaydi."},
+ {id:"c27",sarlavha:"O'quvchi confidentiality (sirni saqlash)",vaziyat:"O'quvchi sizga shaxsiy, og'ir muammosini \"hech kimga aytmang\" deb ishonib gapirdi. Bu jiddiy xavf tug'dirishi mumkin. Nima qilasiz?",
+  variants:{A:"Va'dangizga qat'iy amal qilib, hech kimga aytmaysiz",B:"O'quvchiga tushuntirib, uning xavfsizligi uchun mutaxassis/rahbariyatga murojaat qilasiz",C:"Darhol butun sinfga aytib yuborasiz"},
+  togri:"B",izoh:"Xavfsizlik masalasida maxfiylikdan ustun narsa yo'q — mutaxassisga yo'naltirish to'g'ri va mas'uliyatli yo'l."},
+ {id:"c28",sarlavha:"Yangi metodika qarshiligi",vaziyat:"Yangi ta'lim metodikasini joriy qilmoqchisiz, lekin hamkasblar qarshilik ko'rsatmoqda. Nima qilasiz?",
+  variants:{A:"Yolg'iz, ularsiz davom ettirasiz",B:"Kichik natijalarni ko'rsatib, bosqichma-bosqich ishontirasiz",C:"G'oyadan butunlay voz kechasiz"},
+  togri:"B",izoh:"Kichik, ko'rinadigan natijalar orqali ishontirish — o'zgarishlarni qabul qildirishning samarali yo'li."},
+ {id:"c29",sarlavha:"Sinfdagi jim norozilik",vaziyat:"Butun sinf darsdan norozi, lekin hech kim ochiq aytmayapti, faqat sovuq muносabat bildirishmoqda. Nima qilasiz?",
+  variants:{A:"E'tibor bermay davom etasiz",B:"Ochiq, xavfsiz muhitda fikrlarini bilishga harakat qilasiz",C:"Sinfni jazolaysiz"},
+  togri:"B",izoh:"Ochiq muloqot uchun xavfsiz makon yaratish — yashirin noroziliкni konstruktiv fikr-mulohazaga aylantiradi."},
+ {id:"c30",sarlavha:"O'zingizga g'amxo'rlik qilish qiyinligi",vaziyat:"Boshqalarga yordam berishga o'rganib qolgansiz, lekin o'zingizga vaqt ajratish sizga \"xudbinlik\" kabi tuyuladi. Nima qilasiz?",
+  variants:{A:"O'zingizni doim orqa planga qo'yaverasiz",B:"O'zingizga g'amxo'rlik qilish — uzoq muddatda boshqalarga ham foydali ekanini tan olasiz",C:"Charchoqni tan olmay, ishni davom ettiraverasiz"},
+  togri:"B",izoh:"O'z-o'ziga g'amxo'rlik — xudbinlik emas, balki barqaror va samarali pedagog bo'lishning zarur sharti."}
 ];
 
 /* ---------------- STATE ---------------- */
 const LS_KEY = "pedagog_wellness_v1";
-function defaultState(){ return {results:{}, fitnesDone:[], casesDone:{}, profile:{name:"", age:"", staj:"", email:""}}; }
+const TG = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+if(TG){ TG.ready(); TG.expand(); }
+
+function defaultState(){ return {results:{}, fitnesDone:[], casesDone:{}, profile:{name:"", age:"", staj:"", email:""}, routine:{}}; }
 function loadState(){
   try{
     const s = JSON.parse(localStorage.getItem(LS_KEY));
     if(!s) return defaultState();
-    if(!s.profile) s.profile = {name:"", age:"", staj:""};
+    if(!s.profile) s.profile = {name:"", age:"", staj:"", email:""};
+    if(!s.routine) s.routine = {};
     return s;
   }
   catch(e){ return defaultState(); }
 }
-function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(STATE));
+  if(TG && TG.CloudStorage){ TG.CloudStorage.setItem(LS_KEY, JSON.stringify(STATE), function(){}); }
+}
 let STATE = loadState();
 let VIEW = {name: STATE.profile.name ? "home" : "onboarding"};
 let ANSWERS = {};
+
+/* Telegram CloudStorage'dan holatni tekshirib, agar u yerda mavjud bo'lsa (localStorage tozalangan bo'lsa ham) tiklaydi. */
+function bootFromCloud(){
+  if(!(TG && TG.CloudStorage)) { render(); return; }
+  TG.CloudStorage.getItem(LS_KEY, function(err, value){
+    if(!err && value){
+      try{
+        const cloud = JSON.parse(value);
+        if(cloud && cloud.profile && cloud.profile.name){
+          STATE = cloud;
+          if(!STATE.routine) STATE.routine = {};
+          VIEW = {name:"home"};
+        }
+      }catch(e){}
+    }
+    render();
+  });
+}
 
 /* ---------------- ICONS ---------------- */
 const ICONS = {
@@ -511,7 +696,7 @@ function badgeSvg(level){
 
 /* ---------------- HELPERS ---------------- */
 function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
-function go(view){ VIEW = view; ANSWERS = {}; render(); window.scrollTo(0,0); }
+function go(view){ if(BREATH_TIMER){clearTimeout(BREATH_TIMER); BREATH_TIMER=null;} VIEW = view; ANSWERS = {}; render(); window.scrollTo(0,0); }
 function fmtDate(){ const d=new Date(); return d.toLocaleDateString('uz-UZ'); }
 
 function scaleLevel(val, low, high){
@@ -629,6 +814,90 @@ async function saveOnboarding(){
   go({name:'home'});
 }
 
+/* ---------------- KUN TARTIBI (Toshkent vaqti, UTC+5) ---------------- */
+const ROUTINE_SCHEDULE = [
+  {id:'morning', time:'08:00', title:'Ertalabki niyat', desc:"Kuningizni tinch va rejali boshlang", icon:'🌅'},
+  {id:'lunch', time:'13:00', title:'Tushlik tanaffusi', desc:"Qisqa nafas mashqi bilan energiyangizni tiklang", icon:'🍵'},
+  {id:'evening', time:'20:00', title:'Kun yakuni', desc:"Bugungi kuningizni xayolingizda jamlang", icon:'🌙'}
+];
+function tashkentNowStr(){
+  const d = new Date(Date.now() + 5*3600*1000);
+  const hh = String(d.getUTCHours()).padStart(2,'0');
+  const mm = String(d.getUTCMinutes()).padStart(2,'0');
+  return `${hh}:${mm}`;
+}
+function tashkentDateKey(offsetDays){
+  offsetDays = offsetDays || 0;
+  const d = new Date(Date.now() + 5*3600*1000 + offsetDays*86400000);
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+}
+function routineStatus(idx, todayKey){
+  const nowStr = tashkentNowStr();
+  const item = ROUTINE_SCHEDULE[idx];
+  const done = STATE.routine[todayKey] && STATE.routine[todayKey][item.id];
+  if(done) return 'done';
+  const nextTime = ROUTINE_SCHEDULE[idx+1] ? ROUTINE_SCHEDULE[idx+1].time : '23:59';
+  if(nowStr < item.time) return 'pending';
+  if(nowStr < nextTime) return 'active';
+  return 'missed';
+}
+function markRoutineDone(id){
+  const key = tashkentDateKey(0);
+  if(!STATE.routine[key]) STATE.routine[key] = {};
+  STATE.routine[key][id] = true;
+  saveState(); syncSave();
+  render();
+}
+function dismissRoutineSummary(dateKey){
+  if(!STATE.routineSummarySeen) STATE.routineSummarySeen = {};
+  STATE.routineSummarySeen[dateKey] = true;
+  saveState();
+  render();
+}
+function routineWidgetHtml(){
+  const todayKey = tashkentDateKey(0);
+  const statusMeta = {
+    pending:{label:'Kutilmoqda', cls:'r-pending'},
+    active:{label:'Hozir', cls:'r-active'},
+    done:{label:'Bajarildi ✅', cls:'r-done'},
+    missed:{label:'Bajarilmadi', cls:'r-missed'}
+  };
+  const items = ROUTINE_SCHEDULE.map((item, idx)=>{
+    const st = routineStatus(idx, todayKey);
+    const meta = statusMeta[st];
+    return `<div class="routine-row ${meta.cls}">
+      <div class="routine-icon">${item.icon}</div>
+      <div class="routine-mid">
+        <div class="routine-title">${item.title} <span class="routine-time">${item.time}</span></div>
+        <div class="routine-desc">${item.desc}</div>
+      </div>
+      ${st==='active' ? `<button class="routine-btn" onclick="markRoutineDone('${item.id}')">Bajardim</button>` : `<span class="routine-status">${meta.label}</span>`}
+    </div>`;
+  }).join('');
+
+  // Kecha sarhisobi (agar hali ko'rsatilmagan bo'lsa)
+  const yKey = tashkentDateKey(-1);
+  let summaryHtml = '';
+  if(STATE.routine[yKey] && (!STATE.routineSummarySeen || !STATE.routineSummarySeen[yKey])){
+    const doneCount = ROUTINE_SCHEDULE.filter(it=>STATE.routine[yKey][it.id]).length;
+    const total = ROUTINE_SCHEDULE.length;
+    let msg;
+    if(doneCount===total) msg = "Kecha barcha rejalarni bajardingiz! Ajoyib intizom 🌟";
+    else if(doneCount===0) msg = "Kecha birorta rejani bajarolmadingiz — bugun qaytadan boshlaymiz, hammasi joyida 🤍";
+    else msg = `Kecha ${doneCount}/${total} rejani bajardingiz — yaxshi natija, davom eting 💪`;
+    summaryHtml = `<div class="routine-summary">
+      <span>${msg}</span>
+      <button class="routine-close" onclick="dismissRoutineSummary('${yKey}')">✕</button>
+    </div>`;
+  }
+
+  return `<div class="card routine-card">
+    <div class="eyebrow">Kun tartibi</div>
+    ${summaryHtml}
+    ${items}
+  </div>`;
+}
+
 /* ---------------- HOME ---------------- */
 function renderHome(){
   const tests = [
@@ -639,12 +908,22 @@ function renderHome(){
   const name = STATE.profile.name ? STATE.profile.name.split(' ')[0] : '';
   const greetings = ["Xush kelibsiz","Yaxshi ko'rdik","Salom"];
   const greet = name ? `${greetings[new Date().getDate()%greetings.length]}, ${name}` : "Xush kelibsiz";
+  const todayCaseIds = todaysCases().map(c=>c.id);
+  const hasUnseenCase = todayCaseIds.some(id => !STATE.casesDone[id]);
   const body = `
     ${topbar('Pedagog Wellness','Bugungi holatingizni biling')}
     <main>
       <div class="eyebrow">Diagnostika</div>
       <div class="section-title">${greet} 🌸</div>
-      <p class="section-sub">O'zingizni yaxshi anglash — kasbiy charchashning oldini olishning birinchi qadami. Quyidagi testlardan birini boshlang.</p>
+      <p class="section-sub">O'zingizni yaxshi anglash — kasbiy charchashning oldini olishning birinchi qadami.</p>
+      ${routineWidgetHtml()}
+      <div class="divider-label" style="margin-top:20px;">Diagnostika</div>
+      ${hasUnseenCase ? `
+      <div class="card test-card" style="background:linear-gradient(135deg,var(--coral),var(--rose));border:none;" onclick="go({name:'cases'})">
+        <div class="test-icon" style="background:rgba(255,255,255,0.25);color:#fff;">🎯</div>
+        <div><h3 style="color:#fff;">Bugungi 3 ta yangi vaziyat! ✨</h3><p style="color:rgba(255,255,255,0.9);">Cases bo'limida sizni kutmoqda</p></div>
+        <div class="chev" style="color:#fff;">${ICONS.chev}</div>
+      </div>` : ''}
       ${tests.map(t => `
         <div class="card test-card" onclick="go({name:'${t.key}'})">
           <div class="test-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
@@ -1015,6 +1294,41 @@ function analyzeJournal(text){
   return {emoji:pool.emoji, anim:pool.anim, line: pool.lines[Math.floor(Math.random()*pool.lines.length)]};
 }
 
+/* ---------------- BREATHING ANIMATION WIDGET ---------------- */
+let BREATH_TIMER = null;
+function breathWidgetHtml(pattern){
+  return `<div class="card breath-card">
+    <div class="eyebrow">Animatsion yo'lboshchi</div>
+    <div class="breath-stage">
+      <div class="breath-circle" id="breath-circle"><span id="breath-label">Boshlash uchun bosing</span></div>
+    </div>
+    <button class="btn secondary" id="breath-toggle-btn" onclick="toggleBreathAnim()">Boshlash</button>
+  </div>`;
+}
+function toggleBreathAnim(){
+  const btn = document.getElementById('breath-toggle-btn');
+  if(BREATH_TIMER){
+    clearTimeout(BREATH_TIMER); BREATH_TIMER = null;
+    document.getElementById('breath-label').textContent = "To'xtatildi";
+    document.getElementById('breath-circle').style.transform = 'scale(1)';
+    btn.textContent = "Qayta boshlash";
+    return;
+  }
+  const pattern = VIEW.breathPattern;
+  btn.textContent = "To'xtatish";
+  runBreathCycle(pattern, 0);
+}
+function runBreathCycle(pattern, idx){
+  const circle = document.getElementById('breath-circle');
+  const label = document.getElementById('breath-label');
+  if(!circle) { BREATH_TIMER=null; return; }
+  const phase = pattern[idx % pattern.length];
+  label.textContent = phase.label;
+  circle.style.transform = `scale(${phase.scale||1})`;
+  circle.style.transition = `transform ${phase.sec}s ease-in-out`;
+  BREATH_TIMER = setTimeout(()=> runBreathCycle(pattern, idx+1), phase.sec*1000);
+}
+
 function renderFitnesDetail(id){
   const f = FITNES.find(x=>x.id===id);
   const done = STATE.fitnesDone.includes(id);
@@ -1045,6 +1359,7 @@ function renderFitnesDetail(id){
     ${topbar(f.nomi, f.maqsad, true)}
     <main>
       ${videoEmbedHtml(f.video)}
+      ${f.breathPattern ? breathWidgetHtml(f.breathPattern) : ''}
       <div class="card">
         <div class="eyebrow">Yo'riqnoma</div>
         <p style="white-space:pre-line;font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
@@ -1053,6 +1368,7 @@ function renderFitnesDetail(id){
     </main>
     ${bottomNav('fitnes')}
   `;
+  VIEW.breathPattern = f.breathPattern;
   document.getElementById('app').innerHTML = body;
 }
 
@@ -1082,19 +1398,40 @@ function toggleFitnesDone(id){
 }
 
 /* ---------------- CASES ---------------- */
+/* Kuniga 3 ta case tanlash: sana asosida, hamma foydalanuvchiga bir xil kun uchun bir xil 3 ta chiqadi,
+   pool tugagach yana boshidan aylanadi (rotatsiya). */
+function todaysCases(){
+  const daysSinceEpoch = Math.floor((Date.now() + 5*3600*1000) / 86400000);
+  const n = CASES.length;
+  const start = (daysSinceEpoch * 3) % n;
+  const picked = [];
+  for(let i=0;i<3;i++) picked.push(CASES[(start+i) % n]);
+  return picked;
+}
+
 function renderCases(){
+  const today = todaysCases();
+  const todayIds = today.map(c=>c.id);
+  const rest = CASES.filter(c=>!todayIds.includes(c.id));
+  function caseCard(c, isNew){
+    const done = STATE.casesDone[c.id];
+    return `<div class="card test-card" onclick="go({name:'case_detail', id:'${c.id}'})">
+      <div class="test-icon" style="background:${isNew?'var(--teal-100)':'var(--cream-2)'};color:${isNew?'var(--teal-700)':'var(--ink-soft)'}">🎯</div>
+      <div>
+        <h3>${c.sarlavha} ${done?(done.correct?'✅':'🔁'):''} ${isNew && !done ? '<span class="case-tag" style="margin-left:6px;">Yangi</span>':''}</h3>
+        <p>${c.vaziyat.slice(0,50)}...</p>
+      </div>
+      <div class="chev">${ICONS.chev}</div>
+    </div>`;
+  }
   const body = `
     ${topbar('Cases','Amaliy pedagogik vaziyatlar')}
     <main>
       <p class="section-sub">Real vaziyatlarni o'qing va eng maqbul yechimni tanlang.</p>
-      ${CASES.map(c=>{
-        const done = STATE.casesDone[c.id];
-        return `<div class="card test-card" onclick="go({name:'case_detail', id:'${c.id}'})">
-          <div class="test-icon" style="background:var(--cream-2);color:var(--ink-soft)">🎯</div>
-          <div><h3>${c.sarlavha} ${done?(done.correct?'✅':'🔁'):''}</h3><p>${c.vaziyat.slice(0,50)}...</p></div>
-          <div class="chev">${ICONS.chev}</div>
-        </div>`;
-      }).join('')}
+      <div class="divider-label">✨ Bugungi 3 ta vaziyat</div>
+      ${today.map(c=>caseCard(c,true)).join('')}
+      <div class="divider-label">Barcha vaziyatlar (${CASES.length})</div>
+      ${rest.map(c=>caseCard(c,false)).join('')}
     </main>
     ${bottomNav('cases')}
   `;
@@ -1134,10 +1471,30 @@ function pickCase(id, choice){
 }
 
 /* ---------------- PROFIL ---------------- */
+function todaysFitnesDoneCount(){
+  // fitnesDone massivida sana yozilmagani uchun, hozircha umumiy sonni ko'rsatamiz;
+  // journal (Minnatdorchilik) uchun sana bor, shundan bugungini aniqlaymiz.
+  let count = 0;
+  if(STATE.journalLast && STATE.journalLast.date === fmtDate()) count++;
+  return count;
+}
+function rewardBadge(){
+  // Uchala testdan eng so'nggi natijalar orasida eng "yaxshi" darajani topamiz
+  const r = STATE.results;
+  const levels = [r.xoll, r.mbi, r.xeym].filter(Boolean).map(x=>x.level);
+  if(levels.length===0) return null;
+  if(levels.includes('green')) return {emoji:'🏆', title:'Barqarorlik medali', note:'Natijalaringizdan biri yuqori darajada — ajoyib!'};
+  if(levels.includes('red')) return {emoji:'🤍', title:'O\'zingizga g\'amxo\'rlik vaqti', note:'Bugun kichik bir mashqni bajarib ko\'ring — bu katta farq qiladi.'};
+  return {emoji:'🌱', title:'Rivojlanish yo\'lida', note:'Har kuni kichik qadam — katta natijaga olib boradi.'};
+}
 function renderProfil(){
   const r = STATE.results;
   const doneCount = STATE.fitnesDone.length;
   const casesCount = Object.keys(STATE.casesDone).length;
+  const todayFitnes = todaysFitnesDoneCount();
+  const todayCases = Object.values(STATE.casesDone).filter(c=>c.date===fmtDate()).length;
+  const reward = rewardBadge();
+
   function miniCard(title, data, goName){
     if(!data){
       return `<div class="card">
@@ -1163,17 +1520,29 @@ function renderProfil(){
   const body = `
     ${topbar('Profil','Sizning yo\'lingiz')}
     <main>
-      <div class="profile-header">
-        <div class="avatar">${initial}</div>
-        <div>
-          <div class="profile-name">${p.name || 'Pedagog'}</div>
-          <div class="profile-sub">${metaBits.join(' · ') || 'Ma\'lumot kiritilmagan'}</div>
+      <div class="profile-hero">
+        <div class="profile-header" style="margin-bottom:14px;">
+          <div class="avatar">${initial}</div>
+          <div>
+            <div class="profile-name">${p.name || 'Pedagog'}</div>
+            <div class="profile-sub">${metaBits.join(' · ') || 'Ma\'lumot kiritilmagan'}</div>
+          </div>
+          <button class="edit-fab" onclick="go({name:'edit_profile'})">✏️</button>
         </div>
+        ${reward ? `<div class="reward-strip">
+          <div class="reward-emoji">${reward.emoji}</div>
+          <div><div class="reward-title">${reward.title}</div><div class="reward-note">${reward.note}</div></div>
+        </div>` : ''}
       </div>
-      <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-        <div style="font-size:12.5px;color:var(--ink-soft)">${doneCount} ta mashq bajarildi · ${casesCount} ta keys yechildi</div>
-        <button class="btn secondary" style="width:auto;padding:8px 14px;font-size:12.5px;" onclick="go({name:'edit_profile'})">Tahrirlash</button>
+
+      <div class="divider-label">Bugungi kun (${fmtDate()})</div>
+      <div class="today-grid">
+        <div class="today-stat"><div class="today-num">${todayFitnes}</div><div class="today-label">Fitnes / refleksiya</div></div>
+        <div class="today-stat"><div class="today-num">${todayCases}</div><div class="today-label">Yechilgan keys</div></div>
+        <div class="today-stat"><div class="today-num">${doneCount}</div><div class="today-label">Jami mashqlar</div></div>
+        <div class="today-stat"><div class="today-num">${casesCount}</div><div class="today-label">Jami keyslar</div></div>
       </div>
+
       <div class="divider-label">Diagnostika natijalari</div>
       ${miniCard('Emotsional Intellekt', r.xoll, 'xoll_intro')}
       ${miniCard('Kasbiy charchash', r.mbi, 'mbi_intro')}
@@ -1240,7 +1609,7 @@ function render(){
     default: return renderHome();
   }
 }
-render();
+bootFromCloud();
 </script>
 </body>
 </html>
