@@ -232,6 +232,17 @@
   }
   .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
 
+  .video-open-card{
+    display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--teal-700),var(--teal-500));
+    color:#fff;border-radius:var(--radius-sm);padding:16px;margin-bottom:14px;text-decoration:none;
+  }
+  .video-open-icon{
+    width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.22);
+    display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+  }
+  .video-open-title{font-size:14px;font-weight:700;}
+  .video-open-sub{font-size:11.5px;color:rgba(255,255,255,0.8);margin-top:1px;}
+
   .breath-card{text-align:center;}
   .breath-stage{display:flex;align-items:center;justify-content:center;padding:20px 0;}
   .breath-circle{
@@ -241,6 +252,15 @@
     color:#fff;font-weight:700;font-size:12.5px;text-align:center;padding:10px;
     box-shadow:0 8px 24px -8px rgba(47,133,119,0.5);
   }
+  .breath-stage.walk-mode{flex-direction:column;gap:14px;}
+  .walk-icon{font-size:44px;height:70px;display:flex;align-items:center;justify-content:center;}
+  .walk-icon #walk-emoji{display:inline-block;}
+  .walk-icon #walk-emoji.bounce{animation:walkBounce 0.55s ease-in-out infinite;}
+  @keyframes walkBounce{
+    0%,100%{transform:translateX(-14px) rotate(-10deg);}
+    50%{transform:translateX(14px) rotate(10deg);}
+  }
+  .walk-label{font-size:13.5px;font-weight:700;color:var(--teal-700);}
 
   .case-tag{
     display:inline-block;font-size:10.5px;font-weight:700;
@@ -270,6 +290,7 @@
     border:1px solid var(--line);
   }
   .reward-emoji{font-size:30px;flex-shrink:0;}
+  .reward-badge-img{width:52px;height:52px;flex-shrink:0;}
   .reward-title{font-size:13.5px;font-weight:700;color:var(--ink);}
   .reward-note{font-size:12px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
   .today-grid{
@@ -310,6 +331,8 @@
     padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;flex-shrink:0;
     font-family:'Manrope',sans-serif;
   }
+  .routine-edit-link{background:none;border:none;color:var(--teal-500);font-size:12px;font-weight:700;cursor:pointer;}
+  .routine-del-btn{background:none;border:none;font-size:16px;cursor:pointer;flex-shrink:0;}
 
   .avatar{
     width:56px;height:56px;border-radius:16px;
@@ -484,11 +507,8 @@ const FITNES = [
  {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",maqsad:"Charchoq va zo'riqishni yengish",daq:3,video:"https://drive.google.com/file/d/1o2mn9UFEKlIKbx9NlSqCJYAmjXzTPVDI/view?usp=sharing",
   breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:7,scale:1.35},{label:"Chiqaring",sec:8,scale:1}],
   yoriqnoma:"Tilingiz tepa tishlar orqasida tursin. 4 soniya burundan nafas oling, 7 soniya ushlab turing, 8 soniya og'zingizdan \"fuuu\" deb chiqaring. Kuniga 2 mahal, 3 martadan takrorlang."},
- {id:"j01",nomi:"Yelka va bo'yin cho'zish",turi:"jismoniy",icon:"🙆",maqsad:"Uzoq o'tirishdan keyingi zo'riqishni yozish",daq:5,video:"",
-  breathPattern:[{label:"Boshni o'ngga eging",sec:10,scale:1.15},{label:"Boshni chapga eging",sec:10,scale:1.15},{label:"Yelkalarni yuqoriga ko'taring",sec:8,scale:1.3},{label:"Yelkalarni bo'shashtiring",sec:8,scale:1}],
-  yoriqnoma:"O'tirgan holatda boshingizni sekin o'ngga, so'ng chapga egib, har tomonda 10 soniya ushlab turing. Yelkalaringizni aylantiring."},
- {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",
-  breathPattern:[{label:"Tez qadamda yuring",sec:60,scale:1.25},{label:"To'xtab, chuqur nafas oling",sec:10,scale:1}],
+ {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",visualType:"walk",
+  breathPattern:[{label:"Tez qadamda yuring",sec:60,walking:true},{label:"To'xtab, chuqur nafas oling",sec:10,walking:false}],
   yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
  {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
   breathPattern:[
@@ -507,16 +527,24 @@ const FITNES = [
    YouTube (watch?v=, youtu.be/) va Google Drive (file/d/ID/view) havolalarini qo'llab-quvvatlaydi. */
 function videoEmbedHtml(url){
   if(!url) return '';
-  let embedSrc = null;
   const yt1 = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
   const yt2 = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
   const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if(yt1) embedSrc = `https://www.youtube.com/embed/${yt1[1]}`;
-  else if(yt2) embedSrc = `https://www.youtube.com/embed/${yt2[1]}`;
-  else if(drive) embedSrc = `https://drive.google.com/file/d/${drive[1]}/preview`;
-  else embedSrc = url; // boshqa to'g'ridan-to'g'ri havola bo'lsa, shunday sinab ko'ramiz
 
-  return `<div class="video-wrap"><iframe src="${embedSrc}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>`;
+  if(yt1 || yt2){
+    const embedSrc = `https://www.youtube.com/embed/${(yt1||yt2)[1]}`;
+    return `<div class="video-wrap"><iframe src="${embedSrc}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>`;
+  }
+  if(drive){
+    // Google Drive iframe ko'plab muhitlarda (jumladan Telegram ichida) ishlamaydi,
+    // shuning uchun ishonchli "yangi oynada ochish" kartochkasi ko'rsatamiz.
+    const openUrl = `https://drive.google.com/file/d/${drive[1]}/view`;
+    return `<a href="${openUrl}" target="_blank" rel="noopener" class="video-open-card">
+      <div class="video-open-icon">▶</div>
+      <div><div class="video-open-title">Video ko'rsatmani ko'rish</div><div class="video-open-sub">Yangi oynada ochiladi</div></div>
+    </a>`;
+  }
+  return `<div class="video-wrap"><iframe src="${url}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>`;
 }
 
 /* ---------------- DATA: CASES ---------------- */
@@ -610,7 +638,67 @@ const CASES = [
   togri:"B",izoh:"Ochiq muloqot uchun xavfsiz makon yaratish — yashirin noroziliкni konstruktiv fikr-mulohazaga aylantiradi."},
  {id:"c30",sarlavha:"O'zingizga g'amxo'rlik qilish qiyinligi",vaziyat:"Boshqalarga yordam berishga o'rganib qolgansiz, lekin o'zingizga vaqt ajratish sizga \"xudbinlik\" kabi tuyuladi. Nima qilasiz?",
   variants:{A:"O'zingizni doim orqa planga qo'yaverasiz",B:"O'zingizga g'amxo'rlik qilish — uzoq muddatda boshqalarga ham foydali ekanini tan olasiz",C:"Charchoqni tan olmay, ishni davom ettiraverasiz"},
-  togri:"B",izoh:"O'z-o'ziga g'amxo'rlik — xudbinlik emas, balki barqaror va samarali pedagog bo'lishning zarur sharti."}
+  togri:"B",izoh:"O'z-o'ziga g'amxo'rlik — xudbinlik emas, balki barqaror va samarali pedagog bo'lishning zarur sharti."},
+ {id:"c31",sarlavha:"O'quvchi ko'chirma ishlatgan",vaziyat:"O'quvchi topshirgan insho internetdan ko'chirilgani aniq bo'lib qoldi. Qanday yo'l tutasiz?",
+  variants:{A:"Darhol nol baho qo'yib, jazolaysiz",B:"O'quvchi bilan xususiy suhbatlashib, sababini bilasiz va qayta yozish imkonini berasiz",C:"E'tibor bermay o'tkazib yuborasiz"},
+  togri:"B",izoh:"Tarbiyaviy yondashuv jazolashdan ko'ra samaraliroq — sabab aniqlansa, kelajakda takrorlanmaydi."},
+ {id:"c32",sarlavha:"Sinfda uyat holat",vaziyat:"Dars vaqtida o'zingiz kichik xatoga yo'l qo'ydingiz va o'quvchilar buni payqab qolishdi. Nima qilasiz?",
+  variants:{A:"Xatoni tan olib, ochiqchasiga tuzatasiz",B:"Xatoni yashirishga harakat qilasiz",C:"Mavzuni butunlay o'zgartirib yuborasiz"},
+  togri:"A",izoh:"Xatoni tan olish — o'qituvchining ham inson ekanini ko'rsatadi va o'quvchilarga halollik namunasi bo'ladi."},
+ {id:"c33",sarlavha:"Ota-onaning haddan tashqari aralashuvi",vaziyat:"Bir ota-ona har kuni farzandining bahosi haqida sizga qo'ng'iroq qilib, bezovta qilmoqda. Qanday chegara qo'yasiz?",
+  variants:{A:"Qo'ng'iroqlarga umuman javob bermay qo'yasiz",B:"Muloyimlik bilan aloqa vaqtini va usulini (masalan haftalik hisobot) taklif qilasiz",C:"Har safar uzoq va batafsil javob berib, vaqtingizni sarflayverasiz"},
+  togri:"B",izoh:"Aniq va hurmatli chegara qo'yish — ham ota-ona bilan aloqani saqlaydi, ham sizning vaqtingizni himoya qiladi."},
+ {id:"c34",sarlavha:"Kam ta'minlangan sinf",vaziyat:"Sinfingizda zarur o'quv materiallari (kitob, doska belgisi) yetishmaydi. Nima qilasiz?",
+  variants:{A:"Materiallar kelguncha kutib, dars sifatini pasaytirasiz",B:"O'zingiz mavjud resurslardan ijodiy foydalanib, muqobil yechim topasiz",C:"O'quvchilardan pul yig'ib, o'zingiz sotib olasiz"},
+  togri:"B",izoh:"Ijodiy yondashuv — cheklangan resurslar sharoitida ham sifatli ta'lim berish imkonini beradi."},
+ {id:"c35",sarlavha:"Guruh ishida nizо",vaziyat:"Guruh loyihasida bir o'quvchi hech narsa qilmay, boshqalarning mehnatidan foydalanmoqchi. Guruh a'zolari shikoyat qilishmoqda. Nima qilasiz?",
+  variants:{A:"Hamma a'zoga bir xil baho qo'yaverasiz",B:"Har bir a'zoning individual hissasini alohida baholaysiz",C:"Butun guruhni jazolaysiz"},
+  togri:"B",izoh:"Individual baholash — adolatni ta'minlaydi va mas'uliyatsizlikni rag'batlantirmaydi."},
+ {id:"c36",sarlavha:"Sinfdagi kamsitish holati",vaziyat:"Bir o'quvchi millati yoki tashqi ko'rinishi tufayli boshqalar tomonidan masxara qilinmoqda. Nima qilasiz?",
+  variants:{A:"Darhol aralashib, bunday xulq-atvor mutlaqo qabul qilinmasligini tushuntirasiz",B:"O'quvchilar o'zlari hal qilishini kutasiz",C:"Faqat jabrlanuvchini chetga chaqirib, \"e'tibor berma\" deysiz"},
+  togri:"A",izoh:"Kamsitishga nisbatan o'qituvchining darhol va aniq pozitsiyasi — sinfda xavfsiz muhitni shakllantiradi."},
+ {id:"c37",sarlavha:"Sovg'a taklif qilingan holat",vaziyat:"Ota-ona farzandiga \"yaxshiroq munosabatda bo'lishingiz\" evaziga qimmat sovg'a taklif qilmoqda. Nima qilasiz?",
+  variants:{A:"Sovg'ani xushmuomalalik bilan, lekin qat'iy rad etasiz",B:"Sovg'ani qabul qilib, hech narsa o'zgartirmaysiz",C:"Sovg'ani qabul qilib, chindan ham alohida munosabatda bo'lasiz"},
+  togri:"A",izoh:"Kasbiy odob va barcha o'quvchilarga adolatli munosabat — pedagogning eng muhim tamoyillaridan biri."},
+ {id:"c38",sarlavha:"O'quvchining shaxsiy muammosi",vaziyat:"O'quvchi sizga uyda oilaviy muammolar borligini maxfiy tarzda aytib qoldi. Qanday harakat qilasiz?",
+  variants:{A:"Buni darhol butun sinfga aytib yuborasiz",B:"Maxfiylikni saqlab, kerak bo'lsa maktab psixologiga yo'naltirasiz",C:"E'tiborsiz qoldirasiz, bu sizning ishingiz emas deb o'ylaysiz"},
+  togri:"B",izoh:"Maxfiylikni hurmat qilish va mutaxassisga yo'naltirish — o'quvchining ishonchini saqlaydi va unga haqiqiy yordam beradi."},
+ {id:"c39",sarlavha:"Hamkasblar orasidagi g'iybat",vaziyat:"O'qituvchilar xonasida hamkasblaringiz boshqa bir hamkasb haqida g'iybat qilishmoqda. Qanday munosabatda bo'lasiz?",
+  variants:{A:"Suhbatga qo'shilib, siz ham fikr bildirasiz",B:"Muloyimlik bilan suhbat mavzusini o'zgartirasiz yoki chetga chiqasiz",C:"Hamma narsani eshitib, keyin boshqalarga aytib yurasiz"},
+  togri:"B",izoh:"G'iybatdan uzoq turish — kasbiy muhitni sog'lom saqlaydi va o'z obro'yingizni himoya qiladi."},
+ {id:"c40",sarlavha:"Onlayn darsda diqqat tarqoqligi",vaziyat:"Masofaviy dars vaqtida o'quvchilarning aksariyati kamerani o'chirib, darsga e'tibor bermayapti. Nima qilasiz?",
+  variants:{A:"Darsni shunchaki davom ettiraverasiz",B:"Interaktiv, qatnashuvni talab qiluvchi topshiriqlar kiritib, jalb qilishga harakat qilasiz",C:"Barcha o'quvchilarni jazolashga urinasiz"},
+  togri:"B",izoh:"Interaktivlik — masofaviy ta'limda diqqatni jalb qilishning eng samarali usuli."},
+ {id:"c41",sarlavha:"Xato baho qo'yilgani",vaziyat:"Nazorat ishlarini tekshirayotganda, bir hafta oldin bir o'quvchiga noto'g'ri (past) baho qo'yganingizni payqadingiz. Nima qilasiz?",
+  variants:{A:"Xatoni tan olmay, shunday qoldirasiz",B:"Xatoni tan olib, bahoni to'g'irlaysiz va o'quvchidan uzr so'raysiz",C:"O'quvchiga aytmasdan, jurnalda yashirincha o'zgartirasiz"},
+  togri:"B",izoh:"Xatoni ochiq tan olish va tuzatish — adolat va halollik tamoyillariga mos, ishonchni mustahkamlaydi."},
+ {id:"c42",sarlavha:"Iqtidorli, lekin intizomsiz o'quvchi",vaziyat:"Juda iqtidorli, lekin doimo intizomni buzadigan o'quvchi bilan qanday ishlaysiz?",
+  variants:{A:"Uni doimo jazolab, boshqalar bilan bir xil talab qo'yaverasiz",B:"Uning kuchli tomonlarini topib, energiyasini ijobiy yo'nalishga yo'naltirasiz",C:"Uni e'tiborsiz qoldirib, faqat itoatkor o'quvchilarga vaqt sarflaysiz"},
+  togri:"B",izoh:"Iqtidorni to'g'ri yo'naltirish — intizom muammosini ko'pincha o'zi hal qiladi."},
+ {id:"c43",sarlavha:"Imtihon oldidan xavotir",vaziyat:"Muhim imtihon oldidan sinfingizda umumiy xavotir va stress kuchaygan. Nima qilasiz?",
+  variants:{A:"Qo'shimcha bosim o'tkazib, \"jiddiy tayyorlaning\" deysiz",B:"Qisqa relaksatsiya mashqi o'tkazib, ularni xotirjamlashtirasiz",C:"Mavzuni umuman ko'tarmaysiz"},
+  togri:"B",izoh:"Imtihon oldidan xotirjamlik — natijaga sifat bilan tayyorgarlikdan ko'ra ko'proq ta'sir qilishi mumkin."},
+ {id:"c44",sarlavha:"Davomat past bo'lgan o'quvchi",vaziyat:"Bir o'quvchi darslarga tez-tez kelmay qo'ydi, sababi noma'lum. Qanday harakat qilasiz?",
+  variants:{A:"Faqat davomat jurnaliga \"kelmadi\" deb qayd qilaverasiz",B:"Ota-ona bilan bog'lanib, sababini bilishga harakat qilasiz",C:"O'quvchini sinfdan chetlatish haqida o'ylaysiz"},
+  togri:"B",izoh:"Sabab bilmasdan xulosa chiqarish xato — ko'pincha ortida jiddiy oilaviy yoki sog'liq muammosi yotishi mumkin."},
+ {id:"c45",sarlavha:"Zamonaviy texnologiyaga qarshilik",vaziyat:"Maktab yangi raqamli platformaga o'tmoqda, lekin siz bunga unchalik moslasha olmayapsiz. Nima qilasiz?",
+  variants:{A:"O'zgarishni butunlay rad etasiz",B:"Vaqt ajratib, bosqichma-bosqich o'rganishga harakat qilasiz",C:"Boshqalardan yordam so'rashni o'zingizga ep ko'rmaysiz"},
+  togri:"B",izoh:"Doimiy o'rganishga ochiqlik — zamonaviy pedagogning muhim kasbiy sifati hisoblanadi."},
+ {id:"c46",sarlavha:"Kasbiy tanqidga munosabat",vaziyat:"Rahbaringiz dars metodikangizni hamma hamkasblar oldida tanqid qildi. Qanday munosabatda bo'lasiz?",
+  variants:{A:"Darhol himoyalanib, janjal chiqarasiz",B:"Xotirjam qabul qilib, keyinroq alohida suhbatda fikr almashasiz",C:"Ichingizga yutib, uzoq vaqt xafa yurasiz"},
+  togri:"B",izoh:"Konstruktiv fikr-mulohazani xotirjam qabul qilish va keyin muzokara qilish — professional yetuklik belgisi."},
+ {id:"c47",sarlavha:"Ish-hayot muvozanati",vaziyat:"Ish paytida ham, uyda ham doimo maktab ishlari haqida o'ylayotganingizni payqadingiz. Nima qilasiz?",
+  variants:{A:"Bu normal deb, davom ettiraverasiz",B:"Ish va shaxsiy hayot orasida aniq chegara belgilashga harakat qilasiz",C:"Uydagi vaqtni ham to'liq ish uchun ajratasiz"},
+  togri:"B",izoh:"Sog'lom chegaralar — uzoq muddatli kasbiy barqarorlik va charchashning oldini olish uchun zarur."},
+ {id:"c48",sarlavha:"Yangi o'qituvchiga yordam",vaziyat:"Maktabingizga yangi kelgan tajribasiz hamkasb yordam so'ramoqda, lekin sizning ham vaqtingiz tanqis. Nima qilasiz?",
+  variants:{A:"Vaqtingiz yo'qligini aytib, butunlay rad etasiz",B:"Qisqa, aniq maslahatlar berib, imkon qadar qo'llab-quvvatlaysiz",C:"Uning ishini o'zingiz bajarib berasiz"},
+  togri:"B",izoh:"Kollegial qo'llab-quvvatlash — jamoaviy muhitni mustahkamlaydi, hatto band vaqtda ham kichik yordam qadrlanadi."},
+ {id:"c49",sarlavha:"O'z his-tuyg'ularini boshqarish",vaziyat:"Uyda shaxsiy muammolaringiz bor va bu kayfiyatingizga ta'sir qilyapti, lekin darsga kirishingiz kerak. Nima qilasiz?",
+  variants:{A:"Kayfiyatingizni o'quvchilarga sezdirib, jahldor bo'lib qolasiz",B:"Darsdan oldin bir necha daqiqa nafas mashqi qilib, o'zingizni jamlaysiz",C:"Darsni butunlay bekor qilasiz"},
+  togri:"B",izoh:"Qisqa o'zini jamlash amaliyoti — professional holatni saqlab, o'quvchilarga sifatli dars berish imkonini beradi."},
+ {id:"c50",sarlavha:"Uzoq muddatli motivatsiya",vaziyat:"Bir necha yildan beri bir xil dasturda ishlayotganingiz uchun ishga bo'lgan qiziqishingiz so'nib borayotganini sezyapsiz. Nima qilasiz?",
+  variants:{A:"Bu holatni e'tiborsiz qoldirib, avtomatik tarzda ishlayverasiz",B:"Yangi metodika yoki yondashuvlarni o'rganib, ishingizga yangilik kiritasiz",C:"Kasbni butunlay tashlab ketish haqida qat'iy qaror qabul qilasiz"},
+  togri:"B",izoh:"O'z kasbiy rivojlanishiga doimiy investitsiya — motivatsiyani tiklashning eng samarali yo'li."}
 ];
 
 /* ---------------- STATE ---------------- */
@@ -814,12 +902,7 @@ async function saveOnboarding(){
   go({name:'home'});
 }
 
-/* ---------------- KUN TARTIBI (Toshkent vaqti, UTC+5) ---------------- */
-const ROUTINE_SCHEDULE = [
-  {id:'morning', time:'08:00', title:'Ertalabki niyat', desc:"Kuningizni tinch va rejali boshlang", icon:'🌅'},
-  {id:'lunch', time:'13:00', title:'Tushlik tanaffusi', desc:"Qisqa nafas mashqi bilan energiyangizni tiklang", icon:'🍵'},
-  {id:'evening', time:'20:00', title:'Kun yakuni', desc:"Bugungi kuningizni xayolingizda jamlang", icon:'🌙'}
-];
+/* ---------------- KUN TARTIBI (foydalanuvchi o'zi tuzadi, Toshkent vaqti UTC+5) ---------------- */
 function tashkentNowStr(){
   const d = new Date(Date.now() + 5*3600*1000);
   const hh = String(d.getUTCHours()).padStart(2,'0');
@@ -831,12 +914,15 @@ function tashkentDateKey(offsetDays){
   const d = new Date(Date.now() + 5*3600*1000 + offsetDays*86400000);
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
 }
-function routineStatus(idx, todayKey){
+function getRoutineSchedule(){
+  return (STATE.customRoutine || []).slice().sort((a,b)=> a.time.localeCompare(b.time));
+}
+function routineStatus(schedule, idx, todayKey){
   const nowStr = tashkentNowStr();
-  const item = ROUTINE_SCHEDULE[idx];
+  const item = schedule[idx];
   const done = STATE.routine[todayKey] && STATE.routine[todayKey][item.id];
   if(done) return 'done';
-  const nextTime = ROUTINE_SCHEDULE[idx+1] ? ROUTINE_SCHEDULE[idx+1].time : '23:59';
+  const nextTime = schedule[idx+1] ? schedule[idx+1].time : '23:59';
   if(nowStr < item.time) return 'pending';
   if(nowStr < nextTime) return 'active';
   return 'missed';
@@ -855,6 +941,14 @@ function dismissRoutineSummary(dateKey){
   render();
 }
 function routineWidgetHtml(){
+  const schedule = getRoutineSchedule();
+  if(schedule.length === 0){
+    return `<div class="card routine-card" style="text-align:center;">
+      <div style="font-size:28px;margin-bottom:6px;">🗓️</div>
+      <p style="margin:0 0 12px 0;font-size:13.5px;color:var(--ink-soft)">Kun tartibingiz hali bo'sh. O'z rejalaringizni kiriting — ilova ularni vaqti-vaqtida eslatib turadi.</p>
+      <button class="btn secondary" onclick="go({name:'routine_edit'})">+ Reja qo'shish</button>
+    </div>`;
+  }
   const todayKey = tashkentDateKey(0);
   const statusMeta = {
     pending:{label:'Kutilmoqda', cls:'r-pending'},
@@ -862,25 +956,24 @@ function routineWidgetHtml(){
     done:{label:'Bajarildi ✅', cls:'r-done'},
     missed:{label:'Bajarilmadi', cls:'r-missed'}
   };
-  const items = ROUTINE_SCHEDULE.map((item, idx)=>{
-    const st = routineStatus(idx, todayKey);
+  const items = schedule.map((item, idx)=>{
+    const st = routineStatus(schedule, idx, todayKey);
     const meta = statusMeta[st];
     return `<div class="routine-row ${meta.cls}">
-      <div class="routine-icon">${item.icon}</div>
+      <div class="routine-icon">${item.icon||'⏰'}</div>
       <div class="routine-mid">
         <div class="routine-title">${item.title} <span class="routine-time">${item.time}</span></div>
-        <div class="routine-desc">${item.desc}</div>
+        ${item.desc ? `<div class="routine-desc">${item.desc}</div>` : ''}
       </div>
       ${st==='active' ? `<button class="routine-btn" onclick="markRoutineDone('${item.id}')">Bajardim</button>` : `<span class="routine-status">${meta.label}</span>`}
     </div>`;
   }).join('');
 
-  // Kecha sarhisobi (agar hali ko'rsatilmagan bo'lsa)
   const yKey = tashkentDateKey(-1);
   let summaryHtml = '';
   if(STATE.routine[yKey] && (!STATE.routineSummarySeen || !STATE.routineSummarySeen[yKey])){
-    const doneCount = ROUTINE_SCHEDULE.filter(it=>STATE.routine[yKey][it.id]).length;
-    const total = ROUTINE_SCHEDULE.length;
+    const doneCount = schedule.filter(it=>STATE.routine[yKey][it.id]).length;
+    const total = schedule.length;
     let msg;
     if(doneCount===total) msg = "Kecha barcha rejalarni bajardingiz! Ajoyib intizom 🌟";
     else if(doneCount===0) msg = "Kecha birorta rejani bajarolmadingiz — bugun qaytadan boshlaymiz, hammasi joyida 🤍";
@@ -892,10 +985,93 @@ function routineWidgetHtml(){
   }
 
   return `<div class="card routine-card">
-    <div class="eyebrow">Kun tartibi</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="eyebrow" style="margin-bottom:0;">Kun tartibi</div>
+      <button class="routine-edit-link" onclick="go({name:'routine_edit'})">Sozlash</button>
+    </div>
     ${summaryHtml}
     ${items}
   </div>`;
+}
+
+/* ---------------- KUN TARTIBI TAHRIRLASH ---------------- */
+function renderRoutineEdit(){
+  const schedule = getRoutineSchedule();
+  const body = `
+    ${topbar('Kun tartibi','O\'z rejalaringizni tuzing', true)}
+    <main>
+      <p class="section-sub">Har kuni qaysi vaqtda nima qilishni xohlaysiz? Vaqt yetganda ilova sizga eslatadi.</p>
+      ${schedule.map(item => `
+        <div class="card" style="display:flex;align-items:center;gap:12px;">
+          <div style="font-size:20px;">${item.icon||'⏰'}</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:14px;">${item.title} <span style="color:var(--ink-soft);font-weight:600;font-size:12px;">${item.time}</span></div>
+            ${item.desc ? `<div style="font-size:12px;color:var(--ink-soft);">${item.desc}</div>` : ''}
+          </div>
+          <button class="routine-del-btn" onclick="deleteRoutineItem('${item.id}')">🗑️</button>
+        </div>
+      `).join('') || '<p class="section-sub">Hali reja yo\'q.</p>'}
+
+      <div class="card">
+        <div class="eyebrow">Yangi reja qo'shish</div>
+        <input id="ri-time" class="field-input" type="time" value="08:00"/>
+        <input id="ri-title" class="field-input" style="margin-top:10px;" type="text" placeholder="Nima qilasiz? Masalan: Ertalabki mashq"/>
+        <input id="ri-icon" class="field-input" style="margin-top:10px;" type="text" placeholder="Emoji (ixtiyoriy) masalan 🌅"/>
+        <button class="btn" style="margin-top:12px;" onclick="addRoutineItem()">Qo'shish</button>
+      </div>
+    </main>
+    ${bottomNav('home')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function addRoutineItem(){
+  const time = document.getElementById('ri-time').value;
+  const title = document.getElementById('ri-title').value.trim();
+  const icon = document.getElementById('ri-icon').value.trim();
+  if(!time || !title){ alert("Vaqt va nom kiriting"); return; }
+  if(!STATE.customRoutine) STATE.customRoutine = [];
+  STATE.customRoutine.push({id:'r'+Date.now(), time, title, icon: icon||'⏰', desc:''});
+  saveState(); syncSave();
+  renderRoutineEdit();
+}
+function deleteRoutineItem(id){
+  STATE.customRoutine = (STATE.customRoutine||[]).filter(it=>it.id!==id);
+  saveState(); syncSave();
+  renderRoutineEdit();
+}
+
+/* ---------------- KUNNING VAQTIGA QARAB MOTIVATSION MATN ---------------- */
+const MOTIVATION_POOLS = {
+  morning:[
+    "Xayrli tong! Bugun sizni ajoyib ishlar kutmoqda 🌅",
+    "Yangi kun — yangi imkoniyat. Bugungi rejalaringiz qanday?",
+    "Xayrli tong! Kichik qadamlar katta natijalarga olib boradi 🌿",
+    "Bugun o'zingizga ishonch bilan qadam qo'ying — siz uddalaysiz 💫",
+    "Yaxshi tong! Bugungi maqsadlaringizni aniq belgilab oling."
+  ],
+  midday:[
+    "Kun yarmi — nafas olib, bir zum tin oling ☀️",
+    "Qanday ketyapti kuningiz? O'zingizga qisqa tanaffus bering.",
+    "Tushlik payti — energiyangizni tiklashning yaxshi fursati 🍵",
+    "Yarim kun ortda qoldi — davom eting, siz zo'r ketyapsiz!",
+    "Bir daqiqa to'xtab, chuqur nafas oling — buni o'zingizga qarzsiz."
+  ],
+  evening:[
+    "Kun yakunlanmoqda — bugungi yutuqlaringizni xayolingizda jamlang 🌙",
+    "Bugun qancha kichik narsa qilgan bo'lsangiz ham, bu ahamiyatli edi.",
+    "Kechqurun — dam olish va o'ziga qaytish vaqti 🌸",
+    "Ertangi kunga tayyorlanishdan oldin, bugungi kunga rahmat ayting.",
+    "Kun tugadi — o'zingizga mehribon bo'ling, siz bugun ham harakat qildingiz."
+  ]
+};
+function currentMotivationLine(){
+  const nowStr = tashkentNowStr();
+  const dayIdx = Math.floor((Date.now()+5*3600*1000)/86400000);
+  let pool;
+  if(nowStr < '11:00') pool = MOTIVATION_POOLS.morning;
+  else if(nowStr < '17:00') pool = MOTIVATION_POOLS.midday;
+  else pool = MOTIVATION_POOLS.evening;
+  return pool[dayIdx % pool.length];
 }
 
 /* ---------------- HOME ---------------- */
@@ -915,7 +1091,7 @@ function renderHome(){
     <main>
       <div class="eyebrow">Diagnostika</div>
       <div class="section-title">${greet} 🌸</div>
-      <p class="section-sub">O'zingizni yaxshi anglash — kasbiy charchashning oldini olishning birinchi qadami.</p>
+      <p class="section-sub" style="font-style:italic;color:var(--teal-700);font-weight:600;">${currentMotivationLine()}</p>
       ${routineWidgetHtml()}
       <div class="divider-label" style="margin-top:20px;">Diagnostika</div>
       ${hasUnseenCase ? `
@@ -1294,39 +1470,57 @@ function analyzeJournal(text){
   return {emoji:pool.emoji, anim:pool.anim, line: pool.lines[Math.floor(Math.random()*pool.lines.length)]};
 }
 
-/* ---------------- BREATHING ANIMATION WIDGET ---------------- */
+/* ---------------- BREATHING / GUIDED ANIMATION WIDGET ---------------- */
 let BREATH_TIMER = null;
-function breathWidgetHtml(pattern){
+function breathWidgetHtml(pattern, visualType){
+  if(visualType === 'walk'){
+    return `<div class="card breath-card">
+      <div class="eyebrow">Animatsion yo'lboshchi</div>
+      <div class="breath-stage walk-mode">
+        <div class="walk-icon" id="breath-circle"><span id="walk-emoji">🚶</span></div>
+        <span id="breath-label" class="walk-label">Boshlash uchun bosing</span>
+      </div>
+      <button class="btn secondary" id="breath-toggle-btn" onclick="toggleBreathAnim('walk')">Boshlash</button>
+    </div>`;
+  }
   return `<div class="card breath-card">
     <div class="eyebrow">Animatsion yo'lboshchi</div>
     <div class="breath-stage">
       <div class="breath-circle" id="breath-circle"><span id="breath-label">Boshlash uchun bosing</span></div>
     </div>
-    <button class="btn secondary" id="breath-toggle-btn" onclick="toggleBreathAnim()">Boshlash</button>
+    <button class="btn secondary" id="breath-toggle-btn" onclick="toggleBreathAnim('circle')">Boshlash</button>
   </div>`;
 }
-function toggleBreathAnim(){
+function toggleBreathAnim(mode){
   const btn = document.getElementById('breath-toggle-btn');
   if(BREATH_TIMER){
     clearTimeout(BREATH_TIMER); BREATH_TIMER = null;
     document.getElementById('breath-label').textContent = "To'xtatildi";
-    document.getElementById('breath-circle').style.transform = 'scale(1)';
+    if(mode==='walk'){ const e=document.getElementById('walk-emoji'); if(e) e.classList.remove('bounce'); }
+    else { const c=document.getElementById('breath-circle'); if(c) c.style.transform='scale(1)'; }
     btn.textContent = "Qayta boshlash";
     return;
   }
   const pattern = VIEW.breathPattern;
   btn.textContent = "To'xtatish";
-  runBreathCycle(pattern, 0);
+  runBreathCycle(pattern, 0, mode);
 }
-function runBreathCycle(pattern, idx){
-  const circle = document.getElementById('breath-circle');
+function runBreathCycle(pattern, idx, mode){
   const label = document.getElementById('breath-label');
-  if(!circle) { BREATH_TIMER=null; return; }
+  if(!label) { BREATH_TIMER=null; return; }
   const phase = pattern[idx % pattern.length];
   label.textContent = phase.label;
-  circle.style.transform = `scale(${phase.scale||1})`;
-  circle.style.transition = `transform ${phase.sec}s ease-in-out`;
-  BREATH_TIMER = setTimeout(()=> runBreathCycle(pattern, idx+1), phase.sec*1000);
+  if(mode==='walk'){
+    const emoji = document.getElementById('walk-emoji');
+    if(emoji){ if(phase.walking) emoji.classList.add('bounce'); else emoji.classList.remove('bounce'); }
+  } else {
+    const circle = document.getElementById('breath-circle');
+    if(circle){
+      circle.style.transform = `scale(${phase.scale||1})`;
+      circle.style.transition = `transform ${phase.sec}s ease-in-out`;
+    }
+  }
+  BREATH_TIMER = setTimeout(()=> runBreathCycle(pattern, idx+1, mode), phase.sec*1000);
 }
 
 function renderFitnesDetail(id){
@@ -1359,7 +1553,7 @@ function renderFitnesDetail(id){
     ${topbar(f.nomi, f.maqsad, true)}
     <main>
       ${videoEmbedHtml(f.video)}
-      ${f.breathPattern ? breathWidgetHtml(f.breathPattern) : ''}
+      ${f.breathPattern ? breathWidgetHtml(f.breathPattern, f.visualType) : ''}
       <div class="card">
         <div class="eyebrow">Yo'riqnoma</div>
         <p style="white-space:pre-line;font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
@@ -1411,15 +1605,14 @@ function todaysCases(){
 
 function renderCases(){
   const today = todaysCases();
-  const todayIds = today.map(c=>c.id);
-  const rest = CASES.filter(c=>!todayIds.includes(c.id));
-  function caseCard(c, isNew){
+  const allDone = today.every(c => STATE.casesDone[c.id]);
+  function caseCard(c){
     const done = STATE.casesDone[c.id];
     return `<div class="card test-card" onclick="go({name:'case_detail', id:'${c.id}'})">
-      <div class="test-icon" style="background:${isNew?'var(--teal-100)':'var(--cream-2)'};color:${isNew?'var(--teal-700)':'var(--ink-soft)'}">🎯</div>
+      <div class="test-icon" style="background:${done?'var(--green-ok-bg)':'var(--teal-100)'};color:${done?'var(--green-ok)':'var(--teal-700)'}">${done?'✅':'🎯'}</div>
       <div>
-        <h3>${c.sarlavha} ${done?(done.correct?'✅':'🔁'):''} ${isNew && !done ? '<span class="case-tag" style="margin-left:6px;">Yangi</span>':''}</h3>
-        <p>${c.vaziyat.slice(0,50)}...</p>
+        <h3>${c.sarlavha} ${done?(done.correct?'· To\'g\'ri javob':'· Bajarildi'):''}</h3>
+        <p>${done ? "Siz bu vaziyatni yechdingiz" : c.vaziyat.slice(0,50)+'...'}</p>
       </div>
       <div class="chev">${ICONS.chev}</div>
     </div>`;
@@ -1427,11 +1620,14 @@ function renderCases(){
   const body = `
     ${topbar('Cases','Amaliy pedagogik vaziyatlar')}
     <main>
-      <p class="section-sub">Real vaziyatlarni o'qing va eng maqbul yechimni tanlang.</p>
+      <p class="section-sub">Real vaziyatlarni o'qing va eng maqbul yechimni tanlang. Har kuni 3 ta yangi vaziyat taqdim etiladi.</p>
       <div class="divider-label">✨ Bugungi 3 ta vaziyat</div>
-      ${today.map(c=>caseCard(c,true)).join('')}
-      <div class="divider-label">Barcha vaziyatlar (${CASES.length})</div>
-      ${rest.map(c=>caseCard(c,false)).join('')}
+      ${today.map(c=>caseCard(c)).join('')}
+      ${allDone ? `<div class="card" style="text-align:center;padding:22px;">
+        <div style="font-size:30px;margin-bottom:8px;">🌙</div>
+        <p style="margin:0;font-size:14px;font-weight:700;color:var(--teal-700)">Barcha bugungi vaziyatlarni yechdingiz!</p>
+        <p style="margin:6px 0 0 0;font-size:12.5px;color:var(--ink-soft)">Ertangi yangi 3 ta vaziyatni kuting 🌸</p>
+      </div>` : ''}
     </main>
     ${bottomNav('cases')}
   `;
@@ -1479,13 +1675,12 @@ function todaysFitnesDoneCount(){
   return count;
 }
 function rewardBadge(){
-  // Uchala testdan eng so'nggi natijalar orasida eng "yaxshi" darajani topamiz
   const r = STATE.results;
   const levels = [r.xoll, r.mbi, r.xeym].filter(Boolean).map(x=>x.level);
   if(levels.length===0) return null;
-  if(levels.includes('green')) return {emoji:'🏆', title:'Barqarorlik medali', note:'Natijalaringizdan biri yuqori darajada — ajoyib!'};
-  if(levels.includes('red')) return {emoji:'🤍', title:'O\'zingizga g\'amxo\'rlik vaqti', note:'Bugun kichik bir mashqni bajarib ko\'ring — bu katta farq qiladi.'};
-  return {emoji:'🌱', title:'Rivojlanish yo\'lida', note:'Har kuni kichik qadam — katta natijaga olib boradi.'};
+  if(levels.includes('green')) return {level:'green', title:'Barqarorlik medali', note:"Natijalaringizdan biri yuqori darajada — ajoyib natija!"};
+  if(levels.includes('red')) return {level:'red', title:"O'zingizga g'amxo'rlik vaqti", note:"Bugun kichik bir mashqni bajarib ko'ring — bu katta farq qiladi."};
+  return {level:'amber', title:"Rivojlanish yo'lida", note:"Har kuni kichik qadam — katta natijaga olib boradi."};
 }
 function renderProfil(){
   const r = STATE.results;
@@ -1512,6 +1707,7 @@ function renderProfil(){
       <p style="margin:0;font-size:12.5px;color:var(--ink-soft)">${data.date}</p>
     </div>`;
   }
+  const recentCases = Object.entries(STATE.casesDone).slice(-5).reverse();
   const p = STATE.profile;
   const initial = (p.name||'P').trim().charAt(0).toUpperCase();
   const metaBits = [];
@@ -1530,7 +1726,7 @@ function renderProfil(){
           <button class="edit-fab" onclick="go({name:'edit_profile'})">✏️</button>
         </div>
         ${reward ? `<div class="reward-strip">
-          <div class="reward-emoji">${reward.emoji}</div>
+          <img class="reward-badge-img" src="data:image/svg+xml;utf8,${encodeURIComponent(badgeSvg(reward.level))}" />
           <div><div class="reward-title">${reward.title}</div><div class="reward-note">${reward.note}</div></div>
         </div>` : ''}
       </div>
@@ -1547,6 +1743,19 @@ function renderProfil(){
       ${miniCard('Emotsional Intellekt', r.xoll, 'xoll_intro')}
       ${miniCard('Kasbiy charchash', r.mbi, 'mbi_intro')}
       ${miniCard('Stressga bardosh', r.xeym, 'xeym_intro')}
+
+      ${recentCases.length ? `
+      <div class="divider-label">Oxirgi yechilgan keyslar</div>
+      <div class="card">
+        ${recentCases.map(([cid, d])=>{
+          const c = CASES.find(x=>x.id===cid);
+          if(!c) return '';
+          return `<div class="routine-row" style="border-bottom:1px solid var(--line);">
+            <div class="routine-icon">${d.correct?'✅':'🔁'}</div>
+            <div class="routine-mid"><div class="routine-title" style="font-size:13px;">${c.sarlavha}</div></div>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
     </main>
     ${bottomNav('profil')}
   `;
@@ -1605,6 +1814,7 @@ function render(){
     case 'cases': return renderCases();
     case 'case_detail': return renderCaseDetail(VIEW.id);
     case 'profil': return renderProfil();
+    case 'routine_edit': return renderRoutineEdit();
     case 'edit_profile': return renderEditProfile();
     default: return renderHome();
   }
