@@ -822,11 +822,12 @@ const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbwjnxZLaMq3Zx
 
 async function syncSave(){
   if(!CONFIG.API_URL || !STATE.profile.email) return;
+  const chatId = (TG && TG.initDataUnsafe && TG.initDataUnsafe.user) ? TG.initDataUnsafe.user.id : '';
   try{
     await fetch(CONFIG.API_URL, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({action:'sync', email: STATE.profile.email, profile: STATE.profile, state: STATE})
+      body: JSON.stringify({action:'sync', email: STATE.profile.email, profile: STATE.profile, state: STATE, telegram_chat_id: chatId})
     });
   }catch(e){ console.warn('Sync xato:', e); }
 }
