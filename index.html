@@ -693,8 +693,14 @@ function videoEmbedHtml(url){
   const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
 
   if(yt1 || yt2){
-    const embedSrc = `https://www.youtube.com/embed/${(yt1||yt2)[1]}`;
-    return `<div class="video-wrap"><iframe src="${embedSrc}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>`;
+    const vid = (yt1||yt2)[1];
+    const embedSrc = `https://www.youtube.com/embed/${vid}`;
+    const watchUrl = `https://www.youtube.com/watch?v=${vid}`;
+    return `<div class="video-wrap"><iframe src="${embedSrc}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen frameborder="0"></iframe></div>
+      <a href="${watchUrl}" target="_blank" rel="noopener" class="video-open-card" style="margin-top:8px;">
+        <div class="video-open-icon">▶</div>
+        <div><div class="video-open-title">Video ochilmasa, shu yerga bosing</div><div class="video-open-sub">YouTube'da yangi oynada ochiladi</div></div>
+      </a>`;
   }
   if(drive){
     // Google Drive iframe ko'plab muhitlarda (jumladan Telegram ichida) ishlamaydi,
@@ -1534,7 +1540,7 @@ function finishXoll(){
   let level, label;
   if(total>=70){level='green';label="Yuqori darajadagi Emotsional Intellekt";}
   else if(total>=40){level='amber';label="O'rta darajadagi Emotsional Intellekt";}
-  else {level='red';label="Past darajadagi Emotsional Intellekt";}
+  else {level='red';label="Rivojlanish bosqichidasiz";}
   const messages = {
     green:"Ajoyib natija! Emotsional zukkoligingiz yuqori darajada — bu kasbiy va shaxsiy hayotingizda katta kuch. 🌟",
     amber:"Yaxshi natija! Emotsional intellektingizni yanada rivojlantirish uchun kichik mashqlar foyda beradi. 💫",
@@ -1621,9 +1627,9 @@ function finishMbi(){
   const sum = arr => arr.reduce((a,n)=>a+(ANSWERS[n-1]||0),0);
   const EE=sum(MBI_EE), DP=sum(MBI_DP), PA=sum(MBI_PA);
   let profil, level;
-  if(EE<=16 && DP<=6 && PA>=39){ profil="Barqaror pedagog"; level='green'; }
-  else if(EE>=27 || DP>=13 || PA<=31){ profil="Ko'makka muhtoj pedagog"; level='red'; }
-  else { profil="Tajriba orttiruvchi"; level='amber'; }
+  if(EE<=16 && DP<=6 && PA>=39){ profil="Barqaror holat"; level='green'; }
+  else if(EE>=27 || DP>=13 || PA<=31){ profil="Qo'llab-quvvatlash zarur bosqich"; level='red'; }
+  else { profil="Tajriba orttirish bosqichi"; level='amber'; }
   const messages = {
     green:"Ajoyib! Hissiy holatingiz barqaror — shu ritmni saqlashda davom eting. 🌸",
     amber:"Siz to'g'ri yo'ldasiz — har kungi kichik qadam katta natija beradi. 💪",
@@ -1707,7 +1713,7 @@ function finishXeym(){
   });
   let level, label;
   if(counts.adaptiv>=2){level='green';label="Adaptiv (Samarali) strategiyalar ustunligi";}
-  else if(counts.noadaptiv>=2){level='red';label="Noadaptiv (Samarasiz) strategiyalar ustunligi";}
+  else if(counts.noadaptiv>=2){level='red';label="Rivojlantirish mumkin bo'lgan strategiyalar";}
   else {level='amber';label="Nisbiy adaptiv strategiyalar ustunligi";}
   const messages = {
     green:"Siz qiyinchiliklarni aql va xotirjamlik bilan yengasiz. Bu — kuchli fazilat! 💪",
