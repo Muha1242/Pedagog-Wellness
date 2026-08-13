@@ -224,6 +224,19 @@
   .fitness-icon{background:var(--teal-100);color:var(--teal-700);}
   .fitness-icon.jismoniy{background:#fdeee0;color:var(--coral-dark);}
   .fitness-icon.relaks{background:#f1e8f7;color:#8b5fa3;}
+  .fitness-icon.muloqot{background:#e3f2fd;color:#1565c0;}
+  .fitness-icon.refleksiya{background:#fff3e0;color:#e65100;}
+  .fitness-icon.oyin{background:#fff4e0;color:#b8720a;}
+  #draw-canvas{width:100%;height:280px;border-radius:16px;border:1.5px solid var(--teal-200);background:#fff;touch-action:none;display:block;}
+  .color-swatch{width:44px;height:44px;border-radius:50%;border:3px solid transparent;cursor:pointer;display:inline-block;margin:6px;transition:.15s;}
+  .color-swatch.selected{border-color:var(--teal-700);transform:scale(1.15);}
+  .canvas-toolbar{display:flex;gap:10px;margin:10px 0;}
+  .canvas-toolbar button{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--teal-200);background:#fff;font-size:13px;cursor:pointer;}
+  .game-option{display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--teal-200);border-radius:14px;background:#fff;font-size:14.5px;cursor:pointer;transition:.15s;}
+  .game-option:hover{border-color:var(--teal-400);}
+  .game-option.correct{border-color:#2f8577;background:var(--teal-100);}
+  .game-option.wrong{border-color:var(--rose);background:#fdeceb;}
+  .streak-badge{display:inline-flex;align-items:center;gap:4px;background:var(--coral);color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:600;}
 
   .video-wrap{
     position:relative;width:100%;padding-top:56.25%;
@@ -463,71 +476,219 @@ const MBI_QUESTIONS = [
 ];
 const MBI_EE=[1,2,3,6,8,13,14,16,20], MBI_DP=[5,10,11,15,22], MBI_PA=[4,7,9,12,17,18,19,21];
 
-/* ---------------- DATA: XEYM (Coping) ---------------- */
+/* ---------------- DATA: XEYM (Coping) ----------------
+   To'g'irlangan, dissertatsiyada tasdiqlangan tuzilma: 10 kognitiv + 8 hissiy + 8 xulq-atvor = 26 band.
+   Tasnif (adaptiv/nisbiy/noadaptiv) E. Heim asl metodikasiga aniq mos. */
 const XEYM_SECTIONS = [
  {key:"A", title:"Qiyinchilik paytidagi FIKRLAR", items:[
-   {t:"Men muammoni har tomonlama tahlil qilaman va undan chiqish yo'llarini o'ylayman.", type:"adaptiv"},
-   {t:"Men vaziyatni boricha qabul qilaman, chunki hayotda hamma narsa bo'lishi mumkinligiga ishonaman.", type:"adaptiv"},
-   {t:"Men muammoning jiddiyligini unchalik oshirib yubormayman, \"bundan ham yomoni bo'lishi mumkin edi\" deb o'ylayman.", type:"nisbiy"},
-   {t:"Men barchasi Yaratganning irodasi bilan bo'layotganiga ishonib, sabr qilaman va iymonimga suyanaman.", type:"nisbiy"},
-   {t:"Men atrofga qarab, \"boshqalarda mendan ham qiyinroq muammolar bor\" deb o'zimga tasalli beraman.", type:"nisbiy"},
-   {t:"Men hayotimdan, taqdirdan norozi bo'laman va nega aynan men bunday baxtsizlikka uchraganimni o'ylab ezilaman.", type:"noadaptiv"},
-   {t:"Men muammo haqida umuman o'ylamaslikka harakat qilaman va uni ongimdan quvib solaman.", type:"noadaptiv"},
-   {t:"Men vaziyat oldida o'zimni chorasiz his qilaman, taslim bo'laman va barchasiga qo'l siltayman.", type:"noadaptiv"}
+   {t:"Men o'zimga aytaman: hozir qiyinchiliklardan ham muhimroq narsa bor.", type:"noadaptiv"},
+   {t:"Men o'zimga aytaman: bu taqdir, men bunga ko'nikishim kerak.", type:"noadaptiv"},
+   {t:"Bu kichik qiyinchiliklar, hammasi ham unchalik yomon emas, asosan hammasi joyida.", type:"noadaptiv"},
+   {t:"Men qiyin paytlarda xotirjamligimni va o'zimni nazorat qilishni yo'qotmayman, o'z holatimni hech kimga ko'rsatmaslikka harakat qilaman.", type:"adaptiv"},
+   {t:"Men vaziyatni har tomonlama tahlil qilishga va o'zimga nima bo'lganini tushuntirishga harakat qilaman.", type:"adaptiv"},
+   {t:"Men o'zimga aytaman: boshqa odamlarning muammolari bilan solishtirganda, mening muammolarim arzimas narsa.", type:"nisbiy"},
+   {t:"Agar biror narsa sodir bo'lsa, bu Xudoning xohishi bilan sodir bo'ladi.", type:"nisbiy"},
+   {t:"Nima qilishni bilmayman va ba'zan bu tartibsizlikdan chiqa olmaydigandek his qilaman.", type:"noadaptiv"},
+   {t:"Men qiyinchiliklarimga alohida ma'no beraman; ularni yengib o'tish orqali o'zimni yaxshilayman.", type:"nisbiy"},
+   {t:"Hozirda men bu qiyinchiliklarga to'liq dosh berolmayman, lekin vaqt o'tishi bilan men ularni va undan ham qiyinroqlarini yengib o'ta olaman.", type:"adaptiv"}
  ]},
  {key:"B", title:"Qiyinchilik paytidagi HIS-TUYG'ULAR", items:[
-   {t:"Men har qanday holatda ham hissiyotlarimni jilovlayman, xotirjamlikni saqlayman va vahimaga tushmayman.", type:"adaptiv"},
-   {t:"Men baribir hammasi yaxshilik bilan tugashiga ishonaman, chuqur optimizm saqlayman.", type:"adaptiv"},
-   {t:"Men ichimdagi alam va g'azabni baqirish, yig'lash yoki narsalarni otish orqali tashqariga chiqarib yuboraman.", type:"nisbiy"},
-   {t:"Men boshqa odamlarning oldiga borib, ulardan hamdardlik, tasalli va ma'naviy dalda kutaman.", type:"nisbiy"},
-   {t:"Men sodir bo'lgan muammoda faqat o'zimni ayblayman, vijdon azobida qiynalaman.", type:"noadaptiv"},
-   {t:"Men chuqur tushkunlikka (depressiyaga) tushib qolaman, umidsizlanaman va atrofga tajovuzkor bo'lib qolaman.", type:"noadaptiv"}
+   {t:"Taqdirning menga nisbatan adolatsizligidan qattiq g'azablanaman va norozilik bildiraman.", type:"adaptiv"},
+   {t:"Men his-tuyg'ularimni tashqariga chiqarib, ko'z yoshimni to'kaman.", type:"nisbiy"},
+   {t:"Men his-tuyg'ularimni ichimga yutaman, hech kimga bildirmayman.", type:"noadaptiv"},
+   {t:"Men har doim qiyin vaziyatdan chiqish yo'li borligiga aminman.", type:"adaptiv"},
+   {t:"Men qiyinchiliklarimni yengib o'tishda menga yordam berishga tayyor bo'lgan boshqa odamlarga ishonaman.", type:"nisbiy"},
+   {t:"Men umidsizlik holatiga tushib qolaman.", type:"noadaptiv"},
+   {t:"Men o'zimni aybdor his qilaman va bo'layotgan narsalarga shuning uchun loyiq deb o'ylayman.", type:"noadaptiv"},
+   {t:"Men jahlim chiqib, tajovuzkor bo'lib qolaman.", type:"noadaptiv"}
  ]},
  {key:"V", title:"Qiyinchilik paytidagi HARAKATLAR", items:[
-   {t:"Men yaqinlarim yoki jamoam bilan hamkorlik qilib, muammoni birgalikda hal qilishga kirishaman.", type:"adaptiv"},
-   {t:"Men muammoni yechish uchun darhol faol harakat boshlayman (ma'lumot yig'aman, choralar ko'raman).", type:"adaptiv"},
-   {t:"Men o'zimdan ko'ra tajribaliroq insonlardan yoki mutaxassislardan (psixolog, rahbar) yordam so'rayman.", type:"adaptiv"},
-   {t:"Men muammodan chalg'ish uchun boshqa bir ishga (kitob o'qish, televizor ko'rish) berilib ketaman.", type:"nisbiy"},
-   {t:"Men jismoniy faoliyat bilan shug'ullanaman (sport, xobbi, sayr) va shu orqali energiyamni o'zgartiraman.", type:"nisbiy"},
-   {t:"Men o'z muammomni unutish uchun boshqa odamlarga yordam berishga, ularning ishini qilishga kirishaman.", type:"nisbiy"},
-   {t:"Men odamlardan uzoqlashaman, yolg'izlikka chekinaman va hech kim bilan gaplashgim kelmaydi.", type:"nisbiy"},
-   {t:"Men muayyan vaqtinchalik kelishuvga yoki kompromissga boraman, vaziyat yumshashini kutaman.", type:"nisbiy"},
-   {t:"Men odamlardan butunlay qochaman, hamma bilan aloqalarni uzib, o'zimga berkinib olaman.", type:"noadaptiv"},
-   {t:"Men alamimni boshqa odamlardan olaman, ularga qo'pollik qilaman va janjal chiqaraman.", type:"noadaptiv"},
-   {t:"Men stressdan qutulish uchun zararli odatlarga (alkogol, tamaki, tinchlantiruvchi dorilar) ruju qo'yaman.", type:"noadaptiv"},
-   {t:"Men muammoning borligini umuman rad etaman, hech narsa bo'lmagandek ko'rsatishga urunaman.", type:"noadaptiv"}
+   {t:"Men o'zimni sevimli mashg'ulotimga bag'ishlayman, qiyinchiliklarni unutishga harakat qilaman.", type:"nisbiy"},
+   {t:"Men odamlarga yordam berishga harakat qilaman va ularga g'amxo'rlik qilib, o'z qayg'ularimni unutaman.", type:"adaptiv"},
+   {t:"Men o'ylamaslikka harakat qilaman, muammolarimga e'tibor qaratishdan har tomonlama qochishga harakat qilaman.", type:"noadaptiv"},
+   {t:"Men o'zimni chalg'itishga va dam olishga harakat qilaman (mazali taom, sevimli mashg'ulot va h.k. yordamida).", type:"nisbiy"},
+   {t:"Qiyinchiliklarni yengib o'tish uchun uzoq yillik orzuimni ro'yobga chiqarishni o'z zimmamga olaman (sayohatga chiqaman, kurs yozilaman va h.k.).", type:"nisbiy"},
+   {t:"Men o'zimni izolyatsiya qilaman, o'zim bilan yolg'iz qolishga harakat qilaman.", type:"noadaptiv"},
+   {t:"Men qiyinchiliklarni yengish uchun muhim odamlar bilan hamkorlikdan foydalanaman.", type:"adaptiv"},
+   {t:"Men odatda menga maslahat bera oladigan odamlarni qidirib topaman.", type:"adaptiv"}
  ]}
 ];
 
-/* ---------------- DATA: FITNES ---------------- */
+/* ---------------- DATA: FITNES ----------------
+   N. Xoll (5 komponent) + K. Saarni (8 bosqich) modeliga asoslangan kengaytirilgan kutubxona.
+   Har bir birlik eiKomponent (Xoll) va saarni (Saarni bosqichi) maydonlariga ega —
+   bu ilmiy izohlash/hisobot uchun, UI da ko'rsatilishi shart emas. */
 const FITNES = [
- {id:"n01",nomi:"Kvadrat nafas",turi:"nafas",icon:"🟦",maqsad:"Xavotirni bosish va diqqatni jamlash",daq:3,video:"https://drive.google.com/file/d/1DqEEDkeAv2vlCrMSAUHyePcjKIGDF90U/view?usp=sharing",
-  breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:4,scale:1.35},{label:"Chiqaring",sec:4,scale:1},{label:"Kutib turing",sec:4,scale:1}],
-  yoriqnoma:"1-qadam: Burningizdan sekin nafas oling (4 soniya).\n2-qadam: Nafasni ushlab turing (4 soniya).\n3-qadam: Og'zingizdan sekin chiqaring (4 soniya).\n4-qadam: To'xtab turing (4 soniya).\nSiklni 4-5 marta takrorlang."},
- {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",maqsad:"Charchoq va zo'riqishni yengish",daq:3,video:"https://drive.google.com/file/d/1o2mn9UFEKlIKbx9NlSqCJYAmjXzTPVDI/view?usp=sharing",
-  breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:7,scale:1.35},{label:"Chiqaring",sec:8,scale:1}],
-  yoriqnoma:"Tilingiz tepa tishlar orqasida tursin. 4 soniya burundan nafas oling, 7 soniya ushlab turing, 8 soniya og'zingizdan \"fuuu\" deb chiqaring. Kuniga 2 mahal, 3 martadan takrorlang."},
- {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",visualType:"walk",
-  breathPattern:[{label:"Tez qadamda yuring",sec:60,walking:true},{label:"To'xtab, chuqur nafas oling",sec:10,walking:false}],
-  yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
- {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
-  breathPattern:[
-    {label:"Oyoq mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
-    {label:"Qorin mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
-    {label:"Qo'l mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
-    {label:"Yelka mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
-    {label:"Yuz mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1}
-  ],
-  yoriqnoma:"Oyoqdan boshlab har bir mushak guruhini 5 soniya kuchli tarang qiling, keyin bo'shashtiring. Yuqoriga qarab davom eting (oyoq, qorin, qo'l, yelka, yuz)."},
- {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",journal:true,
-  yoriqnoma:"Bugungi kunda sizga yoqqan bitta kichik voqeani yozing. Har qanday narsa bo'lishi mumkin — kulgili, iliq yoki oddiy quvonchli lahza."}
+
+  /* ===== EMOTSIONAL XABARDORLIK (anglash) ===== */
+  {id:"n01",nomi:"Kvadrat nafas",turi:"nafas",icon:"🟦",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Xavotirni bosish va diqqatni jamlash",daq:3,video:"https://drive.google.com/file/d/1DqEEDkeAv2vlCrMSAUHyePcjKIGDF90U/view?usp=sharing",
+   breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:4,scale:1.35},{label:"Chiqaring",sec:4,scale:1},{label:"Kutib turing",sec:4,scale:1}],
+   yoriqnoma:"1-qadam: Burningizdan sekin nafas oling (4 soniya).\n2-qadam: Nafasni ushlab turing (4 soniya).\n3-qadam: Og'zingizdan sekin chiqaring (4 soniya).\n4-qadam: To'xtab turing (4 soniya).\nSiklni 4-5 marta takrorlang."},
+
+  {id:"a01",nomi:"Tana skaneri",turi:"relaks",icon:"🔍",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Hissiyotning tanadagi jismoniy izini topish",daq:4,video:"",
+   breathPattern:[
+     {label:"Boshdan boshlang, yuzingizni his qiling",sec:15,scale:1.1},
+     {label:"Bo'yin va yelkangizga o'ting",sec:15,scale:1.15},
+     {label:"Ko'kragingiz va qorningizga e'tibor bering",sec:15,scale:1.2},
+     {label:"Qo'l va oyoqlaringizni his qiling",sec:15,scale:1.1}
+   ],
+   yoriqnoma:"Ko'zingizni yuming. Hozir qaysi tana qismida taranglik yoki noqulaylik borligini toping. Uni nomlang: bu qo'rquvmi, g'azabmi, charchoqmi?"},
+
+  {id:"a02",nomi:"Hissiyotlar kundaligi",turi:"relaks",icon:"📝",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Kunlik hissiy holatni yozma tarzda kuzatish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugun darsda his qilgan ENG KUCHLI hissiyotingizni yozing. Bu hissiyot qachon, qaysi vaziyatda paydo bo'ldi? Uni 1 so'z bilan nomlang."},
+
+  {id:"r02",nomi:"Minnatdorchilik daqiqasi",turi:"relaks",icon:"🌙",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Pozitiv fikrlashni rivojlantirish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugungi kunda sizga yoqqan bitta kichik voqeani yozing. Har qanday narsa bo'lishi mumkin — kulgili, iliq yoki oddiy quvonchli lahza."},
+
+  {id:"at01",nomi:"Hissiyotingizni chizing",turi:"refleksiya",icon:"🖌️",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Hissiyotni so'zsiz, ijodiy tarzda ifodalash",daq:5,canvas:true,
+   yoriqnoma:"Hozirgi kayfiyatingizni chiziq, shakl yoki naqsh orqali ifodalang. To'g'ri yoki noto'g'ri chizish yo'q — bu faqat o'zingiz uchun."},
+
+  {id:"at02",nomi:"Kayfiyat rangi",turi:"refleksiya",icon:"🎨",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Hissiyotni rang orqali anglash va nomlash",daq:2,moodColor:true,
+   yoriqnoma:"Hozirgi kayfiyatingizga eng mos rangni tanlang, so'ng nima uchun aynan shu rangni tanlaganingizni qisqa yozing."},
+
+  {id:"at03",nomi:"Art-terapiya videosi",turi:"refleksiya",icon:"🎬",eiKomponent:"anglash",saarni:"1-bosqich: O'z hissiyotini anglash",
+   maqsad:"Hissiyotlarni ijodiy tarzda ifodalash va anglash",daq:5,video:"https://www.youtube.com/watch?v=32UHff02i_s",
+   yoriqnoma:"Video ko'rsatmasiga amal qilib, hozirgi kayfiyatingizni qog'ozga chizib yoki rang bilan ifodalab ko'ring. Natijani baholashning hojati yo'q — bu faqat o'zingiz uchun."},
+
+  /* ===== O'Z EMOTSIYALARINI BOSHQARISH (ozini_boshqarish) — USTUVOR ===== */
+  {id:"n02",nomi:"4-7-8 texnikasi",turi:"nafas",icon:"🌬️",eiKomponent:"ozini_boshqarish",saarni:"6-bosqich: Salbiy tuyg'ular bilan kurashish",
+   maqsad:"Charchoq va zo'riqishni yengish",daq:1,video:"https://youtube.com/shorts/-NMvNj3u2_c",
+   breathPattern:[{label:"Nafas oling",sec:4,scale:1.35},{label:"Ushlab turing",sec:7,scale:1.35},{label:"Chiqaring",sec:8,scale:1}],
+   yoriqnoma:"Tilingiz tepa tishlar orqasida tursin. 4 soniya burundan nafas oling, 7 soniya ushlab turing, 8 soniya og'zingizdan \"fuuu\" deb chiqaring. Kuniga 2 mahal, 3 martadan takrorlang."},
+
+  {id:"n03",nomi:"Ichki xotirjamlik nafasi",turi:"nafas",icon:"🕊️",eiKomponent:"ozini_boshqarish",saarni:"6-bosqich: Salbiy tuyg'ular bilan kurashish",
+   maqsad:"Tezkor ichki tinchlanish",daq:1,video:"https://youtube.com/shorts/g-qKzBfftUY",
+   yoriqnoma:"Videoni tomosha qiling va ko'rsatilgan nafas ritmiga amal qiling. Qisqa, tezkor tinchlanish uchun mos."},
+
+  {id:"ob01",nomi:"5 soniya qoidasi",turi:"nafas",icon:"⏱️",eiKomponent:"ozini_boshqarish",saarni:"5-bosqich: Tashqi va ichki holat farqi",
+   maqsad:"Impulsiv reaksiyaning oldini olish",daq:1,video:"",
+   breathPattern:[{label:"5...4...3...2...1 — javob bermang",sec:5,scale:1.3},{label:"Endi javob bering",sec:3,scale:1}],
+   yoriqnoma:"G'azab yoki xafalik paytida, javob berishdan oldin ichingizda 5 gacha sanang. Bu — ichki holatingiz bilan tashqi ifodangiz orasiga bo'sh joy qo'yadi."},
+
+  {id:"ob02",nomi:"Reyfreyming — vaziyatni qayta ko'rish",turi:"relaks",icon:"🔄",eiKomponent:"ozini_boshqarish",saarni:"6-bosqich: Salbiy tuyg'ular bilan kurashish",
+   maqsad:"Vaziyatga nisbatan yangi nuqtai nazar topish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugun sizni asabiylashtirgan bir vaziyatni yozing. Endi shu vaziyatni BOSHQA odam (masalan, hurmat qiladigan hamkasbingiz) qanday ko'rgan bo'lardi — shuni yozing."},
+
+  {id:"r01",nomi:"Progressiv mushak bo'shashtirish",turi:"relaks",icon:"🧘",eiKomponent:"ozini_boshqarish",saarni:"6-bosqich: Salbiy tuyg'ular bilan kurashish",
+   maqsad:"Tanadagi zo'riqishni chiqarish",daq:7,video:"",
+   breathPattern:[
+     {label:"Oyoq mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+     {label:"Qorin mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+     {label:"Qo'l mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+     {label:"Yelka mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1},
+     {label:"Yuz mushaklarini tarang qiling",sec:5,scale:1.35},{label:"Bo'shashtiring",sec:5,scale:1}
+   ],
+   yoriqnoma:"Oyoqdan boshlab har bir mushak guruhini 5 soniya kuchli tarang qiling, keyin bo'shashtiring. Yuqoriga qarab davom eting (oyoq, qorin, qo'l, yelka, yuz)."},
+
+  {id:"ob03",nomi:"Triggerlarni aniqlash xaritasi",turi:"refleksiya",icon:"🗺️",eiKomponent:"ozini_boshqarish",saarni:"5-bosqich: Tashqi va ichki holat farqi",
+   maqsad:"O'zini g'azablantiruvchi vaziyatlarni oldindan bilish",daq:4,video:"",journal:true,
+   yoriqnoma:"So'nggi bir haftada sizni eng ko'p asabiylashtirgan 2 ta vaziyatni yozing. Ularda umumiy nima bor? (masalan: intizom, vaqt bosimi, hurmatsizlik)"},
+
+  {id:"ob04",nomi:"Emotsional o'z-o'ziga samaradorlik testi",turi:"refleksiya",icon:"💪",eiKomponent:"ozini_boshqarish",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"O'z hissiy boshqaruviga bo'lgan ichki ishonchni mustahkamlash",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugun qiyin hissiy vaziyatni MUVAFFAQIYATLI boshqargan bir holatni eslang va yozing. Bu — sizning ichingizda allaqachon mavjud bo'lgan resurs."},
+
+  /* ===== O'Z-O'ZINI MOTIVATSIYALASH (motivatsiya) ===== */
+  {id:"j02",nomi:"Qisqa yurish mashqi",turi:"jismoniy",icon:"🚶",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Qon aylanishini yaxshilash, energiya berish",daq:5,video:"",visualType:"walk",
+   breathPattern:[{label:"Tez qadamda yuring",sec:60,walking:true},{label:"To'xtab, chuqur nafas oling",sec:10,walking:false}],
+   yoriqnoma:"Xona ichida yoki koridorda 3-5 daqiqa tez yurish, chuqur nafas olib."},
+
+  {id:"j03",nomi:"Bo'yin va yelka cho'zish",turi:"jismoniy",icon:"🙆",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Uzoq o'tirish/turishdan keyingi taranglikni yumshatish",daq:3,video:"",
+   breathPattern:[
+     {label:"Boshni sekin o'ngga egib, 10 soniya turing",sec:10,scale:1.1},
+     {label:"Boshni sekin chapga egib, 10 soniya turing",sec:10,scale:1.1},
+     {label:"Yelkalarni yuqoriga ko'tarib, bo'shashtiring (3 marta)",sec:15,scale:1.2},
+     {label:"Boshni sekin oldinga egib, bo'yin orqasini cho'zing",sec:10,scale:1.1}
+   ],
+   yoriqnoma:"Har bir harakatni sekin, keskin bo'lmagan tarzda bajaring. Og'riq his qilsangiz, to'xtating."},
+
+  {id:"j04",nomi:"Bilak va qo'l mashqi",turi:"jismoniy",icon:"✋",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Yozish/taxtada ishlashdan charchagan qo'llarni bo'shashtirish",daq:2,video:"",
+   breathPattern:[
+     {label:"Qo'llaringizni oldinga cho'zing, kaftni yuqoriga buring",sec:10,scale:1.1},
+     {label:"Barmoqlarni orqaga torting (boshqa qo'l bilan)",sec:10,scale:1.15},
+     {label:"Musht qilib, keyin barmoqlarni keng yoying (5 marta)",sec:15,scale:1.2},
+     {label:"Bilaklarni aylantiring (har ikki tomonga)",sec:10,scale:1.1}
+   ],
+   yoriqnoma:"Bu mashqni har darsdan keyin, taxminan 2 daqiqa davomida bajarish tavsiya etiladi."},
+
+  {id:"j05",nomi:"Orqa va gavda cho'zish",turi:"jismoniy",icon:"🧍",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Uzoq o'tirishdan keyin gavdani tiklash",daq:3,video:"",
+   breathPattern:[
+     {label:"Tik turib, qo'llarni yuqoriga cho'zing va nafas oling",sec:10,scale:1.2},
+     {label:"Sekin oldinga egilib, qo'llaringiz bilan oyoqlarga yeting",sec:10,scale:1.1},
+     {label:"Belni ikki tomonga sekin buring",sec:15,scale:1.15},
+     {label:"Tik turib, chuqur nafas oling va bo'shashing",sec:10,scale:1}
+   ],
+   yoriqnoma:"Har bir harakatni nafas bilan muvofiqlashtiring — egilganda chiqaring, tiklanganda nafas oling."},
+
+  {id:"m01",nomi:"Kasbiy missiya kundaligi",turi:"refleksiya",icon:"⭐",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Ichki pedagogik motivatsiyani mustahkamlash",daq:3,video:"",journal:true,
+   yoriqnoma:"Nega aynan o'qituvchilikni tanladingiz? Bugun shu sababni eslatuvchi bitta lahzani yozing (masalan, o'quvchi tushunganda yuzidagi ifoda)."},
+
+  {id:"m02",nomi:"Kichik g'alaba ro'yxati",turi:"refleksiya",icon:"🏆",eiKomponent:"motivatsiya",saarni:"8-bosqich: Emotsional o'z-o'ziga samaradorlik",
+   maqsad:"Muvaffaqiyatsizlik his qilinganda motivatsiyani tiklash",daq:2,video:"",journal:true,
+   yoriqnoma:"Bugun kichik bo'lsa ham, o'zingiz uddalagan 3 ta narsani sanang. Ular katta bo'lishi shart emas."},
+
+  /* ===== EMPATIYA ===== */
+  {id:"e01",nomi:"O'quvchi ko'zi bilan qarash",turi:"muloqot",icon:"👁️",eiKomponent:"empatiya",saarni:"2-bosqich: Boshqalar hissiyotini farqlash",
+   maqsad:"O'quvchining nuqtai nazarini tushunish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugun sizni qiynagan bir o'quvchini eslang. Uning xatti-harakati ortida qanday hissiyot yoki ehtiyoj bo'lishi mumkin? (masalan: e'tibor, qo'rquv, charchoq)"},
+
+  {id:"e02",nomi:"Faol tinglash mashqi",turi:"muloqot",icon:"👂",eiKomponent:"empatiya",saarni:"4-bosqich: Pedagogik empatiya bildira olish",
+   maqsad:"To'liq e'tibor bilan tinglash ko'nikmasini rivojlantirish",daq:3,video:"",
+   breathPattern:[{label:"Faqat tinglang, javob tayyorlamang",sec:30,scale:1.1},{label:"Eshitganingizni o'z so'zingiz bilan qaytaring",sec:20,scale:1.2}],
+   yoriqnoma:"Keyingi suhbatingizda (hamkasb, o'quvchi, ota-ona bilan) faqat tinglashga e'tibor bering — javob tayyorlamang. Keyin \"Men shuni tushundim...\" deb qaytaring."},
+
+  {id:"e03",nomi:"Noverbal signallarni o'qish",turi:"refleksiya",icon:"🎭",eiKomponent:"empatiya",saarni:"2-bosqich: Boshqalar hissiyotini farqlash",
+   maqsad:"So'zsiz ifodalarni anglash qobiliyatini oshirish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugun bitta o'quvchining yuz ifodasi, tana holati orqali (so'zisiz) nima his qilayotganini payqagan holatni yozing."},
+
+  /* ===== BOSHQALAR EMOTSIYASINI BOSHQARISH (boshqalarni_boshqarish) — USTUVOR ===== */
+  {id:"bb01",nomi:"Nizoni \"g'alaba-g'alaba\" bilan hal qilish",turi:"muloqot",icon:"🤝",eiKomponent:"boshqalarni_boshqarish",saarni:"7-bosqich: Munosabatlar emotsionalligi",
+   maqsad:"Ikki tomonga ham foydali yechim topish",daq:4,video:"",journal:true,
+   yoriqnoma:"So'nggi nizoli vaziyatni eslang. Ikkala tomon ham \"yutgan\" his qilishi uchun qanday yechim bo'lishi mumkin edi? Yozing."},
+
+  {id:"bb02",nomi:"Emotsional lug'at kengaytirish",turi:"refleksiya",icon:"📖",eiKomponent:"boshqalarni_boshqarish",saarni:"3-bosqich: Emotsional lug'atdan foydalanish",
+   maqsad:"Hissiyotlarni aniq nomlash orqali boshqarish",daq:2,video:"",journal:true,
+   yoriqnoma:"\"Xafa\" yoki \"asabiy\" so'zlari o'rniga, bugungi his-tuyg'ungizni ANIQROQ 1 ta so'z bilan ayting (masalan: hafsalasi pir bo'lgan, taranglashgan, tushkunlikka tushgan)."},
+
+  {id:"bb03",nomi:"Sinf hissiy klimatini o'qish",turi:"refleksiya",icon:"🌡️",eiKomponent:"boshqalarni_boshqarish",saarni:"7-bosqich: Munosabatlar emotsionalligi",
+   maqsad:"Guruh darajasidagi hissiy holatni sezish",daq:3,video:"",journal:true,
+   yoriqnoma:"Bugungi darsingiz boshida sinfning umumiy \"hissiy harorati\" qanday edi (tinch, hayajonli, charchagan)? Bu nimadan bilinardi?"},
+
+  {id:"bb04",nomi:"Qo'llab-quvvatlovchi javob mashqi",turi:"muloqot",icon:"💬",eiKomponent:"boshqalarni_boshqarish",saarni:"4-bosqich: Pedagogik empatiya bildira olish",
+   maqsad:"Boshqa odamning holatiga mos javob berishni mashq qilish",daq:3,video:"",
+   breathPattern:[{label:"Vaziyatni tasavvur qiling",sec:15,scale:1.1},{label:"Qo'llab-quvvatlovchi 1 jumla tayyorlang",sec:20,scale:1.2}],
+   yoriqnoma:"Charchagan hamkasbingiz sizga shikoyat qildi deb tasavvur qiling. Uni past ko'rsatmasdan, qo'llab-quvvatlovchi 1 ta jumla bilan javob bering."},
+
+  {id:"bb05",nomi:"Ota-ona bilan qiyin suhbat rejasi",turi:"muloqot",icon:"👪",eiKomponent:"boshqalarni_boshqarish",saarni:"7-bosqich: Munosabatlar emotsionalligi",
+   maqsad:"Nizoli muloqotga tayyorgarlik ko'rish",daq:4,video:"",journal:true,
+   yoriqnoma:"Agar oldingizda qiyin ota-ona suhbati bo'lsa: ularning eng ko'p xavotirlanadigan narsasi nima bo'lishi mumkin? Shu haqda gapni qanday boshlaysiz?"},
+
+  {id:"bb06",nomi:"Kunlik minnatdorchilik xabari",turi:"muloqot",icon:"💌",eiKomponent:"boshqalarni_boshqarish",saarni:"7-bosqich: Munosabatlar emotsionalligi",
+   maqsad:"Ijobiy munosabatlarni mustahkamlash",daq:2,video:"",journal:true,
+   yoriqnoma:"Bugun bir hamkasbingiz yoki o'quvchingizga (og'zaki yoki yozma) qisqa minnatdorchilik bildiring. Nima deganingizni va ularning reaksiyasini yozing."},
+
+  /* ===== RELAKSATSIYA (video) ===== */
+  {id:"r03",nomi:"Relaksatsiya videosi",turi:"relaks",icon:"🌊",eiKomponent:"ozini_boshqarish",saarni:"6-bosqich: Salbiy tuyg'ular bilan kurashish",
+   maqsad:"Tanani va ongni bo'shashtirish",daq:3,video:"https://youtu.be/yEMqqQYKAQo",
+   yoriqnoma:"Qulay joyda o'tiring yoki yotib oling. Videoni tomosha qiling va ko'rsatmalarga amal qiling."}
 ];
 
 /* Video havolasini o'rnatilgan (embed) player kodiga aylantiradi.
    YouTube (watch?v=, youtu.be/) va Google Drive (file/d/ID/view) havolalarini qo'llab-quvvatlaydi. */
 function videoEmbedHtml(url){
   if(!url) return '';
-  const yt1 = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
+  const yt1 = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/);
   const yt2 = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
   const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
 
@@ -1124,6 +1285,93 @@ function deleteRoutineItem(id){
   renderRoutineEdit();
 }
 
+/* ---------------- TAVSIYA TIZIMI: Xoll+MBI+Xeym natijalariga asoslangan ---------------- */
+const XOLL_SCALE_TO_COMPONENT = {
+  "Emotsional xabardorlik": "anglash",
+  "O'z emotsiyalarini boshqarish": "ozini_boshqarish",
+  "O'z-o'zini motivatsiya qilish": "motivatsiya",
+  "Empatiya": "empatiya",
+  "Boshqalar emotsiyasini boshqarish": "boshqalarni_boshqarish"
+};
+
+function getWeakComponents(){
+  const xoll = STATE.results && STATE.results.xoll;
+  const mbi = STATE.results && STATE.results.mbi;
+  const xeym = STATE.results && STATE.results.xeym;
+  let weak = [];
+  if(xoll && xoll.scales && xoll.scales.length){
+    const sorted = xoll.scales.slice().sort((a,b)=> a.val - b.val);
+    weak = sorted.slice(0,2).map(s => XOLL_SCALE_TO_COMPONENT[s.name]).filter(Boolean);
+  } else {
+    weak = ["ozini_boshqarish", "boshqalarni_boshqarish"];
+  }
+  if(mbi){
+    if(mbi.EE >= 27 && !weak.includes("ozini_boshqarish")) weak.unshift("ozini_boshqarish");
+    if(mbi.DP >= 13 && !weak.includes("boshqalarni_boshqarish")) weak.unshift("boshqalarni_boshqarish");
+    if(mbi.PA <= 31 && !weak.includes("motivatsiya")) weak.unshift("motivatsiya");
+  }
+  if(xeym && xeym.level === 'red' && !weak.includes("ozini_boshqarish")) weak.unshift("ozini_boshqarish");
+  return [...new Set(weak)].slice(0,2);
+}
+
+function getRecommendedFitnes(count){
+  count = count || 3;
+  const weak = getWeakComponents();
+  const pool = FITNES.filter(f => weak.includes(f.eiKomponent));
+  const notDone = pool.filter(f => !STATE.fitnesDone.includes(f.id));
+  const finalPool = notDone.length >= count ? notDone : pool;
+  const dayIdx = Math.floor(Date.now()/86400000);
+  const rotN = Math.max(finalPool.length,1);
+  const rotated = finalPool.slice(dayIdx % rotN).concat(finalPool.slice(0, dayIdx % rotN));
+  return rotated.slice(0, count);
+}
+
+function renderRecommendationCard(){
+  const hasAnyResult = STATE.results && (STATE.results.xoll || STATE.results.mbi || STATE.results.xeym);
+  const recs = getRecommendedFitnes(3);
+  if(!recs.length) return '';
+  const weak = getWeakComponents();
+  const componentLabels = {
+    anglash:"Emotsional xabardorlik", ozini_boshqarish:"O'z emotsiyalarini boshqarish",
+    motivatsiya:"O'z-o'zini motivatsiyalash", empatiya:"Empatiya", boshqalarni_boshqarish:"Boshqalar emotsiyasini boshqarish"
+  };
+  const weakLabel = weak.map(w=>componentLabels[w]).join(", ");
+  return `
+    <div class="section-title" style="margin-top:22px;">Sizga tavsiya etiladi</div>
+    <p class="section-sub" style="margin-bottom:10px;">${hasAnyResult ? `Natijalaringizga ko'ra: <b>${weakLabel}</b>` : "Testdan o'tsangiz, aynan sizga mos tavsiyalar chiqadi"}</p>
+    ${recs.map(f=>`
+      <div class="card test-card" onclick="go({name:'fitnes_detail', id:'${f.id}'})">
+        <div class="test-icon fitness-icon ${f.turi==='jismoniy'?'jismoniy':f.turi==='relaks'?'relaks':f.turi==='muloqot'?'muloqot':f.turi==='refleksiya'?'refleksiya':''}">${f.icon}</div>
+        <div><h3>${f.nomi}</h3><p>${f.maqsad}</p></div>
+        <div class="chev">${ICONS.chev}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function autoScheduleRecommendations(){
+  if(!STATE.customRoutine) STATE.customRoutine = [];
+  STATE.customRoutine = STATE.customRoutine.filter(it => !it.auto);
+  const recs = getRecommendedFitnes(3);
+  if(!recs.length) return;
+  const slots = [{time:"10:00", idx:0},{time:"14:00", idx:1},{time:"18:00", idx:2}];
+  slots.forEach(slot=>{
+    const f = recs[slot.idx % recs.length];
+    if(!f) return;
+    STATE.customRoutine.push({
+      id: 'auto'+slot.time.replace(':','')+'_'+f.id,
+      time: slot.time,
+      title: `${f.icon} ${f.nomi} (${f.daq} daq)`,
+      icon: f.icon,
+      desc: "Sizga moslashtirilgan tiklanish mashqi",
+      auto: true,
+      fitnesId: f.id
+    });
+  });
+  saveState();
+  syncSave();
+}
+
 /* ---------------- KUNNING VAQTIGA QARAB MOTIVATSION MATN ---------------- */
 const MOTIVATION_POOLS = {
   morning:[
@@ -1202,6 +1450,12 @@ function renderHome(){
         <div><h3>Amaliy vaziyatlar</h3><p>Real pedagogik keyslarni yeching</p></div>
         <div class="chev">${ICONS.chev}</div>
       </div>
+      <div class="card test-card" onclick="go({name:'game_intro'})">
+        <div class="test-icon fitness-icon oyin">🎮</div>
+        <div><h3>Hissiyotlar lug'ati</h3><p>O'yin orqali emotsional lug'atingizni boyiting</p></div>
+        <div class="chev">${ICONS.chev}</div>
+      </div>
+      ${renderRecommendationCard()}
     </main>
     ${bottomNav('home')}
   `;
@@ -1288,6 +1542,7 @@ function finishXoll(){
   };
   const result = {date:fmtDate(), total, level, label, msg:messages[level], scales:scaleResults};
   STATE.results.xoll = result; saveState();
+  autoScheduleRecommendations();
   syncSave();
   logResult('Xoll (EQ)', level, label, {total, scales:scaleResults});
   VIEW = {name:'xoll_result'}; render();
@@ -1376,6 +1631,7 @@ function finishMbi(){
   };
   const result = {date:fmtDate(), EE, DP, PA, profil, level, msg:messages[level]};
   STATE.results.mbi = result; saveState();
+  autoScheduleRecommendations();
   syncSave();
   logResult('MBI (Burnout)', level, profil, {EE, DP, PA});
   VIEW={name:'mbi_result'}; render();
@@ -1460,6 +1716,7 @@ function finishXeym(){
   };
   const result = {date:fmtDate(), level, label, msg:messages[level], picks};
   STATE.results.xeym = result; saveState();
+  autoScheduleRecommendations();
   syncSave();
   logResult('Xeym (Coping)', level, label, {picks});
   VIEW={name:'xeym_result'}; render();
@@ -1485,7 +1742,7 @@ function renderXeymResult(){
 
 /* ---------------- FITNES ---------------- */
 function renderFitnes(){
-  const typeMap = {nafas:{label:'Nafas', cls:''}, jismoniy:{label:'Jismoniy', cls:'jismoniy'}, relaks:{label:'Relaksatsiya', cls:'relaks'}};
+  const typeMap = {nafas:{label:'Nafas', cls:''}, jismoniy:{label:'Jismoniy', cls:'jismoniy'}, relaks:{label:'Relaksatsiya', cls:'relaks'}, muloqot:{label:'Muloqot', cls:'muloqot'}, refleksiya:{label:'Refleksiya', cls:'refleksiya'}};
   const body = `
     ${topbar('Fitnes','Kunlik qisqa mashqlar')}
     <main>
@@ -1611,6 +1868,9 @@ function renderFitnesDetail(id){
   const f = FITNES.find(x=>x.id===id);
   const done = STATE.fitnesDone.includes(id);
 
+  if(f.canvas){ renderCanvasExercise(f, id); return; }
+  if(f.moodColor){ renderMoodColorExercise(f, id); return; }
+
   if(f.journal){
     const lastEntry = STATE.journalLast;
     const body = `
@@ -1647,6 +1907,271 @@ function renderFitnesDetail(id){
     ${bottomNav('fitnes')}
   `;
   VIEW.breathPattern = f.breathPattern;
+  document.getElementById('app').innerHTML = body;
+}
+
+/* ---------------- ART-TERAPIYA: Chizish paneli va Kayfiyat rangi ---------------- */
+function renderCanvasExercise(f, id){
+  const done = STATE.fitnesDone.includes(id);
+  const body = `
+    ${topbar(f.nomi, f.maqsad, true)}
+    <main>
+      <div class="card">
+        <div class="eyebrow">Yo'riqnoma</div>
+        <p style="font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
+      </div>
+      <canvas id="draw-canvas"></canvas>
+      <div class="canvas-toolbar">
+        <button onclick="setDrawColor('#1f5c52')" style="background:#1f5c52;color:#fff;">Yashil</button>
+        <button onclick="setDrawColor('#e0813a')" style="background:#e0813a;color:#fff;">Sariq</button>
+        <button onclick="setDrawColor('#e88a7d')" style="background:#e88a7d;color:#fff;">Pushti</button>
+        <button onclick="setDrawColor('#333')" style="background:#333;color:#fff;">Qora</button>
+      </div>
+      <div class="canvas-toolbar">
+        <button onclick="clearDrawCanvas()">🗑️ Tozalash</button>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Bu chizmangiz nimani anglatadi? (ixtiyoriy)</div>
+        <textarea id="canvas-note" class="field-input" rows="2" style="resize:none;" placeholder="Masalan: bu chalkash chiziqlar bugungi tashvishimni bildiradi..."></textarea>
+      </div>
+      <button class="btn ${done?'secondary':'coral'}" onclick="finishCanvasExercise('${id}')">${done?"✅ Bajarildi":"Tugatdim"}</button>
+    </main>
+    ${bottomNav('fitnes')}
+  `;
+  document.getElementById('app').innerHTML = body;
+  setTimeout(()=>initDrawCanvas(), 50);
+}
+
+let DRAW_CTX = null, DRAW_COLOR = '#1f5c52', DRAWING = false;
+
+function initDrawCanvas(){
+  const canvas = document.getElementById('draw-canvas');
+  if(!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * (window.devicePixelRatio||1);
+  canvas.height = rect.height * (window.devicePixelRatio||1);
+  const ctx = canvas.getContext('2d');
+  ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 4;
+  DRAW_CTX = ctx;
+  function pos(e){
+    const r = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    return {x:cx, y:cy};
+  }
+  function start(e){ DRAWING = true; const p = pos(e); ctx.strokeStyle = DRAW_COLOR; ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); }
+  function move(e){ if(!DRAWING) return; const p = pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); }
+  function end(){ DRAWING = false; }
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+function setDrawColor(c){ DRAW_COLOR = c; }
+function clearDrawCanvas(){
+  const canvas = document.getElementById('draw-canvas');
+  if(!canvas || !DRAW_CTX) return;
+  DRAW_CTX.clearRect(0,0,canvas.width,canvas.height);
+}
+function finishCanvasExercise(id){
+  const note = document.getElementById('canvas-note').value.trim();
+  STATE.artNotes = STATE.artNotes || {};
+  STATE.artNotes[id] = {date:fmtDate(), note};
+  if(!STATE.fitnesDone.includes(id)) STATE.fitnesDone.push(id);
+  saveState();
+  syncSave();
+  alert("Rahmat! Ijodiy ifodangiz saqlandi. 🎨");
+  go({name:'fitnes'});
+}
+
+const MOOD_COLORS = [
+  {hex:"#4a9b8e", nomi:"Tinch yashil"}, {hex:"#e0813a", nomi:"Issiq sariq"},
+  {hex:"#e88a7d", nomi:"Yumshoq pushti"}, {hex:"#8b5fa3", nomi:"Chuqur binafsha"},
+  {hex:"#5b7fc4", nomi:"Sokin ko'k"}, {hex:"#c94f4f", nomi:"Kuchli qizil"},
+  {hex:"#7a7a7a", nomi:"Kul rang"}, {hex:"#d9b64e", nomi:"Quyoshli oltin"}
+];
+let SELECTED_MOOD_COLOR = null;
+
+function renderMoodColorExercise(f, id){
+  const done = STATE.fitnesDone.includes(id);
+  const body = `
+    ${topbar(f.nomi, f.maqsad, true)}
+    <main>
+      <div class="card">
+        <div class="eyebrow">Yo'riqnoma</div>
+        <p style="font-size:14.5px;line-height:1.7;color:var(--ink)">${f.yoriqnoma}</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        ${MOOD_COLORS.map(c=>`<span class="color-swatch" style="background:${c.hex}" title="${c.nomi}" onclick="selectMoodColor('${c.hex}','${c.nomi}')" id="swatch-${c.hex.replace('#','')}"></span>`).join('')}
+      </div>
+      <div class="card">
+        <div class="eyebrow">Nega aynan shu rang?</div>
+        <textarea id="mood-color-note" class="field-input" rows="3" style="resize:none;" placeholder="Bu rang menga ... his qilishimni eslatadi, chunki..."></textarea>
+      </div>
+      <button class="btn ${done?'secondary':'coral'}" onclick="finishMoodColor('${id}')">${done?"✅ Bajarildi":"Yuborish"}</button>
+    </main>
+    ${bottomNav('fitnes')}
+  `;
+  document.getElementById('app').innerHTML = body;
+  SELECTED_MOOD_COLOR = null;
+}
+function selectMoodColor(hex, nomi){
+  document.querySelectorAll('.color-swatch').forEach(el=>el.classList.remove('selected'));
+  const el = document.getElementById('swatch-'+hex.replace('#',''));
+  if(el) el.classList.add('selected');
+  SELECTED_MOOD_COLOR = {hex, nomi};
+}
+function finishMoodColor(id){
+  if(!SELECTED_MOOD_COLOR){ alert("Iltimos, avval rangni tanlang"); return; }
+  const note = document.getElementById('mood-color-note').value.trim();
+  STATE.moodColors = STATE.moodColors || [];
+  STATE.moodColors.push({date:fmtDate(), color:SELECTED_MOOD_COLOR, note});
+  if(!STATE.fitnesDone.includes(id)) STATE.fitnesDone.push(id);
+  saveState();
+  syncSave();
+  alert(`Rahmat! "${SELECTED_MOOD_COLOR.nomi}" — bugungi kayfiyatingiz sifatida saqlandi. 🎨`);
+  go({name:'fitnes'});
+}
+
+/* ---------------- O'YIN: Hissiyotlar lug'ati ---------------- */
+const GAME_QUESTIONS = [
+  {vaziyat:"O'quvchi darsda javob berayotganda birdan to'xtab qoldi, ko'zlari pastga qaradi, ovozi pasaydi.",
+   options:["Uyalish","Charchoq","Zerikish","Loqaydlik"], togri:0,
+   izoh:"Uyalish — ko'z aloqasidan qochish va ovoz pasayishi bilan birga keladi. Charchoq ko'proq umumiy sustlik bilan namoyon bo'ladi."},
+  {vaziyat:"Hamkasbingiz yig'ilishda fikringizni bo'lib, o'z g'oyasini taqdim qildi. Siz nima his qilyapsiz?",
+   options:["G'azab","Xafagarchilik","Adolatsizlik hissi","Bezovtalik"], togri:2,
+   izoh:"Bu holatda ko'pincha \"adolatsizlik hissi\" — hurmatsizlikka uchraganlik tuyg'usi ustunlik qiladi, bu shunchaki g'azabdan farq qiladi."},
+  {vaziyat:"Ota-ona sizga qo'pol ohangda xabar yozdi. Siz uni o'qib, ko'krak qafasingizda taranglik his qildingiz.",
+   options:["Qo'rquv","Himoyalanish istagi","Sovuqqonlik","Hafsalasizlik"], togri:1,
+   izoh:"Tahdid ostida qolganda tanamiz \"himoyalanish\" reaksiyasini beradi — bu qo'rquvdan ko'ra ko'proq \"ehtiyot bo'lish\" holati."},
+  {vaziyat:"O'quvchi uchinchi marta uyga vazifani bajarmadi. Siz uning ko'ziga tik qarab so'rayapsiz, u boshini egib javob bermayapti.",
+   options:["Sizda: jahl. Unda: uyalish","Sizda: umidsizlik. Unda: qo'rquv","Sizda: g'azab. Unda: loqaydlik","Sizda: xotirjamlik. Unda: xafagarchilik"], togri:1,
+   izoh:"Ko'pincha pedagogda \"umidsizlik\" (natija chiqmayotganidan), o'quvchida esa \"qo'rquv\" (jazolanishdan) ustunlik qiladi — ikkalasi ham g'azabdan farqli."},
+  {vaziyat:"Darsdan keyin bitta o'quvchi kelib, \"Ustoz, rahmat, men buni endi tushundim\" dedi.",
+   options:["Yengillik","Faxr va quvonch","Ajablanish","Charchoq"], togri:1,
+   izoh:"Bu — kasbiy faxr va quvonch aralashmasi, ko'pincha ichki motivatsiyani mustahkamlaydigan lahza."},
+  {vaziyat:"Sinfdagi ikki o'quvchi past ovozda pichirlashib, sizga qarab kulishmoqda.",
+   options:["Xavotir","Qiziquvchanlik","O'zini nazorat qilish zarurati","Beparvolik"], togri:2,
+   izoh:"Bu holatda ko'pincha \"o'zini nazorat qilish zarurati\" hissi kuchayadi — vaziyatni shaxsiy qabul qilmaslik uchun ichki kurash."},
+  {vaziyat:"Maktab rahbariyati sizdan bir kunda 3 ta qo'shimcha hisobot talab qildi.",
+   options:["Charchoq", "Bosim ostida qolganlik hissi","Qiziqish","Xotirjamlik"], togri:1,
+   izoh:"\"Bosim ostida qolganlik\" — vaqt va resurs yetishmasligi bilan bog'liq aniqroq hissiyot, oddiy charchoqdan farqli."},
+  {vaziyat:"O'quvchi sizga \"Siz meni yoqtirmaysiz\" dedi. Ovozida titroq bor edi.",
+   options:["Unda: himoyasizlik hissi","Unda: g'azab","Unda: beparvolik","Unda: mag'rurlik"], togri:0,
+   izoh:"Titroq ovoz — ko'pincha himoyasizlik yoki tashlab ketilish qo'rquvi bilan bog'liq, aniq g'azab emas."},
+  {vaziyat:"Siz yangi metodika sinab ko'rdingiz va u kutilganidan yaxshi natija berdi.",
+   options:["Yengillik","Kasbiy qoniqish","Ajablanish","Xotirjamlik"], togri:1,
+   izoh:"Bu — \"kasbiy qoniqish\" (professional satisfaction), o'z kompetentligini his qilish bilan bog'liq aniqroq hissiyot."},
+  {vaziyat:"Hamkasbingiz sizdan yordam so'radi, lekin siz allaqachon juda band edingiz. Rad etishdan oldin ichingizda nima kechdi?",
+   options:["Ayb hissi va noqulaylik","G'azab","Loqaydlik","Faxr"], togri:0,
+   izoh:"Chegara qo'yishdan oldin ko'pincha \"ayb hissi\" paydo bo'ladi — bu tabiiy, lekin sog'lom chegara qo'yishga to'sqinlik qilmasligi kerak."},
+  {vaziyat:"Siz sinfga kirganingizda, hamma o'quvchilar sizga tikilib, jim qolishdi — odatiy shov-shuv yo'q edi.",
+   options:["Xavotir/gumon","Xotirjamlik","Faxr","Qiziqish"], togri:0,
+   izoh:"Kutilmagan sukunat ko'pincha \"nimadir bo'lgan\" degan xavotir yoki gumonni uyg'otadi — bu tabiiy ogohlik reaksiyasi."},
+  {vaziyat:"Bir oy davomida qiynalgan o'quvchi nihoyat sinfni muvaffaqiyatli tugatdi.",
+   options:["Sovuqqonlik","Chuqur qoniqish va faxr","Ajablanish","Bezovtalik"], togri:1,
+   izoh:"Uzoq muddatli mehnat natija bergach, \"chuqur qoniqish va faxr\" — bu kasbiy ma'noni his qilishning muhim manbai."},
+  {vaziyat:"Ota-ona yig'ilishida bir ota-ona boshqalar oldida sizni tanqid qildi.",
+   options:["Uyalish va himoyalanish istagi aralashmasi","Faqat g'azab","Loqaydlik","Quvonch"], togri:0,
+   izoh:"Ommaviy tanqid ko'pincha ikki hissiyotni birga uyg'otadi: uyalish (ijtimoiy) va himoyalanish istagi (shaxsiy)."},
+  {vaziyat:"Siz charchagan holda uyga qaytayotganda, bir o'quvchi ko'chada sizni ko'rib, katta ovoz bilan salom berdi va quvonib qo'l silkitdi.",
+   options:["Iliqlik hissi","Bezovtalik","Charchoq kuchaydi","Xijolat"], togri:0,
+   izoh:"Charchoq bo'lsa-da, bunday samimiy lahzalar ko'pincha \"iliqlik hissi\"ni uyg'otadi — bu kasbiy ma'noni his qilishning kichik, lekin muhim manbai."},
+  {vaziyat:"Sizga yangi, murakkab o'quv dasturi berildi va uni bir hafta ichida o'zlashtirish kerak.",
+   options:["Qiziqish va xavotir aralashmasi","Faqat xotirjamlik","Faqat quvonch","Loqaydlik"], togri:0,
+   izoh:"Yangilik ko'pincha \"qiziqish\" va \"xavotir\"ni bir vaqtda uyg'otadi — bu normal, ikkalasini alohida tan olish foydali."}
+];
+
+function renderGameIntro(){
+  testIntro({
+    title:'Hissiyotlar lug\'ati', headerSub:'Emotsional lug\'at o\'yini', emoji:'🎮', bgColor:'#fff4e0',
+    meta: GAME_QUESTIONS.length + ' ta vaziyat · taymer yo\'q, shoshilmang',
+    desc:'Har bir vaziyatda tasvirlangan hissiyotni eng aniq ifodalovchi so\'zni tanlang. Bu o\'yin — hissiyotlaringizni va atrofdagilarning hissiyotlarini aniqroq nomlash ko\'nikmasini rivojlantiradi.',
+    startFn:'startGame'
+  });
+}
+let GAME_STATE = { idx:0, score:0, streak:0, maxStreak:0, answered:false, picked:null };
+function startGame(){
+  GAME_STATE = { idx:0, score:0, streak:0, maxStreak:0, answered:false, picked:null };
+  VIEW = {name:'game_q', idx:0};
+  render();
+}
+function renderGameQuestion(idx){
+  const total = GAME_QUESTIONS.length;
+  const q = GAME_QUESTIONS[idx];
+  const answered = GAME_STATE.answered;
+  const picked = GAME_STATE.picked;
+  const body = `
+    ${topbar('Hissiyotlar lug\'ati', `Vaziyat ${idx+1} / ${total}`, true)}
+    <main>
+      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${((idx+1)/total*100).toFixed(0)}%"></div></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;color:var(--ink-soft)">Ball: ${GAME_STATE.score}</span>
+        ${GAME_STATE.streak>=2 ? `<span class="streak-badge">🔥 ${GAME_STATE.streak} ketma-ket</span>` : ''}
+      </div>
+      <div class="card" style="margin-bottom:16px;"><p style="margin:0;font-size:15px;line-height:1.6;">${q.vaziyat}</p></div>
+      <p class="section-sub" style="margin-bottom:10px;">Bu holatda qanday hissiyot eng aniq mos keladi?</p>
+      ${q.options.map((opt,i)=>{
+        let cls = 'game-option';
+        if(answered){ if(i===q.togri) cls += ' correct'; else if(i===picked) cls += ' wrong'; }
+        return `<button class="${cls}" ${answered?'disabled':''} onclick="answerGame(${idx},${i})">${opt}</button>`;
+      }).join('')}
+      ${answered ? `
+        <div class="card" style="background:${picked===q.togri?'var(--teal-100)':'#fdeceb'};margin-top:12px;">
+          <p style="margin:0;font-size:13.5px;line-height:1.5;"><b>${picked===q.togri?'✅ To\'g\'ri!':'💡 Deyarli!'}</b><br>${q.izoh}</p>
+        </div>
+        <button class="btn" style="margin-top:14px" onclick="nextGame(${idx})">${idx===total-1?'Natijani ko\'rish':'Keyingi vaziyat'}</button>
+      ` : ''}
+    </main>
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+function answerGame(idx, i){
+  if(GAME_STATE.answered) return;
+  const q = GAME_QUESTIONS[idx];
+  GAME_STATE.answered = true; GAME_STATE.picked = i;
+  if(i === q.togri){ GAME_STATE.score += 10; GAME_STATE.streak += 1; GAME_STATE.maxStreak = Math.max(GAME_STATE.maxStreak, GAME_STATE.streak); }
+  else { GAME_STATE.streak = 0; }
+  renderGameQuestion(idx);
+}
+function nextGame(idx){
+  if(idx < GAME_QUESTIONS.length-1){ GAME_STATE.answered = false; GAME_STATE.picked = null; VIEW = {name:'game_q', idx:idx+1}; render(); }
+  else { finishGame(); }
+}
+function finishGame(){
+  const total = GAME_QUESTIONS.length;
+  const pct = Math.round(GAME_STATE.score / (total*10) * 100);
+  let level, label, msg;
+  if(pct>=80){ level='green'; label='Ajoyib emotsional lug\'at!'; msg='Siz hissiyotlarni juda aniq farqlaysiz — bu kasbiy muloqotda katta afzallik. 🌟'; }
+  else if(pct>=50){ level='amber'; label='Yaxshi asos bor'; msg='Ko\'p vaziyatlarni to\'g\'ri angladingiz. Amaliyot davom etsa, yanada aniqlashadi. 🌱'; }
+  else { level='red'; label='Rivojlanish uchun ajoyib boshlanish'; msg='Hissiyotlarni aniq nomlash — mashq talab qiladigan ko\'nikma. Har bir o\'yin sizni bir qadam oldinga olib boradi. 🤍'; }
+  const result = {date:fmtDate(), score:GAME_STATE.score, pct, maxStreak:GAME_STATE.maxStreak, level, label, msg};
+  STATE.gameResults = STATE.gameResults || [];
+  STATE.gameResults.push(result);
+  saveState(); syncSave();
+  VIEW = {name:'game_result'}; render();
+}
+function renderGameResult(){
+  const results = STATE.gameResults || [];
+  const r = results[results.length-1];
+  if(!r){ go({name:'game_intro'}); return; }
+  const body = `
+    ${topbar('Natija', 'Hissiyotlar lug\'ati', true)}
+    <main>
+      <div class="result-hero" style="background:linear-gradient(160deg,#fff4e0,#fff)">
+        <div class="result-emoji">${r.level==='green'?'🌟':r.level==='amber'?'🌱':'🤍'}</div>
+        <div class="result-title">${r.label}</div>
+        <p class="result-score">${r.score} ball · ${r.pct}% to'g'ri · Eng uzun seriya: ${r.maxStreak}</p>
+      </div>
+      <div class="card"><p style="margin:0;font-size:14px;line-height:1.6;">${r.msg}</p></div>
+      <button class="btn" onclick="startGame()">Qayta o'ynash</button>
+      <button class="btn secondary" style="margin-top:10px" onclick="go({name:'home'})">Bosh sahifaga qaytish</button>
+    </main>
+  `;
   document.getElementById('app').innerHTML = body;
 }
 
@@ -1897,6 +2422,9 @@ function render(){
     case 'profil': return renderProfil();
     case 'routine_edit': return renderRoutineEdit();
     case 'edit_profile': return renderEditProfile();
+    case 'game_intro': return renderGameIntro();
+    case 'game_q': return renderGameQuestion(VIEW.idx);
+    case 'game_result': return renderGameResult();
     default: return renderHome();
   }
 }
