@@ -400,6 +400,48 @@
   .badge-svg{width:96px;height:96px;margin:0 auto 10px auto;display:block;}
 
   ::-webkit-scrollbar{width:0;}
+
+  /* ---------------- TABIAT RELAKSATSIYA MODULI (nat-*) ---------------- */
+  @keyframes natFloat{0%,100%{transform:translateY(0px) rotate(0deg);}50%{transform:translateY(-10px) rotate(2deg);}}
+  @keyframes natBreathe{0%,100%{transform:scale(1);opacity:.8;box-shadow:0 0 30px rgba(74,222,128,.4);}50%{transform:scale(1.18);opacity:1;box-shadow:0 0 70px rgba(74,222,128,.8);}}
+  @keyframes natCharacter{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-6px) scale(1.03);}}
+  @keyframes natSway{0%,100%{transform:rotate(0deg);}50%{transform:rotate(3deg);}}
+  @keyframes natCloud{0%{transform:translateX(-20px);opacity:.3;}50%{transform:translateX(20px);opacity:.7;}100%{transform:translateX(-20px);opacity:.3;}}
+  @keyframes natSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @keyframes natBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+
+  .nat-card{background:#fff;border:1.5px solid var(--teal-200);border-radius:20px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .nat-card-tag{position:absolute;top:0;right:0;font-size:10px;font-weight:700;padding:4px 12px;border-radius:0 0 0 16px;}
+  .nat-card-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+  .nat-btn{width:100%;border:none;color:#fff;font-weight:700;padding:14px;border-radius:16px;font-size:13px;cursor:pointer;margin-top:10px;}
+
+  .nat-overlay{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding:24px;backdrop-filter:blur(20px);transition:.4s;}
+  .nat-overlay.show{display:flex;}
+  .nat-bg-1{background:linear-gradient(135deg,#064e3b 0%,#022c22 50%,#0f172a 100%);}
+  .nat-bg-2{background:linear-gradient(135deg,#0369a1 0%,#0c4a6e 50%,#0f172a 100%);}
+  .nat-bg-3{background:linear-gradient(135deg,#312e81 0%,#1e1b4b 50%,#0f172a 100%);}
+  .nat-topbar{width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;}
+  .nat-step-badge{font-size:11px;color:#6ee7b7;font-weight:700;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);padding:6px 12px;border-radius:20px;}
+  .nat-close{width:40px;height:40px;border-radius:50%;background:rgba(15,23,42,.8);border:1px solid #334155;color:#cbd5e1;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;}
+  .nat-center{display:flex;flex-direction:column;align-items:center;justify-content:center;margin:auto 0;text-align:center;padding:0 16px;max-width:320px;width:100%;position:relative;}
+  .nat-aura{position:absolute;inset:0;border-radius:50%;filter:blur(60px);animation:natBreathe 7s infinite ease-in-out;}
+  .nat-ring{position:relative;width:224px;height:224px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;z-index:1;}
+  .nat-ring-dash{position:absolute;inset:0;border:2px dashed rgba(255,255,255,.3);border-radius:50%;animation:natSpin 30s linear infinite;}
+  .nat-char{width:160px;height:160px;border-radius:28px;background:linear-gradient(135deg,#059669,#0d9488,#0369a1);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 20px 50px rgba(0,0,0,.4);position:relative;z-index:1;animation:natCharacter 3.5s infinite ease-in-out;border:4px solid rgba(255,255,255,.3);}
+  .nat-char-emoji{font-size:56px;margin-bottom:4px;}
+  .nat-char-label{font-size:10px;font-weight:800;text-transform:uppercase;background:rgba(15,23,42,.5);padding:2px 12px;border-radius:20px;letter-spacing:.5px;color:#6ee7b7;border:1px solid rgba(255,255,255,.2);}
+  .nat-title{font-size:17px;font-weight:800;color:#fff;margin:6px 0;z-index:1;}
+  .nat-instruction{font-size:12.5px;color:#e2e8f0;line-height:1.6;min-height:50px;padding:0 8px;z-index:1;}
+  .nat-timer-wrap{margin-top:14px;background:rgba(15,23,42,.9);border:1px solid #334155;border-radius:16px;padding:10px 22px;display:flex;align-items:center;gap:12px;z-index:1;}
+  .nat-timer{font-size:34px;font-weight:900;color:#34d399;letter-spacing:1px;}
+  .nat-timer-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+  .nat-controls{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .nat-next-btn{width:100%;background:linear-gradient(90deg,#34d399,#2dd4bf);color:#0f172a;font-weight:800;padding:15px;border-radius:16px;border:none;font-size:13px;cursor:pointer;}
+  .nat-skip-btn{width:100%;background:rgba(15,23,42,.8);color:#cbd5e1;font-weight:600;padding:12px;border-radius:16px;border:1px solid #334155;font-size:12px;cursor:pointer;}
+  .nat-success{position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(16px);z-index:10000;display:none;align-items:center;justify-content:center;padding:24px;text-align:center;}
+  .nat-success.show{display:flex;}
+  .nat-success-box{background:#0f172a;border:1px solid #1e293b;border-radius:24px;padding:32px;max-width:300px;width:100%;}
+  .nat-success-emoji{width:80px;height:80px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px auto;animation:natBounce 1s infinite;}
 </style>
 </head>
 <body>
@@ -1461,6 +1503,11 @@ function renderHome(){
         <div><h3>Hissiyotlar lug'ati</h3><p>O'yin orqali emotsional lug'atingizni boyiting</p></div>
         <div class="chev">${ICONS.chev}</div>
       </div>
+      <div class="card test-card" onclick="go({name:'nature_intro'})" style="background:linear-gradient(135deg,#064e3b,#022c22);border:none;">
+        <div class="test-icon" style="background:rgba(255,255,255,.15);color:#6ee7b7;">🌿</div>
+        <div><h3 style="color:#fff;">Tabiat Oromgohi</h3><p style="color:rgba(255,255,255,.75);">Jonli manzarali nafas va tana mashqlari</p></div>
+        <div class="chev" style="color:#fff;">${ICONS.chev}</div>
+      </div>
       ${renderRecommendationCard()}
     </main>
     ${bottomNav('home')}
@@ -2181,6 +2228,229 @@ function renderGameResult(){
   document.getElementById('app').innerHTML = body;
 }
 
+/* ---------------- TABIAT VA ANIMATSION RELAKSATSIYA MODULI ---------------- */
+const NATURE_PROGRAMS = {
+  1: {
+    nomi: "Yelka va qo'llarni bo'shashtirish", tag: "🌲 O'rmon manzarasi", tagBg: "rgba(16,185,129,.15)", tagColor: "#6ee7b7",
+    meta: "3 daqiqa · O'rmon sokinligi", icon: "👩‍🏫🌿", iconBg: "rgba(16,185,129,.2)",
+    desc: "Tajribali ustoz ko'rsatmasi ostida o'rmon havosidan nafas olib, yelka va qo'llardagi zo'riqishni chiqaring.",
+    themeClass: "nat-bg-1", auraColor: "rgba(16,185,129,.35)", btnGrad: "linear-gradient(90deg,#059669,#0d9488)",
+    steps: [
+      { emoji: "🌳🧘‍♀️", action: "Nafas oling", title: "O'rmon havosidan nafas oling", instruction: "Qulay o'tiring. Ko'zingizni yumib, burun orqali chuqur nafas oling va yashil barglar hidini his eting.", duration: 6 },
+      { emoji: "✊🌿", action: "Musht va yelka", title: "Yelka va qo'llarni taranglashtiring", instruction: "Kaftlaringizni musht qilib qattiq siqing, yelkalaringizni quloqqa torting (5 soniya).", duration: 6 },
+      { emoji: "🍃😌", action: "Bo'shashish", title: "Yengillikni his eting", instruction: "Birdaniga qo'yib yuboring. Qo'llaringizdagi iliqlik va o'rmon tinchligidan rohatlaning.", duration: 6 },
+      { emoji: "🌸✨", action: "Tetiklik", title: "Tabiat quvvati", instruction: "Yuz mushaklarini bo'shashtiring. Siz tetik va xotirjamsiz.", duration: 6 }
+    ]
+  },
+  2: {
+    nomi: "Stulda tezkor tetiklashish", tag: "⛰️ Tog' va daryo", tagBg: "rgba(14,165,233,.15)", tagColor: "#7dd3fc",
+    meta: "2 daqiqa · Daryo oqimi", icon: "👨‍🏫🌊", iconBg: "rgba(14,165,233,.2)",
+    desc: "Tog' daryosining sadosi fonida o'qituvchi bilan birgalikda stulda o'tirib qaddiy tana mashqlarini bajaring.",
+    themeClass: "nat-bg-2", auraColor: "rgba(14,165,233,.35)", btnGrad: "linear-gradient(90deg,#0284c7,#2563eb)",
+    steps: [
+      { emoji: "⛰️👨‍🏫", action: "Daryo sadosi", title: "Tog' daryosi bo'yida", instruction: "Stulda to'g'ri o'tiring. Daryoning sokin shovqinini tasavvur qilib chuqur nafas oling.", duration: 6 },
+      { emoji: "🌊🧘‍♂️", action: "Bo'yin harakati", title: "Bo'yin va ensa tarangligi", instruction: "Boshingizni sekin orqaga tashlab, bo'yin mushaklarini biroz taranglashtiring.", duration: 6 },
+      { emoji: "🍃💫", action: "Qorin nafasi", title: "Qorin mushaklarini boshqarish", instruction: "Qorinni ichkariga tortib nafasni maromga keltiring. Charchoq oqib ketyapti.", duration: 6 },
+      { emoji: "🌟🌊", action: "Tayyorsiz!", title: "Yangilangan energiya", instruction: "Zo'riqish butunlay tarqaldi. Darsni yangi kuch bilan davom ettirasiz.", duration: 6 }
+    ]
+  },
+  3: {
+    nomi: "Uyqu oldidan chuqur tinchlanish", tag: "🌙 Yulduzli osmon", tagBg: "rgba(99,102,241,.15)", tagColor: "#a5b4fc",
+    meta: "5 daqiqa · Kechki sokinlik", icon: "👩‍🏫✨", iconBg: "rgba(99,102,241,.2)",
+    desc: "Yulduzli tun va oy nuri ostida ustoz bilan birgalikda butun tana mushaklarini bo'shashtirib, shirin uyquga tayyorlaning.",
+    themeClass: "nat-bg-3", auraColor: "rgba(99,102,241,.35)", btnGrad: "linear-gradient(90deg,#4f46e5,#7c3aed)",
+    steps: [
+      { emoji: "🌙🧘‍♀️", action: "Yulduzli tun", title: "Kechki osmon ostida", instruction: "Xonani xiraroq qilib, qulay yoting. Osmon yulduzlariga qarab sekin nafas oling.", duration: 6 },
+      { emoji: "✨💤", action: "Oyoq va tana", title: "Oyoq panjalarini bo'shashtirish", instruction: "Oyoq barmoqlarini o'zingizga tortib taranglashtiring, so'ng bo'shating.", duration: 6 },
+      { emoji: "🌌💫", action: "Chuqur orom", title: "Butun tana bo'shashishi", instruction: "Tanadagi barcha og'irlikni yulduzlar olib ketayotganini tasavvur qiling.", duration: 6 },
+      { emoji: "😴🌙", action: "Shirin uyqu", title: "Huzurli tinchlik", instruction: "Tanangiz butunlay bo'shashdi. Xayrli va osuda dam oling.", duration: 6 }
+    ]
+  }
+};
+
+function renderNatureIntro(){
+  const body = `
+    ${topbar("Tabiat Oromgohi", "Ustozlar uchun jonli relaks", true)}
+    <main>
+      <div class="card" style="background:linear-gradient(135deg,#064e3b,#022c22);border:none;">
+        <p style="color:#a7f3d0;font-size:13px;margin:0;">🧘‍♀️ O'rmon va daryo manzaralari fonida mutaxassis ustoz obrazida nafas olish va tana mashqlari.</p>
+      </div>
+      ${Object.keys(NATURE_PROGRAMS).map(id=>{
+        const p = NATURE_PROGRAMS[id];
+        return `
+        <div class="nat-card">
+          <div class="nat-card-tag" style="background:${p.tagBg};color:${p.tagColor}">${p.tag}</div>
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;margin-top:6px;">
+            <div class="nat-card-icon" style="background:${p.iconBg}">${p.icon}</div>
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--teal-700);text-transform:uppercase;">${p.meta}</div>
+              <div style="font-size:15px;font-weight:700;color:var(--ink);">${p.nomi}</div>
+            </div>
+          </div>
+          <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin:0 0 4px 0;">${p.desc}</p>
+          <button class="nat-btn" style="background:${p.btnGrad}" onclick="openNaturePlayer('${id}')">▶ Mashqni boshlash (Tabiat bilan)</button>
+        </div>`;
+      }).join('')}
+    </main>
+    ${bottomNav('fitnes')}
+  `;
+  document.getElementById('app').innerHTML = body;
+}
+
+let NAT_STATE = { progId: null, stepIdx: 0, timerInterval: null, timeLeft: 6 };
+let NAT_AUDIO_CTX = null, NAT_MUSIC_ON = false, NAT_SYNTH_INTERVAL = null;
+
+function ensureNatureOverlay(){
+  if(document.getElementById('natOverlay')) return;
+  const overlayHtml = `
+    <div id="natOverlay" class="nat-overlay">
+      <div class="nat-topbar">
+        <span id="natStepBadge" class="nat-step-badge">🍃 Qadam 1/4</span>
+        <div style="display:flex;gap:8px;">
+          <button id="natAudioBtn" class="nat-close" onclick="toggleNatureMusic()" style="width:auto;padding:0 14px;font-size:12px;">🔇</button>
+          <button class="nat-close" onclick="closeNaturePlayer()">✕</button>
+        </div>
+      </div>
+      <div class="nat-center">
+        <div id="natAura" class="nat-aura"></div>
+        <div class="nat-ring">
+          <div class="nat-ring-dash"></div>
+          <div class="nat-char">
+            <div id="natCharEmoji" class="nat-char-emoji">🧘‍♀️</div>
+            <div id="natCharLabel" class="nat-char-label">Nafas oling</div>
+          </div>
+        </div>
+        <div id="natTitle" class="nat-title">Tabiat qo'ynida dam olish</div>
+        <div id="natInstruction" class="nat-instruction"></div>
+        <div class="nat-timer-wrap">
+          <div id="natTimer" class="nat-timer">06</div>
+          <div style="text-align:left;">
+            <div class="nat-timer-label">Soniya</div>
+            <div style="font-size:10px;color:#6ee7b7;">🎵 Musiqa</div>
+          </div>
+        </div>
+      </div>
+      <div class="nat-controls">
+        <button id="natNextBtn" class="nat-next-btn" onclick="nextNatureStep()">Keyingi qadam →</button>
+        <button class="nat-skip-btn" onclick="closeNaturePlayer()">Mashqni yakunlash</button>
+      </div>
+    </div>
+    <div id="natSuccess" class="nat-success">
+      <div class="nat-success-box">
+        <div class="nat-success-emoji">🌟</div>
+        <div style="color:#fff;font-size:18px;font-weight:800;margin-bottom:8px;">Barakalla, Aziz Ustoz!</div>
+        <p style="color:#cbd5e1;font-size:12px;line-height:1.6;margin-bottom:16px;">Tabiat manzarasi va tetiklashtiruvchi mashqlar yordamida energiya va xotirjamlik tiklandi!</p>
+        <button class="nat-next-btn" onclick="closeNatureSuccess()">Ro'yxatga qaytish</button>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', overlayHtml);
+}
+
+function openNaturePlayer(progId){
+  ensureNatureOverlay();
+  NAT_STATE.progId = progId;
+  NAT_STATE.stepIdx = 0;
+  const data = NATURE_PROGRAMS[progId];
+  const overlay = document.getElementById('natOverlay');
+  overlay.className = 'nat-overlay show ' + data.themeClass;
+  document.getElementById('natAura').style.background = data.auraColor;
+  if(!NAT_MUSIC_ON) startNatureMusic();
+  loadNatureStep();
+}
+
+function loadNatureStep(){
+  const data = NATURE_PROGRAMS[NAT_STATE.progId];
+  const steps = data.steps;
+  if(NAT_STATE.stepIdx >= steps.length){
+    closeNaturePlayer();
+    const succ = document.getElementById('natSuccess');
+    if(succ) succ.classList.add('show');
+    if(!STATE.fitnesDone.includes('nature'+NAT_STATE.progId)){
+      STATE.fitnesDone.push('nature'+NAT_STATE.progId);
+      saveState(); syncSave();
+    }
+    return;
+  }
+  const cur = steps[NAT_STATE.stepIdx];
+  document.getElementById('natStepBadge').innerHTML = `🍃 Qadam ${NAT_STATE.stepIdx+1}/${steps.length}`;
+  document.getElementById('natCharEmoji').innerText = cur.emoji;
+  document.getElementById('natCharLabel').innerText = cur.action;
+  document.getElementById('natTitle').innerText = cur.title;
+  document.getElementById('natInstruction').innerText = cur.instruction;
+  NAT_STATE.timeLeft = cur.duration;
+  document.getElementById('natTimer').innerText = String(NAT_STATE.timeLeft).padStart(2,'0');
+  if(NAT_STATE.timerInterval) clearInterval(NAT_STATE.timerInterval);
+  NAT_STATE.timerInterval = setInterval(()=>{
+    NAT_STATE.timeLeft--;
+    const timerEl = document.getElementById('natTimer');
+    if(timerEl) timerEl.innerText = String(NAT_STATE.timeLeft).padStart(2,'0');
+    if(NAT_STATE.timeLeft <= 0){
+      clearInterval(NAT_STATE.timerInterval);
+      NAT_STATE.stepIdx++;
+      loadNatureStep();
+    }
+  }, 1000);
+}
+
+function nextNatureStep(){
+  if(NAT_STATE.timerInterval) clearInterval(NAT_STATE.timerInterval);
+  NAT_STATE.stepIdx++;
+  loadNatureStep();
+}
+
+function closeNaturePlayer(){
+  if(NAT_STATE.timerInterval) clearInterval(NAT_STATE.timerInterval);
+  const overlay = document.getElementById('natOverlay');
+  if(overlay){ overlay.classList.remove('show'); }
+}
+
+function closeNatureSuccess(){
+  const succ = document.getElementById('natSuccess');
+  if(succ) succ.classList.remove('show');
+  go({name:'fitnes'});
+}
+
+function toggleNatureMusic(){
+  if(!NAT_MUSIC_ON) startNatureMusic(); else stopNatureMusic();
+}
+function startNatureMusic(){
+  try{
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    NAT_AUDIO_CTX = new AudioContext();
+    NAT_MUSIC_ON = true;
+    const btn = document.getElementById('natAudioBtn');
+    if(btn) btn.innerText = '🔊';
+    playNatureChord();
+    NAT_SYNTH_INTERVAL = setInterval(playNatureChord, 6000);
+  }catch(e){ console.log('Audio not supported'); }
+}
+function stopNatureMusic(){
+  if(NAT_SYNTH_INTERVAL) clearInterval(NAT_SYNTH_INTERVAL);
+  if(NAT_AUDIO_CTX){ NAT_AUDIO_CTX.close(); NAT_AUDIO_CTX = null; }
+  NAT_MUSIC_ON = false;
+  const btn = document.getElementById('natAudioBtn');
+  if(btn) btn.innerText = '🔇';
+}
+function playNatureChord(){
+  if(!NAT_AUDIO_CTX || !NAT_MUSIC_ON) return;
+  const freqs = [261.63, 329.63, 392.00, 523.25, 659.25];
+  freqs.forEach((freq, i)=>{
+    setTimeout(()=>{
+      if(!NAT_AUDIO_CTX || !NAT_MUSIC_ON) return;
+      const osc = NAT_AUDIO_CTX.createOscillator();
+      const gain = NAT_AUDIO_CTX.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, NAT_AUDIO_CTX.currentTime);
+      gain.gain.setValueAtTime(0, NAT_AUDIO_CTX.currentTime);
+      gain.gain.linearRampToValueAtTime(0.03, NAT_AUDIO_CTX.currentTime + 1.5);
+      gain.gain.exponentialRampToValueAtTime(0.0001, NAT_AUDIO_CTX.currentTime + 5.0);
+      osc.connect(gain); gain.connect(NAT_AUDIO_CTX.destination);
+      osc.start(); osc.stop(NAT_AUDIO_CTX.currentTime + 5.5);
+    }, i * 800);
+  });
+}
+
 function renderReactionCard(reaction){
   return `<div class="reaction-card">
     <div class="reaction-emoji ${reaction.anim}">${reaction.emoji}</div>
@@ -2297,6 +2567,42 @@ function rewardBadge(){
   if(levels.includes('red')) return {level:'red', title:"O'zingizga g'amxo'rlik vaqti", note:"Bugun kichik bir mashqni bajarib ko'ring — bu katta farq qiladi."};
   return {level:'amber', title:"Rivojlanish yo'lida", note:"Har kuni kichik qadam — katta natijaga olib boradi."};
 }
+
+/* ---------------- FAOLLIK DARAJASI (gamifikatsiya) ----------------
+   Umumiy faollik ballini fitnes/mashq, keys va oyin natijalaridan hisoblab,
+   unga mos unvon (badge) qaytaradi. */
+function getActivityScore(){
+  const fitnesScore = (STATE.fitnesDone || []).length * 5;
+  const casesScore = Object.keys(STATE.casesDone || {}).length * 3;
+  const gameScore = (STATE.gameResults || []).reduce((sum, r) => sum + (r.score || 0), 0);
+  const moodScore = (STATE.moodColors || []).length * 2;
+  return fitnesScore + casesScore + gameScore + moodScore;
+}
+function getActivityBadge(){
+  const score = getActivityScore();
+  let title, icon, next;
+  if(score >= 200){ title = "Hissiy Intellekt Ustasi"; icon = "🏆"; next = null; }
+  else if(score >= 100){ title = "Faol Ustoz"; icon = "⭐"; next = 200; }
+  else if(score >= 40){ title = "Rivojlanayotgan Pedagog"; icon = "🌱"; next = 100; }
+  else { title = "Yangi boshlovchi"; icon = "🌿"; next = 40; }
+  return { score, title, icon, next };
+}
+function renderActivityBadgeCard(){
+  const b = getActivityBadge();
+  const progressPct = b.next ? Math.min(100, Math.round(b.score / b.next * 100)) : 100;
+  return `
+    <div class="card" style="text-align:center;background:linear-gradient(160deg,#fff9ec,#fff);">
+      <div style="font-size:40px;margin-bottom:6px;">${b.icon}</div>
+      <div style="font-weight:700;font-size:16px;color:var(--teal-700);">${b.title}</div>
+      <div style="font-size:13px;color:var(--ink-soft);margin:4px 0 10px 0;">${b.score} ball</div>
+      ${b.next ? `
+        <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div></div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-top:6px;">Keyingi darajagacha: ${b.next - b.score} ball</div>
+      ` : `<div style="font-size:12px;color:var(--ink-soft);">Eng yuqori daraja qo'lga kiritildi! 🎉</div>`}
+    </div>
+  `;
+}
+
 function renderProfil(){
   const r = STATE.results;
   const doneCount = STATE.fitnesDone.length;
@@ -2345,6 +2651,7 @@ function renderProfil(){
           <div><div class="reward-title">${reward.title}</div><div class="reward-note">${reward.note}</div></div>
         </div>` : ''}
       </div>
+      ${renderActivityBadgeCard()}
 
       <div class="divider-label">Bugungi kun (${fmtDate()})</div>
       <div class="today-grid">
@@ -2431,6 +2738,7 @@ function render(){
     case 'game_intro': return renderGameIntro();
     case 'game_q': return renderGameQuestion(VIEW.idx);
     case 'game_result': return renderGameResult();
+    case 'nature_intro': return renderNatureIntro();
     default: return renderHome();
   }
 }
